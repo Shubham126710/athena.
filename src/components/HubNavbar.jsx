@@ -113,7 +113,12 @@ export default function HubNavbar() {
                         <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
                     </div>
                     <div className="w-10 h-10 bg-neutral-800 rounded-full overflow-hidden border border-neutral-700">
-                        <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${profile?.avatar_seed || user?.email || 'user'}`} alt="avatar" />
+                        <img 
+                            key={profile?.avatar_seed || 'default'}
+                            src={`https://api.dicebear.com/7.x/notionists/svg?seed=${profile?.avatar_seed || user?.email || 'user'}`} 
+                            alt="avatar" 
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                 </div>
 
