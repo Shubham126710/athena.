@@ -1,0 +1,60 @@
+import React from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+export default function PdfViewer({ fileUrl, className='' }) {
+  const [numPages, setNumPages] = React.useState(null);
+  const [pageNumber, setPageNumber] = React.useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+
+  return (
+    <div className={`flex flex-col items-center ${className}`}>
+      <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-1 flex items-center gap-4 mb-4">
+        <button 
+            disabled={pageNumber <= 1} 
+            onClick={() => setPageNumber(prev => prev - 1)}
+            className="p-1 hover:bg-neutral-800 text-white rounded disabled:opacity-30 transition-colors"
+        >
+            <ChevronLeft size={20} />
+        </button>
+        
+        <span className="text-sm font-medium font-mono text-white">
+            {pageNumber} / {numPages || '--'}
+        </span>
+
+        <button 
+            disabled={pageNumber >= numPages} 
+            onClick={() => setPageNumber(prev => prev + 1)}
+            className="p-1 hover:bg-neutral-800 text-white rounded disabled:opacity-30 transition-colors"
+        >
+            <ChevronRight size={20} />
+        </button>
+      </div>
+
+      <div className="border border-neutral-800 shadow-lg rounded-sm overflow-hidden bg-neutral-900 min-h-[600px] min-w-[400px] flex items-center justify-center">
+        <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={<div className="p-10 text-neutral-400 animate-pulse">Loading PDF...</div>}
+            error={<div className="p-10 text-red-500">Failed to load PDF.</div>}
+        >
+            <Page 
+                pageNumber={pageNumber} 
+                renderTextLayer={false} 
+                renderAnnotationLayer={false}
+                width={600} 
+                className="shadow-sm"
+            />
+        </Document>
+      </div>
+    </div>
+  );
+}
