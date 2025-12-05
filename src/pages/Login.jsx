@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DitherHero from '../components/DitherHero';
+import ConstellationBackground from '../components/ConstellationBackground';
 
 export default function Login() {
   const nav = useNavigate();
@@ -47,8 +48,13 @@ export default function Login() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
-        <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative bg-neutral-950">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <ConstellationBackground />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+        <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 relative z-10">
             <div className="text-center lg:text-left">
                 <h1 className="text-3xl font-bold tracking-tight">Sign in to your account</h1>
                 <p className="mt-2 text-neutral-400">

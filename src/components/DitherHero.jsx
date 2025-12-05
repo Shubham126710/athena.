@@ -121,11 +121,13 @@ function BookStack({ color, bgColor }) {
 
 // --- 3. Main Component ---
 
-export default function DitherHero({ color = '#ffffff', backgroundColor = '#0a0a0a' }) {
+export default function DitherHero({ color = '#ffffff', backgroundColor = '#0a0a0a', position = [0, 0, 0] }) {
   return (
     <div className="w-full h-full" style={{ backgroundColor }}>
       <Canvas orthographic camera={{ zoom: 35, position: [20, 20, 20] }}>
-        <BookStack color={color} bgColor={backgroundColor} />
+        <group position={position}>
+            <BookStack color={color} bgColor={backgroundColor} />
+        </group>
       </Canvas>
     </div>
   );
