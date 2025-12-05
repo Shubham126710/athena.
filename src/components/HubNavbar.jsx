@@ -35,9 +35,10 @@ export default function HubNavbar() {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const notifications = [
-      { id: 1, title: "Exam Schedule Released", message: "The schedule for EST exams has been updated.", time: "2 hrs ago", type: "alert" },
-      { id: 2, title: "New Assignment", message: "Assignment 3 for Machine Learning is due next week.", time: "5 hrs ago", type: "info" },
-      { id: 3, title: "Class Cancelled", message: "Tomorrow's Computer Networks class is cancelled.", time: "1 day ago", type: "warning" }
+      { id: 1, title: "Welcome to Athena", message: "Your centralized academic hub is ready. Manage your timetable, track attendance, and access resources seamlessly.", time: "Just now", type: "info" },
+      { id: 2, title: "Domain Camp: Dec 10 - 16", message: "Prepare for an immersive week of domain-specific training. Check your updated timetable for details.", time: "1 hour ago", type: "alert" },
+      { id: 3, title: "Winning Camp: Dec 17 - 24", message: "The final sprint begins soon. Join the Winning Camp sessions to maximize your performance before the break.", time: "1 hour ago", type: "alert" },
+      { id: 4, title: "Exam Schedule Released", message: "The schedule for EST exams has been updated.", time: "2 hrs ago", type: "alert" }
   ];
 
   const isActive = (path) => location.pathname === path;
