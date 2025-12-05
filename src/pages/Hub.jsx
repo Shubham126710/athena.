@@ -23,19 +23,29 @@ export default function HubPage() {
   const { user, profile, loading } = useAuth();
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [activeScheduleType, setActiveScheduleType] = useState('domain');
+  const [adminSelectedSection, setAdminSelectedSection] = useState('23AML-5');
+
+  // Update admin selection when profile loads
+  useEffect(() => {
+    if (profile?.section) {
+        setAdminSelectedSection(profile.section);
+    }
+  }, [profile]);
   
-  // Determine the correct schedule based on profile section
+  // Determine the correct schedule based on profile section or admin selection
   const getSchedule = () => {
-    if (!profile?.section) return domainCampSchedule;
+    const targetSection = profile?.role === 'admin' ? adminSelectedSection : profile?.section;
+
+    if (!targetSection) return domainCampSchedule;
     
     // If section is 23AML-5, use the toggle logic (regular vs domain)
-    if (profile.section === '23AML-5') {
+    if (targetSection === '23AML-5') {
         return activeScheduleType === 'regular' ? regularSchedule : domainCampSchedule;
     }
     
     // For other sections, return their specific schedule if it exists
-    if (sectionSchedules[profile.section]) {
-        return sectionSchedules[profile.section];
+    if (sectionSchedules[targetSection]) {
+        return sectionSchedules[targetSection];
     }
     
     // Fallback
@@ -231,11 +241,32 @@ export default function HubPage() {
 
         {/* Timetable Section */}
         <div className="mb-12">
+            {profile?.role === 'admin' && (
+                <div className="mb-4 flex items-center gap-4">
+                    <label className="text-sm font-medium text-neutral-400">Viewing Schedule For:</label>
+                    <select 
+                        value={adminSelectedSection}
+                        onChange={(e) => setAdminSelectedSection(e.target.value)}
+                        className="bg-neutral-900 border border-neutral-800 text-white text-sm rounded-lg focus:ring-white focus:border-white block p-2.5"
+                    >
+                        <option value="23AML-1">23AML-1</option>
+                        <option value="23AML-2">23AML-2</option>
+                        <option value="23AML-3">23AML-3</option>
+                        <option value="23AML-4">23AML-4</option>
+                        <option value="23AML-5">23AML-5</option>
+                        <option value="23AML-6">23AML-6</option>
+                        <option value="23AML-7">23AML-7</option>
+                        <option value="23AML-8">23AML-8</option>
+                        <option value="23AML-9">23AML-9</option>
+                        <option value="23AML-10">23AML-10</option>
+                    </select>
+                </div>
+            )}
             <Timetable 
               scheduleData={currentSchedule} 
               activeType={activeScheduleType} 
               onToggle={setActiveScheduleType}
-              userSection={profile?.section}
+              userSection={profile?.role === 'admin' ? adminSelectedSection : profile?.section}
               isAdmin={profile?.role === 'admin'}
             />
         </div>

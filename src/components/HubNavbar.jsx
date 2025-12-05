@@ -74,7 +74,7 @@ export default function HubNavbar() {
             </button>
 
             {showNotifications && (
-                <div className="fixed left-1/2 top-20 -translate-x-1/2 w-[90vw] sm:absolute sm:right-0 sm:top-full sm:mt-2 sm:translate-x-0 sm:w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                <div className="absolute right-0 top-full mt-2 w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
                     <div className="p-4 border-b border-neutral-800 flex justify-between items-center">
                         <h3 className="font-bold text-white">Notifications</h3>
                         <span className="text-xs text-neutral-500 bg-neutral-800 px-2 py-1 rounded-full">{notifications.length} new</span>
@@ -99,9 +99,10 @@ export default function HubNavbar() {
           <div className="h-8 w-px bg-neutral-800"></div>
           
           <div className="flex items-center gap-4">
-            {profile?.section && (
+            {/* Section Badge - Visible for Students & Admins */}
+            {(profile?.section || profile?.role === 'admin') && (
                 <div className="hidden md:block px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full text-xs font-medium text-neutral-400">
-                    {profile.section}
+                    {profile?.section || 'Admin View'}
                 </div>
             )}
 
