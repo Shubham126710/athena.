@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight } from 'lucide-react';
+import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
 import PdfViewer from '../components/PdfViewer.jsx';
 import { supabase } from '../lib/supabaseClient';
 import HubNavbar from '../components/HubNavbar.jsx';
@@ -223,21 +223,26 @@ export default function NotesPage() {
                                                         <div className="grid gap-3 pl-2 md:pl-6">
                                                             {unitNotes.map(note => (
                                                                 <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-2 rounded border border-neutral-800 hover:shadow-sm transition-all">
-                                                                    <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden">
+                                                                    <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden mr-2">
                                                                         <div className="w-7 h-7 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
                                                                             <FileText size={14} />
                                                                         </div>
                                                                         <div className="truncate">
-                                                                            <h4 className="font-medium text-sm truncate" title={note.title}>{note.title}</h4>
+                                                                            <h4 className="font-medium text-xs md:text-sm truncate" title={note.title}>{note.title}</h4>
                                                                             <p className="text-[10px] text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="flex items-center gap-1.5 flex-shrink-0 ml-1.5">
-                                                                        <button onClick={() => setSelectedNote(note)} className="text-xs font-medium px-2.5 py-1 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors">
-                                                                            View
+                                                                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                                                                        <button 
+                                                                            onClick={() => setSelectedNote(note)} 
+                                                                            className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
+                                                                            title="View Note"
+                                                                        >
+                                                                            <span className="md:hidden"><Eye size={14} /></span>
+                                                                            <span className="hidden md:inline">View</span>
                                                                         </button>
                                                                         {profile?.role === 'admin' && (
-                                                                          <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1">
+                                                                          <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1.5">
                                                                               <Trash2 size={14} />
                                                                           </button>
                                                                         )}
