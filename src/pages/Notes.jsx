@@ -222,22 +222,22 @@ export default function NotesPage() {
                                                     ) : (
                                                         <div className="grid gap-3 pl-2 md:pl-6">
                                                             {unitNotes.map(note => (
-                                                                <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-3 rounded border border-neutral-800 hover:shadow-sm transition-all">
-                                                                    <div className="flex-1 min-w-0 flex items-center gap-3 overflow-hidden">
-                                                                        <div className="w-8 h-8 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
-                                                                            <FileText size={16} />
+                                                                <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-2 rounded border border-neutral-800 hover:shadow-sm transition-all">
+                                                                    <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden">
+                                                                        <div className="w-7 h-7 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
+                                                                            <FileText size={14} />
                                                                         </div>
                                                                         <div className="truncate">
                                                                             <h4 className="font-medium text-sm truncate" title={note.title}>{note.title}</h4>
-                                                                            <p className="text-xs text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
+                                                                            <p className="text-[10px] text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                                                                        <button onClick={() => setSelectedNote(note)} className="text-xs font-medium px-3 py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors">
+                                                                    <div className="flex items-center gap-1.5 flex-shrink-0 ml-1.5">
+                                                                        <button onClick={() => setSelectedNote(note)} className="text-xs font-medium px-2.5 py-1 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors">
                                                                             View
                                                                         </button>
                                                                         {profile?.role === 'admin' && (
-                                                                          <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1.5">
+                                                                          <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1">
                                                                               <Trash2 size={14} />
                                                                           </button>
                                                                         )}
