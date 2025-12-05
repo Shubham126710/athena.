@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download } from 'lucide-react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
@@ -50,6 +50,18 @@ export default function PdfViewer({ fileUrl, className='' }) {
         >
             <ChevronRight size={20} />
         </button>
+
+        <div className="w-px h-4 bg-neutral-700 mx-1"></div>
+
+        <a 
+            href={fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1 hover:bg-neutral-800 text-white rounded transition-colors"
+            title="Download PDF"
+        >
+            <Download size={20} />
+        </a>
       </div>
 
       <div className="relative bg-neutral-900 min-h-[200px] mx-auto">
