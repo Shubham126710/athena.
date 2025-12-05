@@ -31,16 +31,16 @@ export default function Login() {
       {/* Left Side - Visual */}
       <div className="hidden lg:block w-1/2 relative overflow-hidden border-r border-neutral-800">
         <div className="absolute inset-0">
-            <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />
+            <DitherHero color="#ffffff" backgroundColor="#0a0a0a" position={[0, -4, 0]} />
         </div>
-        <div className="absolute inset-0 flex flex-col justify-between p-12 z-10 pointer-events-none">
-            <div className="flex items-center gap-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity" onClick={() => nav('/')}>
+        <div className="absolute inset-0 flex flex-col p-12 z-10 pointer-events-none">
+            <div className="flex items-center gap-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity mb-20" onClick={() => nav('/')}>
                 <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
                 <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
             </div>
             <div>
                 <h2 className="text-4xl font-bold mb-4">Welcome back.</h2>
-                <p className="text-neutral-400 max-w-md">
+                <p className="text-neutral-400 max-w-md text-lg">
                     Access your academic repository, track your syllabus, and manage your notes all in one place.
                 </p>
             </div>
