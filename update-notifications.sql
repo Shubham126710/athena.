@@ -1,6 +1,12 @@
 -- Remove unwanted notifications
 DELETE FROM notifications WHERE title = 'Exam Schedule Released';
-DELETE FROM notifications WHERE title = 'Welcome to Athena';
+
+-- Re-add Welcome message (if it was deleted)
+INSERT INTO notifications (title, message, type)
+SELECT 'Welcome to Athena', 'Thank you for trying out the platform! Your centralized academic hub is ready. Manage your timetable, track attendance, and access resources seamlessly.', 'info'
+WHERE NOT EXISTS (
+    SELECT 1 FROM notifications WHERE title = 'Welcome to Athena'
+);
 
 -- Update Winning Camp notification to mention DCPD classes
 UPDATE notifications
