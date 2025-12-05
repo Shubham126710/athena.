@@ -29,9 +29,7 @@ create policy "Admins can insert notifications"
     )
   );
 
--- Insert some initial data (The ones requested by the user)
+-- Insert initial data
 insert into notifications (title, message, type) values 
-('Welcome to Athena', 'Your centralized academic hub is ready. Manage your timetable, track attendance, and access resources seamlessly.', 'info'),
 ('Domain Camp: Dec 10 - 16', 'Prepare for an immersive week of domain-specific training. Check your updated timetable for details.', 'alert'),
-('Winning Camp: Dec 17 - 24', 'The final sprint begins soon. Join the Winning Camp sessions to maximize your performance before the break.', 'alert'),
-('Exam Schedule Released', 'The schedule for EST exams has been updated.', 'alert');
+('Winning Camp: Dec 17 - 24', 'The final sprint begins soon. Join the Winning Camp for DCPD classes to maximize your performance before the break.', 'alert');
