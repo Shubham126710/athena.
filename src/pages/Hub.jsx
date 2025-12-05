@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, FileText, BookOpen, Calendar, ArrowRight, Clock, LayoutGrid, Calculator } from 'lucide-react';
-import Timetable, { regularSchedule, domainCampSchedule } from '../components/Timetable.jsx';
+import Timetable, { regularSchedule, domainCampSchedule, sectionSchedules } from '../components/Timetable.jsx';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import SGPACalculator from '../components/SGPACalculator.jsx';
@@ -22,7 +22,26 @@ export default function HubPage() {
   const { user, profile, loading } = useAuth();
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [activeScheduleType, setActiveScheduleType] = useState('domain');
-  const currentSchedule = activeScheduleType === 'regular' ? regularSchedule : domainCampSchedule;
+  
+  // Determine the correct schedule based on profile section
+  const getSchedule = () => {
+    if (!profile?.section) return domainCampSchedule;
+    
+    // If section is 23AML-5, use the toggle logic (regular vs domain)
+    if (profile.section === '23AML-5') {
+        return activeScheduleType === 'regular' ? regularSchedule : domainCampSchedule;
+    }
+    
+    // For other sections, return their specific schedule if it exists
+    if (sectionSchedules[profile.section]) {
+        return sectionSchedules[profile.section];
+    }
+    
+    // Fallback
+    return domainCampSchedule;
+  };
+
+  const currentSchedule = getSchedule();
   
   useEffect(() => {
     if (!loading && !user) {
@@ -214,7 +233,9 @@ export default function HubPage() {
             <Timetable 
               scheduleData={currentSchedule} 
               activeType={activeScheduleType} 
-              onToggle={setActiveScheduleType} 
+              onToggle={setActiveScheduleType}
+              userSection={profile?.section}
+              isAdmin={profile?.role === 'admin'}
             />
         </div>
 

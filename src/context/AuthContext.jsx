@@ -67,7 +67,9 @@ export function AuthProvider({ children }) {
           last_name: metaData.lastName,
           uid: metaData.uid,
           gender: metaData.gender,
-          role: metaData.role
+          role: metaData.role,
+          section: metaData.section,
+          avatar_seed: metaData.avatarSeed
         }
       }
     });

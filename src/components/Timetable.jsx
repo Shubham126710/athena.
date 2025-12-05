@@ -93,7 +93,7 @@ export const domainCampSchedule = {
 
 export const schedule = domainCampSchedule;
 
-export default function Timetable({ scheduleData = domainCampSchedule, activeType = 'domain', onToggle }) {
+export default function Timetable({ scheduleData = domainCampSchedule, activeType = 'domain', onToggle, userSection, isAdmin }) {
   const [day, setDay] = React.useState(new Date().toLocaleDateString('en-US', { weekday: 'short' }));
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -101,12 +101,22 @@ export default function Timetable({ scheduleData = domainCampSchedule, activeTyp
   const currentDay = days.includes(day) ? day : 'Mon';
   const [selectedDay, setSelectedDay] = React.useState(currentDay);
 
+  // Determine if toggle should be shown
+  // Show toggle if:
+  // 1. User is Admin
+  // 2. User is in section 23AML-5 (Legacy/Default)
+  // 3. No section is defined (Fallback)
+  const showToggle = isAdmin || !userSection || userSection === '23AML-5';
+
   return (
     <div className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
       <div className="p-6 border-b border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4">
-          <h2 className="text-xl font-bold text-white">My Time Table</h2>
-          {onToggle && (
+          <h2 className="text-xl font-bold text-white">
+            My Time Table 
+            {userSection && <span className="ml-2 text-xs font-normal text-neutral-500 bg-neutral-800 px-2 py-1 rounded border border-neutral-700">{userSection}</span>}
+          </h2>
+          {showToggle && onToggle && (
             <div className="flex bg-neutral-800 rounded-lg p-1 border border-neutral-700">
               <button 
                 onClick={() => onToggle('regular')}

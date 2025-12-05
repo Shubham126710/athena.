@@ -14,6 +14,8 @@ export default function Register() {
     email: '',
     gender: 'male',
     role: 'admin', // Default as per request
+    section: '23AML-5',
+    avatarSeed: 'Felix',
     adminCode: '',
     password: '',
     confirmPassword: ''
@@ -21,6 +23,14 @@ export default function Register() {
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const avatarOptions = [
+    { id: 'Felix', label: 'Felix' },
+    { id: 'Aneka', label: 'Aneka' },
+    { id: 'Zoe', label: 'Zoe' },
+    { id: 'Jack', label: 'Jack' },
+    { id: 'Sam', label: 'Sam' }
+  ];
 
   function handleChange(e) {
     setFormData(prev => ({
@@ -49,7 +59,9 @@ export default function Register() {
         lastName: formData.lastName,
         uid: formData.uid,
         gender: formData.gender,
-        role: formData.role
+        role: formData.role,
+        section: formData.section,
+        avatarSeed: formData.avatarSeed
       });
       nav('/hub');
     } catch (err) {
@@ -135,6 +147,46 @@ export default function Register() {
                         value={formData.uid}
                         onChange={handleChange}
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-neutral-300 mb-2">Section</label>
+                    <select 
+                        name="section"
+                        className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors appearance-none"
+                        value={formData.section}
+                        onChange={handleChange}
+                    >
+                        <option value="23AML-1">23AML-1</option>
+                        <option value="23AML-2">23AML-2</option>
+                        <option value="23AML-3">23AML-3</option>
+                        <option value="23AML-4">23AML-4</option>
+                        <option value="23AML-5">23AML-5 (Default)</option>
+                        <option value="23AML-6">23AML-6</option>
+                        <option value="23AML-7">23AML-7</option>
+                        <option value="23AML-8">23AML-8</option>
+                        <option value="23AML-9">23AML-9</option>
+                        <option value="23AML-10">23AML-10</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-neutral-300 mb-2">Choose Avatar</label>
+                    <div className="flex gap-4 overflow-x-auto pb-2">
+                        {avatarOptions.map((avatar) => (
+                            <div 
+                                key={avatar.id}
+                                onClick={() => setFormData(prev => ({ ...prev, avatarSeed: avatar.id }))}
+                                className={`flex-shrink-0 cursor-pointer rounded-full p-1 border-2 transition-all ${formData.avatarSeed === avatar.id ? 'border-white scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                            >
+                                <img 
+                                    src={`https://api.dicebear.com/7.x/notionists/svg?seed=${avatar.id}`} 
+                                    alt={avatar.label} 
+                                    className="w-12 h-12 rounded-full bg-neutral-800"
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div>
