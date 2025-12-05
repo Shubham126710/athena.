@@ -52,19 +52,20 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </button>
       </div>
 
-      <div className="border border-neutral-800 shadow-lg rounded-sm bg-neutral-900 flex items-center justify-center min-h-[200px]">
+      <div className="relative bg-neutral-900 min-h-[200px] mx-auto">
         <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={<div className="p-10 text-neutral-400 animate-pulse">Loading PDF...</div>}
             error={<div className="p-10 text-red-500">Failed to load PDF.</div>}
+            className="flex flex-col items-center"
         >
             <Page 
                 pageNumber={pageNumber} 
                 renderTextLayer={false} 
                 renderAnnotationLayer={false}
                 width={pageWidth} 
-                className="shadow-sm"
+                className="shadow-lg border border-neutral-800"
             />
         </Document>
       </div>
