@@ -98,17 +98,25 @@ export function AuthProvider({ children }) {
   async function updateProfile(updates) {
     if (!user) return;
     
+    // Optimistic update
+    const previousProfile = profile;
+    setProfile(prev => ({ ...prev, ...updates }));
+
     try {
       const { error } = await supabase
         .from('profiles')
         .update(updates)
         .eq('id', user.id);
 
-      if (error) throw error;
-      
-      setProfile(prev => ({ ...prev, ...updates }));
+      if (error) {
+        console.error('Error updating profile in DB:', error);
+        // Revert on error
+        setProfile(previousProfile);
+        throw error;
+      }
     } catch (error) {
       console.error('Error updating profile:', error);
+      setProfile(previousProfile);
       throw error;
     }
   }

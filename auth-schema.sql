@@ -11,6 +11,8 @@ create table profiles (
   uid text,
   gender text,
   role text default 'student', -- 'admin' or 'student'
+  section text,
+  avatar_seed text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -39,14 +41,16 @@ create policy "Users can update own profile"
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, first_name, last_name, uid, gender, role)
+  insert into public.profiles (id, first_name, last_name, uid, gender, role, section, avatar_seed)
   values (
     new.id,
     new.raw_user_meta_data->>'first_name',
     new.raw_user_meta_data->>'last_name',
     new.raw_user_meta_data->>'uid',
     new.raw_user_meta_data->>'gender',
-    new.raw_user_meta_data->>'role'
+    new.raw_user_meta_data->>'role',
+    new.raw_user_meta_data->>'section',
+    new.raw_user_meta_data->>'avatar_seed'
   );
   return new;
 end;
