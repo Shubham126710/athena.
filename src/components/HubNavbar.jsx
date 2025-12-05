@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, LogOut, Menu, X } from 'lucide-react';
+import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabaseClient';
 import SGPACalculator from './SGPACalculator';
 
 export default function HubNavbar() {
@@ -10,6 +11,67 @@ export default function HubNavbar() {
   const { user, profile, signOut, updateProfile } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showCompose, setShowCompose] = useState(false);
+  const [newNotification, setNewNotification] = useState({ title: '', message: '', type: 'info' });
+  const [isPosting, setIsPosting] = useState(false);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const fetchNotifications = async () => {
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (data) {
+        // Format time relative to now
+        const formattedData = data.map(n => ({
+            ...n,
+            time: getTimeAgo(new Date(n.created_at))
+        }));
+        setNotifications(formattedData);
+    }
+  };
+
+  const getTimeAgo = (date) => {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hrs ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " mins ago";
+    return "Just now";
+  };
+
+  const handlePostNotification = async (e) => {
+    e.preventDefault();
+    setIsPosting(true);
+    try {
+        const { error } = await supabase
+            .from('notifications')
+            .insert([newNotification]);
+        
+        if (error) throw error;
+        
+        setNewNotification({ title: '', message: '', type: 'info' });
+        setShowCompose(false);
+        fetchNotifications();
+    } catch (error) {
+        console.error('Error posting notification:', error);
+        alert('Failed to post notification');
+    } finally {
+        setIsPosting(false);
+    }
+  };
   
   const handleLogout = async () => {
     await signOut();
@@ -32,15 +94,6 @@ export default function HubNavbar() {
     }
   };
   
-  const [showNotifications, setShowNotifications] = useState(false);
-
-  const notifications = [
-      { id: 1, title: "Welcome to Athena", message: "Your centralized academic hub is ready. Manage your timetable, track attendance, and access resources seamlessly.", time: "Just now", type: "info" },
-      { id: 2, title: "Domain Camp: Dec 10 - 16", message: "Prepare for an immersive week of domain-specific training. Check your updated timetable for details.", time: "1 hour ago", type: "alert" },
-      { id: 3, title: "Winning Camp: Dec 17 - 24", message: "The final sprint begins soon. Join the Winning Camp sessions to maximize your performance before the break.", time: "1 hour ago", type: "alert" },
-      { id: 4, title: "Exam Schedule Released", message: "The schedule for EST exams has been updated.", time: "2 hrs ago", type: "alert" }
-  ];
-
   const isActive = (path) => location.pathname === path;
   const activeClass = "px-4 py-1.5 bg-neutral-800 shadow-sm rounded-md text-sm font-medium text-white transition-all";
   const inactiveClass = "px-4 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
@@ -78,18 +131,79 @@ export default function HubNavbar() {
                 <div className="absolute right-0 top-full mt-2 w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
                     <div className="p-4 border-b border-neutral-800 flex justify-between items-center">
                         <h3 className="font-bold text-white">Notifications</h3>
-                        <span className="text-xs text-neutral-500 bg-neutral-800 px-2 py-1 rounded-full">{notifications.length} new</span>
+                        <div className="flex items-center gap-2">
+                            {profile?.role === 'admin' && (
+                                <button 
+                                    onClick={() => setShowCompose(!showCompose)}
+                                    className="p-1 hover:bg-neutral-800 rounded text-neutral-400 hover:text-white transition-colors"
+                                    title="Compose Notification"
+                                >
+                                    <Plus size={16} />
+                                </button>
+                            )}
+                            <span className="text-xs text-neutral-500 bg-neutral-800 px-2 py-1 rounded-full">{notifications.length} new</span>
+                        </div>
                     </div>
-                    <div className="max-h-96 overflow-y-auto">
-                        {notifications.map(notif => (
-                            <div key={notif.id} className="p-4 border-b border-neutral-800 hover:bg-neutral-800/50 transition-colors cursor-pointer last:border-0">
-                                <div className="flex justify-between items-start mb-1">
-                                    <h4 className="text-sm font-bold text-white">{notif.title}</h4>
-                                    <span className="text-[10px] text-neutral-500">{notif.time}</span>
+
+                    {showCompose && (
+                        <div className="p-4 bg-neutral-800/50 border-b border-neutral-800 animate-in slide-in-from-top-2">
+                            <form onSubmit={handlePostNotification} className="space-y-3">
+                                <input 
+                                    type="text" 
+                                    placeholder="Title" 
+                                    required
+                                    className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-white"
+                                    value={newNotification.title}
+                                    onChange={e => setNewNotification({...newNotification, title: e.target.value})}
+                                />
+                                <textarea 
+                                    placeholder="Message" 
+                                    required
+                                    rows="2"
+                                    className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-white resize-none"
+                                    value={newNotification.message}
+                                    onChange={e => setNewNotification({...newNotification, message: e.target.value})}
+                                />
+                                <div className="flex gap-2">
+                                    <select 
+                                        className="bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-xs text-white focus:outline-none"
+                                        value={newNotification.type}
+                                        onChange={e => setNewNotification({...newNotification, type: e.target.value})}
+                                    >
+                                        <option value="info">Info</option>
+                                        <option value="alert">Alert</option>
+                                        <option value="warning">Warning</option>
+                                    </select>
+                                    <button 
+                                        type="submit" 
+                                        disabled={isPosting}
+                                        className="flex-1 bg-white text-black text-xs font-bold rounded py-1 hover:bg-neutral-200 transition-colors flex items-center justify-center gap-1"
+                                    >
+                                        {isPosting ? 'Posting...' : <><Send size={12} /> Post</>}
+                                    </button>
                                 </div>
-                                <p className="text-xs text-neutral-400 leading-relaxed">{notif.message}</p>
+                            </form>
+                        </div>
+                    )}
+
+                    <div className="max-h-96 overflow-y-auto">
+                        {notifications.length === 0 ? (
+                            <div className="p-8 text-center text-neutral-500 text-sm">
+                                No notifications yet.
                             </div>
-                        ))}
+                        ) : (
+                            notifications.map(notif => (
+                                <div key={notif.id} className="p-4 border-b border-neutral-800 hover:bg-neutral-800/50 transition-colors cursor-pointer last:border-0">
+                                    <div className="flex justify-between items-start mb-1">
+                                        <h4 className={`text-sm font-bold ${notif.type === 'alert' ? 'text-red-400' : notif.type === 'warning' ? 'text-amber-400' : 'text-white'}`}>
+                                            {notif.title}
+                                        </h4>
+                                        <span className="text-[10px] text-neutral-500 whitespace-nowrap ml-2">{notif.time}</span>
+                                    </div>
+                                    <p className="text-xs text-neutral-400 leading-relaxed">{notif.message}</p>
+                                </div>
+                            ))
+                        )}
                     </div>
                     <div className="p-3 bg-neutral-900 border-t border-neutral-800 text-center">
                         <button className="text-xs text-neutral-500 hover:text-white transition-colors">Mark all as read</button>
