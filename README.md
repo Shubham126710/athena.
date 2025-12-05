@@ -3,7 +3,7 @@
 > "I named this project Athena after the Greek goddess of wisdom, since I have always been fascinated by Greek mythology ever since I read the Percy Jackson series when I was in my 6th grade. I want Athena to be just that, a personification of wisdom, a companion for your academic needs."
 
 ## Overview
-Early landing page scaffold (React + Svelte hybrid) using Vite + Tailwind.
+Early landing page scaffold using Vite + Tailwind.
 
 ## Dev
 
@@ -15,8 +15,7 @@ npm run dev
 ```
 
 ## Notes
-- React used for overall app shell & routing (future)
-- Embedded Svelte component (`AnimatedMindmap.svelte`) for a lightweight animated visualization.
+- React used for overall app shell & routing
 - Tailwind for rapid styling. The `@tailwind` directives resolve during the Vite build via PostCSS.
 
 ## Next Ideas
