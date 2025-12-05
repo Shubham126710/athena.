@@ -26,10 +26,10 @@ export default function Register() {
 
   const avatarOptions = [
     { id: 'Felix', label: 'Felix' },
-    { id: 'Aneka', label: 'Aneka' },
-    { id: 'Zoe', label: 'Zoe' },
+    { id: 'Lola', label: 'Lola' },
     { id: 'Jack', label: 'Jack' },
-    { id: 'Sam', label: 'Sam' }
+    { id: 'Bella', label: 'Bella' },
+    { id: 'Ryan', label: 'Ryan' }
   ];
 
   function handleChange(e) {
