@@ -9,6 +9,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 export default function PdfViewer({ fileUrl, className='' }) {
   const [numPages, setNumPages] = React.useState(null);
   const [pageNumber, setPageNumber] = React.useState(1);
+  const [pageWidth, setPageWidth] = React.useState(600);
+
+  React.useEffect(() => {
+    function updateWidth() {
+      const containerWidth = window.innerWidth < 768 ? window.innerWidth - 48 : Math.min(window.innerWidth * 0.8, 800);
+      setPageWidth(containerWidth);
+    }
+
+    window.addEventListener('resize', updateWidth);
+    updateWidth();
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -17,7 +30,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
 
   return (
     <div className={`flex flex-col items-center ${className}`}>
-      <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-1 flex items-center gap-4 mb-4">
+      <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-1 flex items-center gap-4 mb-4 sticky top-0 z-10">
         <button 
             disabled={pageNumber <= 1} 
             onClick={() => setPageNumber(prev => prev - 1)}
@@ -39,7 +52,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </button>
       </div>
 
-      <div className="border border-neutral-800 shadow-lg rounded-sm overflow-hidden bg-neutral-900 min-h-[600px] min-w-[400px] flex items-center justify-center">
+      <div className="border border-neutral-800 shadow-lg rounded-sm bg-neutral-900 flex items-center justify-center min-h-[200px]">
         <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -50,7 +63,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
                 pageNumber={pageNumber} 
                 renderTextLayer={false} 
                 renderAnnotationLayer={false}
-                width={600} 
+                width={pageWidth} 
                 className="shadow-sm"
             />
         </Document>
