@@ -78,16 +78,49 @@ export default function Register() {
         <div className="absolute inset-0">
             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />
         </div>
-        <div className="absolute inset-0 flex flex-col justify-between p-12 z-10 pointer-events-none">
-            <div className="flex items-center gap-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity" onClick={() => nav('/')}>
+        <div className="absolute inset-0 flex flex-col p-12 z-10 pointer-events-none">
+            <div className="flex items-center gap-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity mb-20" onClick={() => nav('/')}>
                 <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
                 <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
             </div>
-            <div>
-                <h2 className="text-4xl font-bold mb-4">Join Athena.</h2>
-                <p className="text-neutral-400 max-w-md">
-                    Create your account to start organizing your academic life.
-                </p>
+            
+            <div className="space-y-12">
+                <div>
+                    <h2 className="text-4xl font-bold mb-4">Join Athena.</h2>
+                    <p className="text-neutral-400 max-w-md text-lg">
+                        Your academic command center. Organize your schedule, track your progress, and excel in your studies.
+                    </p>
+                </div>
+
+                <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-sm">1</div>
+                        <div>
+                            <h3 className="font-bold text-white">Personalized Timetable</h3>
+                            <p className="text-neutral-500 text-sm">Automatically synced with your section's schedule.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-sm">2</div>
+                        <div>
+                            <h3 className="font-bold text-white">Smart Attendance</h3>
+                            <p className="text-neutral-500 text-sm">Track your attendance and get alerts before you fall behind.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-sm">3</div>
+                        <div>
+                            <h3 className="font-bold text-white">Resource Hub</h3>
+                            <p className="text-neutral-500 text-sm">Access notes, previous year papers, and study materials.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="pt-12">
+                    <blockquote className="border-l-2 border-neutral-700 pl-4 italic text-neutral-500">
+                        "Education is the passport to the future, for tomorrow belongs to those who prepare for it today."
+                    </blockquote>
+                </div>
             </div>
         </div>
       </div>
@@ -172,17 +205,17 @@ export default function Register() {
 
                 <div>
                     <label className="block text-sm font-medium text-neutral-300 mb-2">Choose Avatar</label>
-                    <div className="flex gap-4 overflow-x-auto pb-2">
+                    <div className="flex gap-6 overflow-x-auto py-4 px-1">
                         {avatarOptions.map((avatar) => (
                             <div 
                                 key={avatar.id}
                                 onClick={() => setFormData(prev => ({ ...prev, avatarSeed: avatar.id }))}
-                                className={`flex-shrink-0 cursor-pointer rounded-full p-1 border-2 transition-all ${formData.avatarSeed === avatar.id ? 'border-white scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                                className={`flex-shrink-0 cursor-pointer rounded-full p-0.5 border-2 transition-all ${formData.avatarSeed === avatar.id ? 'border-white scale-125' : 'border-transparent opacity-50 hover:opacity-100'}`}
                             >
                                 <img 
                                     src={`https://api.dicebear.com/7.x/notionists/svg?seed=${avatar.id}`} 
                                     alt={avatar.label} 
-                                    className="w-12 h-12 rounded-full bg-neutral-800"
+                                    className="w-10 h-10 rounded-full bg-neutral-800"
                                 />
                             </div>
                         ))}
