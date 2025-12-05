@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, FileText, BookOpen, Calendar, ArrowRight, Clock, LayoutGrid, Calculator } from 'lucide-react';
-import Timetable, { regularSchedule, domainCampSchedule, sectionSchedules } from '../components/Timetable.jsx';
+import Timetable, { regularSchedule, domainCampSchedule } from '../components/Timetable.jsx';
+import { sectionSchedules } from '../data/timetables.js';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import SGPACalculator from '../components/SGPACalculator.jsx';
