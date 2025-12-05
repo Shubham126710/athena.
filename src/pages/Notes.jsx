@@ -168,7 +168,7 @@ export default function NotesPage() {
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto">
+      <main className="pt-32 pb-12 px-4 md:px-12 container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">My Notes</h1>
@@ -218,12 +218,12 @@ export default function NotesPage() {
                                             {isExpanded && (
                                                 <div className="p-3 bg-neutral-950/30 border-t border-neutral-800">
                                                     {unitNotes.length === 0 ? (
-                                                        <p className="text-sm text-neutral-400 italic pl-6">No notes uploaded.</p>
+                                                        <p className="text-sm text-neutral-400 italic pl-3 md:pl-6">No notes uploaded.</p>
                                                     ) : (
-                                                        <div className="grid gap-3 pl-6">
+                                                        <div className="grid gap-3 pl-2 md:pl-6">
                                                             {unitNotes.map(note => (
                                                                 <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-3 rounded border border-neutral-800 hover:shadow-sm transition-all">
-                                                                    <div className="flex items-center gap-3 overflow-hidden">
+                                                                    <div className="flex-1 min-w-0 flex items-center gap-3 overflow-hidden">
                                                                         <div className="w-8 h-8 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
                                                                             <FileText size={16} />
                                                                         </div>
@@ -232,7 +232,7 @@ export default function NotesPage() {
                                                                             <p className="text-xs text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="flex items-center gap-2 flex-shrink-0">
+                                                                    <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                                                                         <button onClick={() => setSelectedNote(note)} className="text-xs font-medium px-3 py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors">
                                                                             View
                                                                         </button>

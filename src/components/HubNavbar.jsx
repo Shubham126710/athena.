@@ -128,7 +128,7 @@ export default function HubNavbar() {
             </button>
 
             {showNotifications && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
+                <div className="fixed inset-x-4 top-20 md:absolute md:inset-auto md:right-0 md:top-full md:mt-2 md:w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
                     <div className="p-4 border-b border-neutral-800 flex justify-between items-center">
                         <h3 className="font-bold text-white">Notifications</h3>
                         <div className="flex items-center gap-2">
