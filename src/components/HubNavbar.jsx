@@ -7,13 +7,29 @@ import SGPACalculator from './SGPACalculator';
 export default function HubNavbar() {
   const nav = useNavigate();
   const location = useLocation();
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, updateProfile } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   
   const handleLogout = async () => {
     await signOut();
     nav('/');
+  };
+
+  const avatarOptions = [
+    { id: 'Felix', label: 'Felix' },
+    { id: 'Lola', label: 'Lola' },
+    { id: 'Jack', label: 'Jack' },
+    { id: 'Bella', label: 'Bella' },
+    { id: 'Ryan', label: 'Ryan' }
+  ];
+
+  const handleAvatarChange = async (avatarId) => {
+    try {
+        await updateProfile({ avatar_seed: avatarId });
+    } catch (error) {
+        console.error("Failed to update avatar", error);
+    }
   };
   
   const [showNotifications, setShowNotifications] = useState(false);
@@ -82,33 +98,61 @@ export default function HubNavbar() {
           </div>
           <div className="h-8 w-px bg-neutral-800"></div>
           
-          <div className="relative group">
-            <div className="flex items-center gap-3 cursor-pointer">
-                <div className="text-right hidden md:block">
-                    <div className="text-sm font-bold">{profile?.first_name || 'Student'}</div>
-                    <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
+          <div className="flex items-center gap-4">
+            {profile?.section && (
+                <div className="hidden md:block px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full text-xs font-medium text-neutral-400">
+                    {profile.section}
                 </div>
-                <div className="w-10 h-10 bg-neutral-800 rounded-full overflow-hidden border border-neutral-700">
-                    <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${profile?.avatar_seed || user?.email || 'user'}`} alt="avatar" />
-                </div>
-            </div>
+            )}
 
-            {/* Profile Dropdown */}
-            <div className="absolute right-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
-                <div className="p-4 border-b border-neutral-800">
-                    <p className="text-sm font-bold text-white">{profile?.first_name} {profile?.last_name}</p>
-                    <p className="text-xs text-neutral-400 mt-1">{user?.email}</p>
-                    {profile?.uid && (
-                        <div className="mt-3 inline-block px-2 py-1 bg-neutral-800 rounded text-xs font-mono text-neutral-300">
-                            UID: {profile.uid}
-                        </div>
-                    )}
+            <div className="relative group">
+                <div className="flex items-center gap-3 cursor-pointer">
+                    <div className="text-right hidden md:block">
+                        <div className="text-sm font-bold">{profile?.first_name || 'Student'}</div>
+                        <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
+                    </div>
+                    <div className="w-10 h-10 bg-neutral-800 rounded-full overflow-hidden border border-neutral-700">
+                        <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${profile?.avatar_seed || user?.email || 'user'}`} alt="avatar" />
+                    </div>
                 </div>
-                <div className="p-2">
-                    <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-neutral-800 rounded-md transition-colors">
-                        <LogOut size={16} />
-                        Sign Out
-                    </button>
+
+                {/* Profile Dropdown */}
+                <div className="absolute right-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
+                    <div className="p-4 border-b border-neutral-800">
+                        <p className="text-sm font-bold text-white">{profile?.first_name} {profile?.last_name}</p>
+                        <p className="text-xs text-neutral-400 mt-1">{user?.email}</p>
+                        {profile?.uid && (
+                            <div className="mt-3 inline-block px-2 py-1 bg-neutral-800 rounded text-xs font-mono text-neutral-300">
+                                UID: {profile.uid}
+                            </div>
+                        )}
+                    </div>
+                    
+                    <div className="p-4 border-b border-neutral-800">
+                        <p className="text-xs font-medium text-neutral-500 mb-3">Change Avatar</p>
+                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                            {avatarOptions.map((avatar) => (
+                                <button
+                                    key={avatar.id}
+                                    onClick={() => handleAvatarChange(avatar.id)}
+                                    className={`flex-shrink-0 rounded-full p-0.5 border-2 transition-all ${profile?.avatar_seed === avatar.id ? 'border-white' : 'border-transparent hover:border-neutral-700'}`}
+                                >
+                                    <img 
+                                        src={`https://api.dicebear.com/7.x/notionists/svg?seed=${avatar.id}`} 
+                                        alt={avatar.label} 
+                                        className="w-8 h-8 rounded-full bg-neutral-800"
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="p-2">
+                        <button onClick={handleLogout} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-neutral-800 rounded-md transition-colors">
+                            <LogOut size={16} />
+                            Sign Out
+                        </button>
+                    </div>
                 </div>
             </div>
           </div>

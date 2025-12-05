@@ -95,12 +95,31 @@ export function AuthProvider({ children }) {
     setProfile(null);
   }
 
+  async function updateProfile(updates) {
+    if (!user) return;
+    
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id);
+
+      if (error) throw error;
+      
+      setProfile(prev => ({ ...prev, ...updates }));
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw error;
+    }
+  }
+
   const value = {
     user,
     profile,
     signUp,
     signIn,
     signOut,
+    updateProfile,
     loading
   };
 
