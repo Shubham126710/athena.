@@ -1,4 +1,4 @@
-# Athena
+# athena.
 
 <div align="center">
   <img src="./logo.png" alt="Athena Logo" width="120" />
