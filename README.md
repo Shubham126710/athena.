@@ -27,7 +27,7 @@
 
 ## 📖 Overview
 
-**Athena** is a comprehensive academic management platform designed to streamline the student experience. It consolidates timetables, syllabus tracking, notes management, and academic performance calculation into a unified, modern interface. Built with performance and user experience in mind, Athena helps students stay organized and focused on their studies.
+**athena.** is a comprehensive academic management platform designed to streamline the student experience. It consolidates timetables, syllabus tracking, notes management, and academic performance calculation into a unified, modern interface. Built with performance and user experience in mind, Athena helps students stay organized and focused on their studies.
 
 ## ✨ Features
 
