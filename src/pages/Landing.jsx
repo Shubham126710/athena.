@@ -48,6 +48,8 @@ export default function Landing() {
   const [text, setText] = React.useState('');
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
+  const [views, setViews] = React.useState(1337);
+  React.useEffect(() => { fetch('https://api.counterapi.dev/v1/athena/hits/up').then(res => res.json()).then(data => setViews(data.count || 1337)).catch(() => {}); }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
   const period = 2000;

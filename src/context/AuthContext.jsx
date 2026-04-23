@@ -12,10 +12,17 @@ export function AuthProvider({ children }) {
     // Check active session
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+      
       if (session?.user) {
-        fetchProfile(session.user.id);
+        setUser(session.user);
+        await fetchProfile(session.user.id);
       } else {
+        const guestData = localStorage.getItem('guest_user');
+        if (guestData) {
+          const guestProfile = JSON.parse(guestData);
+          setUser({ id: 'guest' });
+          setProfile(guestProfile);
+        }
         setLoading(false);
       }
     };
@@ -23,11 +30,19 @@ export function AuthProvider({ children }) {
     getSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
       if (session?.user) {
+        setUser(session.user);
         fetchProfile(session.user.id);
       } else {
-        setProfile(null);
+        const guestData = localStorage.getItem('guest_user');
+        if (guestData) {
+          const guestProfile = JSON.parse(guestData);
+          setUser({ id: 'guest' });
+          setProfile(guestProfile);
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
         setLoading(false);
       }
     });
@@ -55,28 +70,17 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function signUp(email, password, metaData) {
-    // We pass the metadata to Supabase Auth, which will trigger the database function
-    // to create the profile row automatically.
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          first_name: metaData.firstName,
-          last_name: metaData.lastName,
-          uid: metaData.uid,
-          gender: metaData.gender,
-          role: metaData.role,
-          section: metaData.section,
-          avatar_seed: metaData.avatarSeed
-        }
-      }
-    });
-
-    if (error) throw error;
-    
-    return data;
+  async function signInGuest(firstName, uid) {
+    const guestProfile = {
+      id: 'guest',
+      first_name: firstName,
+      uid: uid,
+      role: 'guest',
+      avatar_seed: firstName
+    };
+    localStorage.setItem('guest_user', JSON.stringify(guestProfile));
+    setUser({ id: 'guest' });
+    setProfile(guestProfile);
   }
 
   async function signIn(email, password) {
@@ -89,14 +93,17 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    localStorage.removeItem('guest_user');
+    if (user?.id !== 'guest') {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    }
     setUser(null);
     setProfile(null);
   }
 
   async function updateProfile(updates) {
-    if (!user) return;
+    if (!user || user.id === 'guest') return;
     
     // Optimistic update
     const previousProfile = profile;
@@ -124,7 +131,7 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     profile,
-    signUp,
+    signInGuest,
     signIn,
     signOut,
     updateProfile,

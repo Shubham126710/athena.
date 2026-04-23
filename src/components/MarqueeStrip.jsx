@@ -1,16 +1,11 @@
 import React, { useEffect, useRef, memo } from 'react';
 
 const SUBJECTS = [
-    "Full Stack-I",
-    "Computer Networks",
-    "Foundation of Machine Learning",
-    "Formal Languages & Automata Theory",
-    "Competitive Coding-I",
-    "Predictive Analytics",
-    "Aptitude-III",
-    "Soft Skills-III",
-    "ADBMS",
-    "Industrial Internship-I"
+    "SOFTWARE ENGINEERING",
+    "FULL STACK II",
+    "ADVANCED MACHINE LEARNING",
+    "ARTIFICIAL INTELLIGENCE",
+    "SYSTEM DESIGN"
 ];
 
 const MarqueeStrip = memo(() => {

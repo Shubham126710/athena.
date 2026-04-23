@@ -7,8 +7,16 @@ export default function SyllabusPage() {
   const nav = useNavigate();
   const [expandedSubject, setExpandedSubject] = React.useState(null);
   const [expandedUnit, setExpandedUnit] = React.useState(null);
+  const [semester, setSemester] = React.useState('5th');
 
-  const syllabi = [
+    const syllabi6th = [
+    { subject: 'Software Engineering', abbr: 'SE', code: 'SE601', units: [] },
+    { subject: 'Full Stack II', abbr: 'FS-II', code: 'FS602', units: [] },
+    { subject: 'Advanced Machine Learning', abbr: 'AML', code: 'AML603', units: [] },
+    { subject: 'Artificial Intelligence', abbr: 'AI', code: 'AI604', units: [] },
+    { subject: 'System Design', abbr: 'SD', code: 'SD605', units: [] },
+  ];
+  const syllabi5th = [
     {
       subject: 'Computer Networks', abbr:'CN', code:'23CST-335', units:[
         { id:1, title:'Introduction to Computer Networks', hours:15, topics:[
@@ -178,13 +186,19 @@ export default function SyllabusPage() {
       <HubNavbar />
 
       <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto">
-        <div className="mb-12">
-            <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
-            <p className="text-neutral-400">Track your curriculum progress and topics.</p>
+                <div className="mb-12 flex justify-between items-end">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
+              <p className="text-neutral-400">Track your curriculum progress and topics.</p>
+            </div>
+            <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
+              <option value="5th">5th Semester</option>
+              <option value="6th">6th Semester</option>
+            </select>
         </div>
 
         <div className="space-y-6">
-            {syllabi.map((subject, idx) => (
+            {(semester === '5th' ? syllabi5th : syllabi6th).map((subject, idx) => (
                 <div key={idx} className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
                     <div 
                         className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"

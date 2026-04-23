@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, FileText, BookOpen, Calendar, ArrowRight, Clock, LayoutGrid, Calculator } from 'lucide-react';
-import Timetable, { regularSchedule, domainCampSchedule } from '../components/Timetable.jsx';
-import { sectionSchedules } from '../data/timetables.js';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import SGPACalculator from '../components/SGPACalculator.jsx';
@@ -239,87 +237,3 @@ export default function HubPage() {
             </div>
         </div>
 
-        {/* Timetable Section */}
-        <div className="mb-12">
-            {profile?.role === 'admin' && (
-                <div className="mb-4 flex items-center gap-4">
-                    <label className="text-sm font-medium text-neutral-400">Viewing Schedule For:</label>
-                    <select 
-                        value={adminSelectedSection}
-                        onChange={(e) => setAdminSelectedSection(e.target.value)}
-                        className="bg-neutral-900 border border-neutral-800 text-white text-sm rounded-lg focus:ring-white focus:border-white block p-2.5"
-                    >
-                        <option value="23AML-1">23AML-1</option>
-                        <option value="23AML-2">23AML-2</option>
-                        <option value="23AML-3">23AML-3</option>
-                        <option value="23AML-4">23AML-4</option>
-                        <option value="23AML-5">23AML-5</option>
-                        <option value="23AML-6">23AML-6</option>
-                        <option value="23AML-7">23AML-7</option>
-                        <option value="23AML-8">23AML-8</option>
-                        <option value="23AML-9">23AML-9</option>
-                        <option value="23AML-10">23AML-10</option>
-                    </select>
-                </div>
-            )}
-            <Timetable 
-              scheduleData={currentSchedule} 
-              activeType={activeScheduleType} 
-              onToggle={setActiveScheduleType}
-              userSection={profile?.role === 'admin' ? adminSelectedSection : profile?.section}
-              isAdmin={profile?.role === 'admin'}
-            />
-        </div>
-
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white">
-            <div className="w-2 h-2 bg-white rounded-full"></div>
-            Quick Access
-        </h2>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <button onClick={() => nav('/notes')} className="group bg-neutral-900 border border-neutral-800 p-6 rounded-lg hover:shadow-md transition-all text-left flex flex-col h-48 justify-between hover:border-neutral-700">
-                <div className="p-3 bg-neutral-800 w-fit rounded-lg group-hover:bg-white group-hover:text-black transition-colors text-white">
-                    <FileText size={24} />
-                </div>
-                <div>
-                    <h3 className="text-lg font-bold mb-1 group-hover:translate-x-1 transition-transform text-white">My Notes</h3>
-                    <p className="text-sm text-neutral-500">Upload and manage your handwritten notes.</p>
-                </div>
-            </button>
-
-            <button onClick={() => nav('/syllabus')} className="group bg-neutral-900 border border-neutral-800 p-6 rounded-lg hover:shadow-md transition-all text-left flex flex-col h-48 justify-between hover:border-neutral-700">
-                <div className="p-3 bg-neutral-800 w-fit rounded-lg group-hover:bg-white group-hover:text-black transition-colors text-white">
-                    <BookOpen size={24} />
-                </div>
-                <div>
-                    <h3 className="text-lg font-bold mb-1 group-hover:translate-x-1 transition-transform text-white">Syllabus</h3>
-                    <p className="text-sm text-neutral-500">Track your curriculum progress.</p>
-                </div>
-            </button>
-
-            <button onClick={() => nav('/calendar')} className="group bg-neutral-900 border border-neutral-800 p-6 rounded-lg hover:shadow-md transition-all text-left flex flex-col h-48 justify-between hover:border-neutral-700">
-                <div className="p-3 bg-neutral-800 w-fit rounded-lg group-hover:bg-white group-hover:text-black transition-colors text-white">
-                    <Calendar size={24} />
-                </div>
-                <div>
-                    <h3 className="text-lg font-bold mb-1 group-hover:translate-x-1 transition-transform text-white">Calendar</h3>
-                    <p className="text-sm text-neutral-500">View schedule, exams, and holidays.</p>
-                </div>
-            </button>
-
-            <button onClick={() => setIsCalculatorOpen(true)} className="group bg-neutral-900 border border-neutral-800 p-6 rounded-lg hover:shadow-md transition-all text-left flex flex-col h-48 justify-between hover:border-neutral-700">
-                <div className="p-3 bg-neutral-800 w-fit rounded-lg group-hover:bg-white group-hover:text-black transition-colors text-white">
-                    <Calculator size={24} />
-                </div>
-                <div>
-                    <h3 className="text-lg font-bold mb-1 group-hover:translate-x-1 transition-transform text-white">SGPA</h3>
-                    <p className="text-sm text-neutral-500">Calculate and track your semester GPA.</p>
-                </div>
-            </button>
-        </div>
-      </main>
-
-      <SGPACalculator isOpen={isCalculatorOpen} onClose={() => setIsCalculatorOpen(false)} />
-    </div>
-  );
-}

@@ -13,6 +13,7 @@ export default function NotesPage() {
   const [loading, setLoading] = React.useState(true);
   const [uploading, setUploading] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [semester, setSemester] = React.useState('5th');
   
   // Upload Form State
   const [file, setFile] = React.useState(null);
@@ -29,7 +30,9 @@ export default function NotesPage() {
 
   const fileInputRef = React.useRef(null);
 
-  const subjects = ['CN', 'FLAT', 'FML', 'PA'];
+  const subjects5th = ['CN', 'FLAT', 'FML', 'PA'];
+  const subjects6th = ['SE', 'FS-II', 'AML', 'AI', 'SD'];
+  const subjects = semester === '5th' ? subjects5th : subjects6th;
   const units = ['Unit 1', 'Unit 2', 'Unit 3'];
 
   // Fetch notes on mount
@@ -169,17 +172,23 @@ export default function NotesPage() {
       <HubNavbar />
 
       <main className="pt-32 pb-12 px-4 md:px-12 container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">My Notes</h1>
                 <p className="text-neutral-400">Manage and view your uploaded documents.</p>
             </div>
+            <div className="flex items-center gap-4">
+                <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
+                    <option value="5th">5th Semester</option>
+                    <option value="6th">6th Semester</option>
+                </select>
             {profile?.role === 'admin' && (
               <button onClick={() => setShowUploadModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">
                   <Plus size={16} />
                   Upload Note
               </button>
             )}
+            </div>
         </div>
 
         {loading ? (

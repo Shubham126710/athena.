@@ -6,13 +6,36 @@ import ConstellationBackground from '../components/ConstellationBackground';
 
 export default function Login() {
   const nav = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, signInGuest } = useAuth();
+  
+  const [activeTab, setActiveTab] = useState('guest'); // 'guest' or 'admin'
+  
+  // Guest State
+  const [firstName, setFirstName] = useState('');
+  const [uid, setUid] = useState('');
+  
+  // Admin State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e) {
+  async function handleGuestSubmit(e) {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await signInGuest(firstName, uid);
+      nav('/hub');
+    } catch (err) {
+      setError('Failed to sign in as guest: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleAdminSubmit(e) {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -20,7 +43,7 @@ export default function Login() {
       await signIn(email, password);
       nav('/hub');
     } catch (err) {
-      setError('Failed to sign in: ' + err.message);
+      setError('Failed to sign in as admin: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -58,8 +81,23 @@ export default function Login() {
             <div className="text-center lg:text-left">
                 <h1 className="text-3xl font-bold tracking-tight">Sign in to your account</h1>
                 <p className="mt-2 text-neutral-400">
-                    Or <Link to="/register" className="text-white underline hover:text-neutral-300">create a new account</Link>
+                    Choose your login method below.
                 </p>
+            </div>
+
+            <div className="flex gap-4 border-b border-neutral-800 pb-2">
+              <button
+                className={`pb-2 font-bold ${activeTab === 'guest' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                onClick={() => setActiveTab('guest')}
+              >
+                Guest Login
+              </button>
+              <button
+                className={`pb-2 font-bold ${activeTab === 'admin' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                onClick={() => setActiveTab('admin')}
+              >
+                Admin Login
+              </button>
             </div>
 
             {error && (
@@ -68,46 +106,75 @@ export default function Login() {
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                    <label className="block text-sm font-medium text-neutral-300 mb-2">Email address</label>
-                    <input 
-                        type="email" 
-                        required 
-                        className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
-                        placeholder="student@university.edu"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
+            {activeTab === 'guest' ? (
+              <form onSubmit={handleGuestSubmit} className="space-y-6">
+                  <div>
+                      <label className="block text-sm font-medium text-neutral-300 mb-2">First Name</label>
+                      <input 
+                          type="text" 
+                          required 
+                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          placeholder="John"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                      />
+                  </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
-                    <input 
-                        type="password" 
-                        required 
-                        className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+                  <div>
+                      <label className="block text-sm font-medium text-neutral-300 mb-2">UID</label>
+                      <input 
+                          type="text" 
+                          required 
+                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          placeholder="e.g. 21BCS123"
+                          value={uid}
+                          onChange={(e) => setUid(e.target.value)}
+                      />
+                  </div>
 
-                <button 
-                    type="submit" 
-                    disabled={loading}
-                    className="w-full bg-white text-black font-bold py-3 rounded hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {loading ? 'Signing in...' : 'Sign in'}
-                </button>
+                  <button 
+                      type="submit" 
+                      disabled={loading}
+                      className="w-full bg-white text-black font-bold py-3 rounded hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                      {loading ? 'Signing in...' : 'Sign in as Guest'}
+                  </button>
+              </form>
+            ) : (
+              <form onSubmit={handleAdminSubmit} className="space-y-6">
+                  <div>
+                      <label className="block text-sm font-medium text-neutral-300 mb-2">Admin Email</label>
+                      <input 
+                          type="email" 
+                          required 
+                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          placeholder="admin@athena.edu"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                      />
+                  </div>
 
-                <p className="mt-6 text-center text-neutral-400 text-sm">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-white hover:underline">
-                        Sign up
-                    </Link>
-                </p>
-            </form>
+                  <div>
+                      <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
+                      <input 
+                          type="password" 
+                          required 
+                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          placeholder="••••••••"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                      />
+                  </div>
+
+                  <button 
+                      type="submit" 
+                      disabled={loading}
+                      className="w-full bg-white text-black font-bold py-3 rounded hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                      {loading ? 'Signing in...' : 'Sign in as Admin'}
+                  </button>
+              </form>
+            )}
         </div>
       </div>
     </div>
