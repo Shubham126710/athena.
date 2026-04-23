@@ -13,7 +13,7 @@ export default function NotesPage() {
   const [loading, setLoading] = React.useState(true);
   const [uploading, setUploading] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [semester, setSemester] = React.useState('5th');
+  const [semester, setSemester] = React.useState('6th');
   
   // Upload Form State
   const [file, setFile] = React.useState(null);
