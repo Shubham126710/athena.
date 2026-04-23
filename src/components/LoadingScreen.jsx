@@ -62,28 +62,34 @@ export default function LoadingScreen({ onComplete }) {
   return (
     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
-      {/* Grid Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none animate-grid" style={{
-          backgroundImage: 'linear-gradient(to right, #262626 1px, transparent 1px), linear-gradient(to bottom, #262626 1px, transparent 1px)',
+      {/* Animated Light Grid */}
+      <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-30" style={{
+          backgroundImage: 'linear-gradient(to right, #404040 1px, transparent 1px), linear-gradient(to bottom, #404040 1px, transparent 1px)',
           backgroundSize: '4rem 4rem',
-          maskImage: 'radial-gradient(circle at center, black 40%, transparent 100%)'
+          maskImage: 'radial-gradient(circle at center, black 30%, transparent 80%)'
        }}></div>
       
+      {/* Subtle Glow Center */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-white opacity-[0.03] blur-[100px] rounded-full pointer-events-none"></div>
+
       {/* Scanline Overlay */}
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[length:100%_4px] opacity-20"></div>
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[length:100%_4px] opacity-20 drop-shadow-md"></div>
 
       {/* Main Content */}
-      <div className="w-full max-w-md px-8 flex flex-col items-center text-center relative z-10">
+      <div className="w-full max-w-md px-8 flex flex-col items-center text-center relative z-10 backdrop-blur-sm bg-neutral-950/30 p-10 rounded-2xl border border-white/5 shadow-2xl">
         
         {/* Logo */}
-        <div className="mb-12 flex flex-col items-center gap-4 animate-pulse">
-           <img src="/logo.png" alt="Athena Logo" className="w-16 h-16 rounded-sm shadow-xl" />
-           <span className="font-serif font-bold tracking-tight text-2xl">athena.</span>
+        <div className="mb-12 flex flex-col items-center gap-4 animate-pulse duration-1000">
+           <div className="relative">
+             <div className="absolute -inset-2 bg-white/20 blur-xl rounded-full"></div>
+             <img src="/logo.png" alt="Athena Logo" className="relative w-20 h-20 rounded-xl shadow-2xl border border-white/10" />
+           </div>
+           <span className="font-serif font-extrabold tracking-tight text-3xl">athena.</span>
         </div>
 
         {/* Quote */}
-        <div className="h-24 flex items-center justify-center mb-8">
-            <p className="text-lg md:text-xl font-light italic text-neutral-400 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="h-28 flex items-center justify-center mb-8 w-full">
+            <p className="text-lg md:text-xl font-light italic text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-white to-neutral-400 leading-relaxed drop-shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-1000">
             "{quote}"
             </p>
         </div>

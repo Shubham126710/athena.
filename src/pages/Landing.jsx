@@ -49,7 +49,12 @@ export default function Landing() {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(0);
-  React.useEffect(() => { fetch('https://api.counterapi.dev/v1/athena/hits/up').then(res => res.json()).then(data => setViews(data.count || 1337)).catch(() => {}); }, []);
+  React.useEffect(() => { 
+    let localHits = parseInt(localStorage.getItem('athena_site_hits') || '0', 10);
+    localHits += 1;
+    localStorage.setItem('athena_site_hits', localHits);
+    setViews(localHits);
+  }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
   const period = 2000;
@@ -134,9 +139,10 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="container mx-auto px-6 md:px-12 min-h-[80vh] grid md:grid-cols-2 gap-12 items-center">
           <div className="max-w-xl relative z-10">
-            <h1 className="text-6xl md:text-7xl font-bold tracking-tighter leading-[0.95] mb-8 text-white min-h-[240px]">
-              Your digital<br />
-              academic <span className="text-neutral-500">{text}</span><span className="animate-pulse">_</span>
+            <h1 className="text-6xl md:text-[5.5rem] lg:text-[6.5rem] font-extrabold tracking-tighter leading-[1.05] mb-8 text-white min-h-[240px] drop-shadow-2xl">
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden md:block"/>
+              <span className="text-neutral-300 italic pr-2">{text}</span><span className="animate-pulse text-white">_</span>
             </h1>
             <p className="text-lg text-neutral-400 mb-10 leading-relaxed font-light">
               Build, connect, and scale intelligent workflows — all from one place.

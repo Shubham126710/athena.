@@ -70,13 +70,13 @@ export function AuthProvider({ children }) {
     }
   }
 
-  async function signInGuest(firstName, uid) {
+  async function signInGuest(firstName, uid, avatarSeed) {
     const guestProfile = {
       id: 'guest',
       first_name: firstName,
       uid: uid,
       role: 'guest',
-      avatar_seed: firstName
+      avatar_seed: avatarSeed || firstName
     };
     localStorage.setItem('guest_user', JSON.stringify(guestProfile));
     setUser({ id: 'guest' });
@@ -103,11 +103,17 @@ export function AuthProvider({ children }) {
   }
 
   async function updateProfile(updates) {
-    if (!user || user.id === 'guest') return;
+    if (!user) return;
     
     // Optimistic update
     const previousProfile = profile;
-    setProfile(prev => ({ ...prev, ...updates }));
+    const newProfile = { ...previousProfile, ...updates };
+    setProfile(newProfile);
+
+    if (user.id === 'guest') {
+      localStorage.setItem('guest_user', JSON.stringify(newProfile));
+      return;
+    }
 
     try {
       const { error } = await supabase
