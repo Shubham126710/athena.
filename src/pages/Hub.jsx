@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload, FileText, BookOpen, Calendar, ArrowRight, Clock, LayoutGrid, Calculator } from 'lucide-react';
+import { Calendar, Clock } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
-import SGPACalculator from '../components/SGPACalculator.jsx';
 import { useAuth } from '../context/AuthContext';
 
 const QUOTES = [
@@ -19,38 +18,6 @@ const QUOTES = [
 export default function HubPage() {
   const nav = useNavigate();
   const { user, profile, loading } = useAuth();
-  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
-  const [activeScheduleType, setActiveScheduleType] = useState('domain');
-  const [adminSelectedSection, setAdminSelectedSection] = useState('23AML-5');
-
-  // Update admin selection when profile loads
-  useEffect(() => {
-    if (profile?.section) {
-        setAdminSelectedSection(profile.section);
-    }
-  }, [profile]);
-  
-  // Determine the correct schedule based on profile section or admin selection
-  const getSchedule = () => {
-    const targetSection = profile?.role === 'admin' ? adminSelectedSection : profile?.section;
-
-    if (!targetSection) return domainCampSchedule;
-    
-    // If section is 23AML-5, use the toggle logic (regular vs domain)
-    if (targetSection === '23AML-5') {
-        return activeScheduleType === 'regular' ? regularSchedule : domainCampSchedule;
-    }
-    
-    // For other sections, return their specific schedule if it exists
-    if (sectionSchedules[targetSection]) {
-        return sectionSchedules[targetSection];
-    }
-    
-    // Fallback
-    return domainCampSchedule;
-  };
-
-  const currentSchedule = getSchedule();
   
   useEffect(() => {
     if (!loading && !user) {
@@ -86,59 +53,12 @@ export default function HubPage() {
   }, [profile]);
 
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
-  const [nextClass, setNextClass] = useState({ subject: 'No classes', time: '--', room: '--' });
   const [upcomingExam, setUpcomingExam] = useState({ subject: 'No upcoming exams', date: '--', daysLeft: 0 });
 
   useEffect(() => {
     const updateDashboard = () => {
       const now = new Date();
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const currentDay = days[now.getDay()];
       
-      // --- Next Class Logic ---
-      // Helper to parse time string "09:30 - 10:20 AM" to Date object for today
-      const parseTime = (timeStr) => {
-        const [start, endPart] = timeStr.split(' - ');
-        const [endTime, period] = endPart.split(' ');
-        let [hours, minutes] = endTime.split(':').map(Number);
-        
-        if (period === 'PM' && hours !== 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-        
-        const date = new Date();
-        date.setHours(hours, minutes, 0, 0);
-        return date;
-      };
-
-      let todaysClasses = currentSchedule[currentDay] || [];
-      let upcoming = todaysClasses.find(cls => parseTime(cls.time) > now);
-
-      if (!upcoming) {
-        // Check next day(s)
-        let nextDayIndex = (now.getDay() + 1) % 7;
-        let nextDay = days[nextDayIndex];
-        let count = 0;
-        
-        while (count < 7) {
-            if (currentSchedule[nextDay] && currentSchedule[nextDay].length > 0) {
-                upcoming = currentSchedule[nextDay][0];
-                // Add day label if it's not today
-                upcoming = { ...upcoming, time: `${nextDay}, ${upcoming.time.split(' - ')[0]}` };
-                break;
-            }
-            nextDayIndex = (nextDayIndex + 1) % 7;
-            nextDay = days[nextDayIndex];
-            count++;
-        }
-      } else {
-          // Format time for display (just start time)
-          upcoming = { ...upcoming, time: upcoming.time.split(' - ')[0] + ' ' + upcoming.time.split(' ')[3] };
-      }
-
-      if (upcoming) {
-        setNextClass(upcoming);
-      }
-
       // --- Upcoming Exam Logic ---
       const events = [
         // MST-2 Exams
@@ -185,7 +105,7 @@ export default function HubPage() {
     updateDashboard();
     const interval = setInterval(updateDashboard, 60000); // Update every minute
     return () => clearInterval(interval);
-  }, [currentSchedule]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black relative">
@@ -199,22 +119,7 @@ export default function HubPage() {
             <p className="text-neutral-400">Here's what's happening today.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {/* Next Class Card */}
-            <div className="bg-neutral-900 text-white p-8 rounded-xl shadow-lg relative overflow-hidden group border border-neutral-800">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <Clock size={100} />
-                </div>
-                <div className="relative z-10">
-                    <div className="text-sm font-medium text-neutral-400 mb-1">Next Class</div>
-                    <h2 className="text-2xl font-bold mb-4">{nextClass.subject}</h2>
-                    <div className="flex items-center gap-4 text-sm">
-                        <span className="bg-white/10 px-3 py-1 rounded-full">{nextClass.time}</span>
-                        <span className="text-neutral-400">{nextClass.room}</span>
-                    </div>
-                </div>
-            </div>
-
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Upcoming Exam Card */}
             <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700 transition-colors">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -232,7 +137,7 @@ export default function HubPage() {
 
             {/* Quick Stats / Quote */}
             <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-xl flex flex-col justify-center items-center text-center">
-                <p className="font-serif italic text-xl text-neutral-400 mb-4">"{quote.text}"</p>
+                <p className="font-serif italic text-xl text-neutral-400 mb-4">{quote.text}</p>
                 <span className="text-xs font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
         </div>
@@ -240,5 +145,4 @@ export default function HubPage() {
       </main>
     </div>
   );
-};
-
+}
