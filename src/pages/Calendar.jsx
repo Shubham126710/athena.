@@ -10,35 +10,20 @@ export default function CalendarPage() {
   
   // Mock events
   const events = [
-    // MST-2 Exams
-    { id: 1, title: 'MST-2: FLAT', date: new Date(2025, 9, 11), type: 'mst', time: '15:00', location: 'B4' },
-    { id: 2, title: 'MST-2: FML', date: new Date(2025, 9, 13), type: 'mst', time: '10:00', location: 'B4' },
-    { id: 3, title: 'MST-2: CN', date: new Date(2025, 9, 13), type: 'mst', time: '12:30', location: 'B4' },
-    { id: 4, title: 'MST-2: PA', date: new Date(2025, 9, 14), type: 'mst', time: '10:00', location: 'B4' },
-    
-    // EST (Final) Exams
-    { id: 5, title: 'EST: PA', date: new Date(2025, 10, 20), type: 'est', time: '09:30', location: 'B4' },
-    { id: 6, title: 'EST: FML', date: new Date(2025, 10, 22), type: 'est', time: '09:30', location: 'B4' },
-    { id: 7, title: 'EST: FLAT', date: new Date(2025, 10, 25), type: 'est', time: '09:30', location: 'B4' },
-    { id: 8, title: 'EST: CN', date: new Date(2025, 10, 27), type: 'est', time: '09:30', location: 'B4' },
+    // Upcoming EST Exams (May 2026)
+    { id: 11, title: 'EST: Artificial Intelligence', date: new Date(2026, 4, 2), type: 'est', time: '09:30', location: 'Offline' },
+    { id: 12, title: 'EST: Software Engineering', date: new Date(2026, 4, 5), type: 'est', time: '09:30', location: 'Offline' },
+    { id: 13, title: 'EST: Aptitude-IV', date: new Date(2026, 4, 7), type: 'est', time: '13:30', location: 'Online-CBT' },
+    { id: 14, title: 'EST: Adv Machine Learning', date: new Date(2026, 4, 12), type: 'est', time: '09:30', location: 'Offline' },
+    { id: 15, title: 'EST: System Design', date: new Date(2026, 4, 14), type: 'est', time: '09:30', location: 'Offline' },
+    { id: 16, title: 'EST: Leadership (LTM)', date: new Date(2026, 4, 16), type: 'est', time: '13:30', location: 'Online-CBT' },
+    { id: 17, title: 'EST: Full Stack-II', date: new Date(2026, 4, 19), type: 'est', time: '09:30', location: 'Offline' },
 
-    // Placement / Aptitude Exams
-    { id: 9, title: 'CUCAT', date: new Date(2025, 11, 16), type: 'exam', time: '10:00', location: 'B4' },
-    { id: 10, title: 'AMCAT', date: new Date(2025, 11, 24), type: 'exam', time: '10:00', location: 'B4' },
-
-    // 2026 Academic Calendar (Jan - Jun)
-    { id: 11, title: 'Start of Even Sem', date: new Date(2026, 0, 6), type: 'academic', time: '09:00', location: 'Campus' },
-    { id: 12, title: 'Academic Day', date: new Date(2026, 0, 10), type: 'academic', time: '09:00', location: 'Campus' },
-    { id: 13, title: 'MST-1 Start', date: new Date(2026, 1, 9), type: 'mst', time: '09:30', location: 'Exam Hall' },
-    { id: 14, title: 'Practical MST Start', date: new Date(2026, 2, 9), type: 'mst', time: '09:00', location: 'Labs' },
-    { id: 15, title: 'MST-2 Start', date: new Date(2026, 2, 17), type: 'mst', time: '09:30', location: 'Exam Hall' },
-    { id: 16, title: 'CU Fest', date: new Date(2026, 2, 27), type: 'event', time: '10:00', location: 'Main Ground' },
-    { id: 17, title: 'Last Teaching Day', date: new Date(2026, 3, 24), type: 'academic', time: '16:00', location: 'Campus' },
-    { id: 18, title: 'End Sem Practicals', date: new Date(2026, 3, 25), type: 'est', time: '09:00', location: 'Labs' },
-    { id: 19, title: 'End Sem Theory', date: new Date(2026, 4, 1), type: 'est', time: '09:30', location: 'Exam Hall' },
-    { id: 20, title: 'End of Even Sem', date: new Date(2026, 4, 23), type: 'academic', time: '17:00', location: 'Campus' },
-    { id: 21, title: 'Summer Term Start', date: new Date(2026, 5, 1), type: 'academic', time: '09:00', location: 'Campus' },
-    { id: 22, title: 'Results', date: new Date(2026, 5, 12), type: 'academic', time: '10:00', location: 'Online' },
+    // Holidays & Important Dates
+    { id: 18, title: 'Labour Day', date: new Date(2026, 4, 1), type: 'holiday', time: 'All Day', location: '' },
+    { id: 19, title: 'End of Even Sem', date: new Date(2026, 4, 23), type: 'academic', time: '17:00', location: 'Campus' },
+    { id: 20, title: 'Summer Term Start', date: new Date(2026, 5, 1), type: 'academic', time: '09:00', location: 'Campus' },
+    { id: 21, title: 'Results Declaration', date: new Date(2026, 5, 12), type: 'academic', time: '10:00', location: 'Online' },
   ];
 
   const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();

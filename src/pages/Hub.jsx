@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock } from 'lucide-react';
+import { Calendar, BookOpen, Star, Zap } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import { useAuth } from '../context/AuthContext';
@@ -54,6 +54,13 @@ export default function HubPage() {
 
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   const [upcomingExam, setUpcomingExam] = useState({ subject: 'No upcoming exams', date: '--', daysLeft: 0 });
+  const subjects = [
+    { name: 'Software Engineering', type: 'Hybrid', credits: 4 },
+    { name: 'Artificial Intelligence', type: 'Hybrid', credits: 4 },
+    { name: 'Advanced Machine Learning', type: 'Hybrid', credits: 4 },
+    { name: 'System Design', type: 'Theory', credits: 3 },
+    { name: 'Full Stack II', type: 'Hybrid', credits: 3 }
+  ];
 
   useEffect(() => {
     const updateDashboard = () => {
@@ -61,21 +68,14 @@ export default function HubPage() {
       
       // --- Upcoming Exam Logic ---
       const events = [
-        // MST-2 Exams
-        { id: 1, title: 'MST-2: FLAT', date: new Date(2025, 9, 11), type: 'exam', time: '15:00', location: 'B4' },
-        { id: 2, title: 'MST-2: FML', date: new Date(2025, 9, 13), type: 'exam', time: '10:00', location: 'B4' },
-        { id: 3, title: 'MST-2: CN', date: new Date(2025, 9, 13), type: 'exam', time: '12:30', location: 'B4' },
-        { id: 4, title: 'MST-2: PA', date: new Date(2025, 9, 14), type: 'exam', time: '10:00', location: 'B4' },
-        
-        // EST (Final) Exams
-        { id: 5, title: 'EST: PA', date: new Date(2025, 10, 20), type: 'exam', time: '09:30', location: 'B4' },
-        { id: 6, title: 'EST: FML', date: new Date(2025, 10, 22), type: 'exam', time: '09:30', location: 'B4' },
-        { id: 7, title: 'EST: FLAT', date: new Date(2025, 10, 25), type: 'exam', time: '09:30', location: 'B4' },
-        { id: 8, title: 'EST: CN', date: new Date(2025, 10, 27), type: 'exam', time: '09:30', location: 'B4' },
-
-        // Placement / Aptitude Exams
-        { id: 9, title: 'CUCAT', date: new Date(2025, 11, 16), type: 'exam', time: '10:00', location: 'B4' },
-        { id: 10, title: 'AMCAT', date: new Date(2025, 11, 24), type: 'exam', time: '10:00', location: 'B4' },
+        // Upcoming EST Exams (May 2026)
+        { id: 11, title: 'EST: Artificial Intelligence', date: new Date(2026, 4, 2), type: 'exam' },
+        { id: 12, title: 'EST: Software Engineering', date: new Date(2026, 4, 5), type: 'exam' },
+        { id: 13, title: 'EST: Aptitude-IV', date: new Date(2026, 4, 7), type: 'exam' },
+        { id: 14, title: 'EST: Adv Machine Learning', date: new Date(2026, 4, 12), type: 'exam' },
+        { id: 15, title: 'EST: System Design', date: new Date(2026, 4, 14), type: 'exam' },
+        { id: 16, title: 'EST: LTM', date: new Date(2026, 4, 16), type: 'exam' },
+        { id: 17, title: 'EST: Full Stack-II', date: new Date(2026, 4, 19), type: 'exam' },
       ];
 
       // Filter for future exams (today or later)
@@ -119,9 +119,9 @@ export default function HubPage() {
             <p className="text-neutral-400">Here's what's happening today.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {/* Upcoming Exam Card */}
-            <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700 transition-colors">
+            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700 transition-colors col-span-1 md:col-span-2">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <Calendar size={100} />
                 </div>
@@ -136,9 +136,46 @@ export default function HubPage() {
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-xl flex flex-col justify-center items-center text-center">
-                <p className="font-serif italic text-xl text-neutral-400 mb-4">{quote.text}</p>
+            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2">
+                <p className="font-serif italic text-lg text-neutral-400 mb-4">"{quote.text}"</p>
                 <span className="text-xs font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
+            </div>
+            
+            {/* Course Credits Widget */}
+            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2">
+                 <div className="flex items-center gap-2 mb-4">
+                    <Star className="text-yellow-500" size={20} />
+                    <h3 className="font-bold text-lg text-white">Course Credits</h3>
+                </div>
+                <div className="space-y-3">
+                    {subjects.map((sub, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800 pb-2 last:border-0 last:pb-0">
+                            <div>
+                                <span className="font-medium text-neutral-200">{sub.name}</span>
+                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-sm">{sub.type}</span>
+                            </div>
+                            <span className="text-neutral-400 font-bold">{sub.credits} <span className="font-normal text-xs uppercase">Cr</span></span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Quick Actions / Important Links */}
+            <div className="bg-gradient-to-br from-neutral-900 to-neutral-950 border border-neutral-800 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center">
+                 <div className="flex items-center gap-2 mb-6">
+                    <Zap className="text-blue-500" size={20} />
+                    <h3 className="font-bold text-lg text-white">Quick Hub Actions</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <button onClick={() => nav('/notes')} className="flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 transition px-4 py-6 rounded-lg group">
+                        <BookOpen size={20} className="text-neutral-400 group-hover:text-white transition" />
+                        <span className="font-medium text-sm">Study Notes</span>
+                    </button>
+                    <button onClick={() => nav('/syllabus')} className="flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 transition px-4 py-6 rounded-lg group">
+                        <Calendar size={20} className="text-neutral-400 group-hover:text-white transition" />
+                        <span className="font-medium text-sm">Syllabus Prep</span>
+                    </button>
+                </div>
             </div>
         </div>
 

@@ -149,7 +149,12 @@ export default function Landing() {
           
           {/* Dither Graphic */}
           <div className="relative h-[500px] w-full bg-neutral-950 border border-neutral-800 rounded-sm overflow-hidden">
-             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />
+             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />              
+              {/* Hit Counter Widget */}
+              <div className="absolute top-4 right-4 z-30 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-xs font-mono text-neutral-300 font-medium tracking-widest uppercase">Page Views: <span className="text-white font-bold">{views}</span></span>
+              </div>
              {/* Overlay UI Mockup */}
              <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-transparent pointer-events-none"></div>
           </div>
@@ -343,13 +348,13 @@ export default function Landing() {
                     </div>
 
                     <div>
-                        <h4 className="font-bold text-white mb-6">Resources</h4>
-                        <ul className="space-y-4 text-sm">
-                            <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
-                        </ul>
-                    </div>
+                    <h4 className="font-bold text-white mb-6">Creator</h4>
+                    <ul className="space-y-4 text-sm">
+                        <li><a href="https://shubham-upadhyay.vercel.app/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Portfolio</a></li>
+                        <li><a href="https://github.com/Shubham126710" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="https://twitter.com/iamshubham_15" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter (X)</a></li>
+                    </ul>
+                </div>
 
                     <div>
                         <h4 className="font-bold text-white mb-6">Legal</h4>
