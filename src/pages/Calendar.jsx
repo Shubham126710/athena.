@@ -8,8 +8,8 @@ export default function CalendarPage() {
   const [date, setDate] = React.useState(new Date());
   const [selectedDate, setSelectedDate] = React.useState(null);
   
-  // Mock events
-  const events = [
+  // Events state
+  const [events, setEvents] = React.useState([
     // Upcoming EST Exams (May 2026)
     { id: 11, title: 'EST: Artificial Intelligence', date: new Date(2026, 4, 2), type: 'est', time: '09:30', location: 'Offline' },
     { id: 12, title: 'EST: Software Engineering', date: new Date(2026, 4, 5), type: 'est', time: '09:30', location: 'Offline' },
@@ -19,12 +19,38 @@ export default function CalendarPage() {
     { id: 16, title: 'EST: Leadership (LTM)', date: new Date(2026, 4, 16), type: 'est', time: '13:30', location: 'Online-CBT' },
     { id: 17, title: 'EST: Full Stack-II', date: new Date(2026, 4, 19), type: 'est', time: '09:30', location: 'Offline' },
 
-    // Holidays & Important Dates
-    { id: 18, title: 'Labour Day', date: new Date(2026, 4, 1), type: 'holiday', time: 'All Day', location: '' },
+    // Academic Events
     { id: 19, title: 'End of Even Sem', date: new Date(2026, 4, 23), type: 'academic', time: '17:00', location: 'Campus' },
     { id: 20, title: 'Summer Term Start', date: new Date(2026, 5, 1), type: 'academic', time: '09:00', location: 'Campus' },
     { id: 21, title: 'Results Declaration', date: new Date(2026, 5, 12), type: 'academic', time: '10:00', location: 'Online' },
-  ];
+  ]);
+
+  React.useEffect(() => {
+     // Fetch Public Holidays for India for 2026 and merge them
+     const currentYear = new Date().getFullYear();
+     Promise.all([
+       fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/IN`).then(r => r.json()).catch(() => []),
+       fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear + 1}/IN`).then(r => r.json()).catch(() => [])
+     ])
+     .then(([data1, data2]) => {
+        const allHolidays = [...data1, ...data2];
+        const apiEvents = allHolidays.map((h, i) => {
+            // Some dates from Nager arrive as strings like "2026-01-26". Parse safely:
+            const [y, m, d] = h.date.split('-');
+            return {
+                id: 100 + i,
+                title: h.name,
+                date: new Date(parseInt(y), parseInt(m) - 1, parseInt(d)),
+                type: 'holiday',
+                time: 'All Day',
+                location: 'India'
+            };
+        });
+        
+        setEvents(prev => [...prev, ...apiEvents]);
+     })
+     .catch(console.error);
+  }, []);
 
   const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();

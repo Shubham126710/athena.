@@ -10,11 +10,11 @@ export default function SyllabusPage() {
   const [semester, setSemester] = React.useState('5th');
 
     const syllabi6th = [
-    { subject: 'Software Engineering', abbr: 'SE', code: 'SE601', units: [] },
-    { subject: 'Full Stack II', abbr: 'FS-II', code: 'FS602', units: [] },
-    { subject: 'Advanced Machine Learning', abbr: 'AML', code: 'AML603', units: [] },
-    { subject: 'Artificial Intelligence', abbr: 'AI', code: 'AI604', units: [] },
-    { subject: 'System Design', abbr: 'SD', code: 'SD605', units: [] },
+    { subject: 'Software Engineering', abbr: 'SE', code: '23CSH-374', units: [] },
+    { subject: 'Full Stack II', abbr: 'FS-II', code: '23CSH-382', units: [] },
+    { subject: 'Advanced Machine Learning', abbr: 'AML', code: '23CSH-379', units: [] },
+    { subject: 'Artificial Intelligence', abbr: 'AI', code: '23CSH-378', units: [] },
+    { subject: 'System Design', abbr: 'SD', code: '23CST-390', units: [] },
   ];
   const syllabi5th = [
     {

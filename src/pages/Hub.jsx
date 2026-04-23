@@ -55,11 +55,11 @@ export default function HubPage() {
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   const [upcomingExam, setUpcomingExam] = useState({ subject: 'No upcoming exams', date: '--', daysLeft: 0 });
   const subjects = [
-    { name: 'Software Engineering', type: 'Hybrid', credits: 4 },
-    { name: 'Artificial Intelligence', type: 'Hybrid', credits: 4 },
-    { name: 'Advanced Machine Learning', type: 'Hybrid', credits: 4 },
-    { name: 'System Design', type: 'Theory', credits: 3 },
-    { name: 'Full Stack II', type: 'Hybrid', credits: 3 }
+    { name: 'Software Engineering', code: '23CSH-374', type: 'Hybrid', credits: 4 },
+    { name: 'Artificial Intelligence', code: '23CSH-378', type: 'Hybrid', credits: 4 },
+    { name: 'Advanced Machine Learning', code: '23CSH-379', type: 'Hybrid', credits: 4 },
+    { name: 'System Design', code: '23CST-390', type: 'Theory', credits: 3 },
+    { name: 'Full Stack II', code: '23CSH-382', type: 'Hybrid', credits: 3 }
   ];
 
   useEffect(() => {
@@ -143,8 +143,7 @@ export default function HubPage() {
             
             {/* Course Credits Widget */}
             <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2">
-                 <div className="flex items-center gap-2 mb-4">
-                    <Star className="text-yellow-500" size={20} />
+                 <div className="flex items-center gap-2 mb-4 mt-2">
                     <h3 className="font-bold text-lg text-white">Course Credits</h3>
                 </div>
                 <div className="space-y-3">
@@ -152,7 +151,8 @@ export default function HubPage() {
                         <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800 pb-2 last:border-0 last:pb-0">
                             <div>
                                 <span className="font-medium text-neutral-200">{sub.name}</span>
-                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-sm">{sub.type}</span>
+                                <span className="ml-2 text-[10px] text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-sm">{sub.code}</span>
+                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-sm">{sub.type}</span>
                             </div>
                             <span className="text-neutral-400 font-bold">{sub.credits} <span className="font-normal text-xs uppercase">Cr</span></span>
                         </div>
@@ -162,8 +162,7 @@ export default function HubPage() {
 
             {/* Quick Actions / Important Links */}
             <div className="bg-gradient-to-br from-neutral-900 to-neutral-950 border border-neutral-800 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center">
-                 <div className="flex items-center gap-2 mb-6">
-                    <Zap className="text-blue-500" size={20} />
+                 <div className="flex items-center gap-2 mb-6 mt-2">
                     <h3 className="font-bold text-lg text-white">Quick Hub Actions</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
