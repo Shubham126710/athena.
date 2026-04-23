@@ -11,9 +11,16 @@ import HubPage from './pages/Hub.jsx';
 import CalendarPage from './pages/Calendar.jsx';
 
 createRoot(document.getElementById('root')).render(
-        <BrowserRouter>
+  <BrowserRouter>
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/hub" element={<HubPage />} />
+        <Route path="/syllabus" element={<SyllabusPage />} />
+        <Route path="/notes" element={<NotesPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+      </Routes>
+    </AuthProvider>
+  </BrowserRouter>
 );
