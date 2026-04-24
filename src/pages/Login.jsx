@@ -13,7 +13,7 @@ export default function Login() {
   // Guest State
   const [firstName, setFirstName] = useState('');
   const [uid, setUid] = useState('');
-  const [avatarSeed, setAvatarSeed] = useState('Felix');
+  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortHairShortFlat&accessories=prescription02&clothing=blazerSweater');
   
   // Admin State
   const [email, setEmail] = useState('');
@@ -22,7 +22,14 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const guestAvatars = ['Felix', 'Aneka', 'Jude', 'Lily', 'Ryker', 'Zoe'];
+  const guestAvatars = [
+    'Jack&top=shortHairShortFlat&accessories=prescription02&clothing=blazerSweater',
+    'Leo&top=shortHairShortCurly&facialHair=beardLight&clothing=hoodie',
+    'Max&top=shortHairShaggyMullet&facialHair=blank&clothing=graphicShirt',
+    'Mia&top=longHairStraight&accessories=blank&clothing=overall',
+    'Zoe&top=longHairCurly&accessories=round&clothing=shirtScoopNeck',
+    'Ava&top=longHairBob&accessories=blank&clothing=blazerShirt'
+  ];
 
   async function handleGuestSubmit(e) {
     e.preventDefault();
@@ -121,7 +128,11 @@ export default function Login() {
                                   onClick={() => setAvatarSeed(seed)}
                                   className={`w-16 h-16 rounded-full overflow-hidden flex-shrink-0 cursor-pointer border-2 transition-all ${avatarSeed === seed ? 'border-white scale-110 shadow-[0_0_15px_rgba(255,255,255,0.3)]' : 'border-transparent opacity-50 hover:opacity-100'}`}
                               >
-                                  <img src={`https://api.dicebear.com/7.x/micah/svg?seed=${seed}&backgroundColor=transparent`} alt={seed} className="w-full h-full bg-neutral-800" />
+                                  <img 
+                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=transparent`} 
+                                    alt={seed.split('&')[0]} 
+                                    className="w-full h-full bg-neutral-800 grayscale hover:grayscale-0 transition-all duration-300" 
+                                  />
                               </div>
                           ))}
                       </div>
