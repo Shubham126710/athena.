@@ -35,6 +35,13 @@ export default function NotesPage() {
   const subjects = semester === '5th' ? subjects5th : subjects6th;
   const units = ['Unit 1', 'Unit 2', 'Unit 3'];
 
+  // Keep uploadSubject valid when semester changes
+  React.useEffect(() => {
+    if (!subjects.includes(uploadSubject)) {
+      setUploadSubject(subjects[0]);
+    }
+  }, [semester, subjects, uploadSubject]);
+
   // Fetch notes on mount
   React.useEffect(() => {
     loadNotes();

@@ -80,10 +80,11 @@ export default function HubNavbar() {
 
   const avatarOptions = [
     { id: 'Felix', label: 'Felix' },
-    { id: 'Lola', label: 'Lola' },
-    { id: 'Jack', label: 'Jack' },
-    { id: 'Bella', label: 'Bella' },
-    { id: 'Ryan', label: 'Ryan' }
+    { id: 'Aneka', label: 'Aneka' },
+    { id: 'Jude', label: 'Jude' },
+    { id: 'Lily', label: 'Lily' },
+    { id: 'Ryker', label: 'Ryker' },
+    { id: 'Zoe', label: 'Zoe' }
   ];
 
   const handleAvatarChange = async (avatarId) => {
@@ -230,7 +231,7 @@ export default function HubNavbar() {
                     <div className="w-10 h-10 bg-neutral-800 rounded-full overflow-hidden border border-neutral-700">
                         <img 
                             key={profile?.avatar_seed || 'default'}
-                            src={`https://api.dicebear.com/7.x/notionists/svg?seed=${profile?.avatar_seed || user?.email || 'user'}`} 
+                            src={`https://api.dicebear.com/7.x/micah/svg?seed=${profile?.avatar_seed || user?.email || 'user'}&backgroundColor=transparent`} 
                             alt="avatar" 
                             className="w-full h-full object-cover"
                         />
@@ -259,7 +260,7 @@ export default function HubNavbar() {
                                     className={`flex-shrink-0 rounded-full p-0.5 border-2 transition-all ${profile?.avatar_seed === avatar.id ? 'border-white' : 'border-transparent hover:border-neutral-700'}`}
                                 >
                                     <img 
-                                        src={`https://api.dicebear.com/7.x/notionists/svg?seed=${avatar.id}`} 
+                                        src={`https://api.dicebear.com/7.x/micah/svg?seed=${avatar.id}&backgroundColor=transparent`} 
                                         alt={avatar.label} 
                                         className="w-8 h-8 rounded-full bg-neutral-800"
                                     />

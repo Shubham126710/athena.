@@ -138,8 +138,8 @@ export default function Landing() {
       <main className="pt-24">
         {/* Hero Section */}
         <section className="container mx-auto px-6 md:px-12 min-h-[80vh] grid md:grid-cols-2 gap-12 items-center">
-          <div className="max-w-xl relative z-10">
-            <h1 className="text-6xl md:text-[5.5rem] lg:text-[6.5rem] font-extrabold tracking-tighter leading-[1.05] mb-8 text-white min-h-[240px] drop-shadow-2xl">
+          <div className="max-w-xl relative z-10 break-words">
+            <h1 className="text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.1] mb-8 text-white min-h-[240px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden md:block"/>
               <span className="text-neutral-300 italic pr-2">{text}</span><span className="animate-pulse text-white">_</span>
@@ -274,7 +274,7 @@ export default function Landing() {
 
                 <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
                     <div className="w-24 h-24 bg-neutral-800 rounded-full overflow-hidden border-2 border-neutral-700 flex-shrink-0">
-                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Shubham" alt="Shubham" className="w-full h-full object-cover" />
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Shubham" alt="Shubham" className="w-full h-full object-cover" />
                     </div>
                     
                     <div className="flex-1 text-center md:text-left">
