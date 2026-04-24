@@ -79,12 +79,12 @@ export default function HubNavbar() {
   };
 
   const avatarOptions = [
-    { id: 'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater', label: 'Jack' },
-    { id: 'Leo&top=shortCurly&clothing=hoodie', label: 'Leo' },
-    { id: 'Max&top=shaggyMullet&clothing=graphicShirt', label: 'Max' },
-    { id: 'Mia&top=straight01&clothing=overall', label: 'Mia' },
-    { id: 'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck', label: 'Zoe' },
-    { id: 'Ava&top=bob&clothing=blazerAndShirt', label: 'Ava' }
+    { id: 'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy', label: 'Jack' },
+    { id: 'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default', label: 'Leo' },
+    { id: 'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy', label: 'Max' },
+    { id: 'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy', label: 'Mia' },
+    { id: 'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck&mouth=default&eyes=default', label: 'Zoe' },
+    { id: 'Ava&top=bob&clothing=blazerAndShirt&mouth=smile&eyes=happy', label: 'Ava' }
   ];
 
   const handleAvatarChange = async (avatarId) => {
@@ -262,7 +262,7 @@ export default function HubNavbar() {
                                     <img 
                                         src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatar.id}&backgroundColor=transparent`} 
                                         alt={avatar.label} 
-                                        className="w-8 h-8 rounded-full bg-neutral-800 grayscale hover:grayscale-0 transition-opacity"
+                                        className="w-8 h-8 rounded-full bg-neutral-800 grayscale contrast-125 opacity-90 transition-opacity"
                                     />
                                 </button>
                             ))}

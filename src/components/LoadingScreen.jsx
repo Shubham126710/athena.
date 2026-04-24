@@ -79,7 +79,7 @@ export default function LoadingScreen({ onComplete }) {
       <div className="w-full max-w-md px-8 flex flex-col items-center text-center relative z-10 backdrop-blur-sm bg-neutral-950/30 p-10 rounded-2xl border border-white/5 shadow-2xl">
         
         {/* Logo */}
-        <div className="mb-12 flex flex-col items-center gap-4 animate-pulse duration-1000">
+        <div className="mb-12 flex flex-col items-center gap-4">
            <div className="relative">
              <div className="absolute -inset-2 bg-white/20 blur-xl rounded-full"></div>
              <img src="/logo.png" alt="Athena Logo" className="relative w-20 h-20 rounded-xl shadow-2xl border border-white/10" />

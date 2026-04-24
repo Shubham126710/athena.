@@ -13,7 +13,7 @@ export default function Login() {
   // Guest State
   const [firstName, setFirstName] = useState('');
   const [uid, setUid] = useState('');
-  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater');
+  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy');
   
   // Admin State
   const [email, setEmail] = useState('');
@@ -23,12 +23,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const guestAvatars = [
-    'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater',
-    'Leo&top=shortCurly&clothing=hoodie',
-    'Max&top=shaggyMullet&clothing=graphicShirt',
-    'Mia&top=straight01&clothing=overall',
-    'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck',
-    'Ava&top=bob&clothing=blazerAndShirt'
+    'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy',
+    'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default',
+    'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy',
+    'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy',
+    'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck&mouth=default&eyes=default',
+    'Ava&top=bob&clothing=blazerAndShirt&mouth=smile&eyes=happy'
   ];
 
   async function handleGuestSubmit(e) {
@@ -131,7 +131,7 @@ export default function Login() {
                                   <img 
                                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=transparent`} 
                                     alt={seed.split('&')[0]} 
-                                    className="w-full h-full bg-neutral-800 grayscale hover:grayscale-0 transition-all duration-300" 
+                                    className="w-full h-full bg-neutral-800 grayscale contrast-125 opacity-90 transition-all duration-300" 
                                   />
                               </div>
                           ))}
