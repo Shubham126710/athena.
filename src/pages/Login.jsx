@@ -13,7 +13,7 @@ export default function Login() {
   // Guest State
   const [firstName, setFirstName] = useState('');
   const [uid, setUid] = useState('');
-  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy');
+  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortFlat&accessories=prescription02&accessoriesProbability=100&clothing=blazerAndSweater&mouth=smile&eyes=happy&eyebrows=defaultNatural');
   
   // Admin State
   const [email, setEmail] = useState('');
@@ -23,12 +23,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const guestAvatars = [
-    'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy',
-    'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default',
-    'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy',
-    'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy',
-    'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck&mouth=default&eyes=default',
-    'Ava&top=bob&clothing=blazerAndShirt&mouth=smile&eyes=happy'
+    'Jack&top=shortFlat&accessories=prescription02&accessoriesProbability=100&clothing=blazerAndSweater&mouth=smile&eyes=happy&eyebrows=defaultNatural',
+    'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default&eyebrows=defaultNatural',
+    'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural',
+    'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0',
+    'Zoe&top=curly&accessories=round&accessoriesProbability=100&clothing=shirtScoopNeck&mouth=default&eyes=default&eyebrows=defaultNatural&facialHairProbability=0',
+    'Ava&top=bob&accessories=prescription01&accessoriesProbability=100&clothing=blazerAndShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0'
   ];
 
   async function handleGuestSubmit(e) {

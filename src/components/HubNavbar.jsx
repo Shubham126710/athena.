@@ -79,12 +79,12 @@ export default function HubNavbar() {
   };
 
   const avatarOptions = [
-    { id: 'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater&mouth=smile&eyes=happy', label: 'Jack' },
-    { id: 'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default', label: 'Leo' },
-    { id: 'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy', label: 'Max' },
-    { id: 'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy', label: 'Mia' },
-    { id: 'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck&mouth=default&eyes=default', label: 'Zoe' },
-    { id: 'Ava&top=bob&clothing=blazerAndShirt&mouth=smile&eyes=happy', label: 'Ava' }
+    { id: 'Jack&top=shortFlat&accessories=prescription02&accessoriesProbability=100&clothing=blazerAndSweater&mouth=smile&eyes=happy&eyebrows=defaultNatural', label: 'Jack' },
+    { id: 'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default&eyebrows=defaultNatural', label: 'Leo' },
+    { id: 'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural', label: 'Max' },
+    { id: 'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0', label: 'Mia' },
+    { id: 'Zoe&top=curly&accessories=round&accessoriesProbability=100&clothing=shirtScoopNeck&mouth=default&eyes=default&eyebrows=defaultNatural&facialHairProbability=0', label: 'Zoe' },
+    { id: 'Ava&top=bob&accessories=prescription01&accessoriesProbability=100&clothing=blazerAndShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0', label: 'Ava' }
   ];
 
   const handleAvatarChange = async (avatarId) => {
