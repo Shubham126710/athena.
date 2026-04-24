@@ -79,12 +79,12 @@ export default function HubNavbar() {
   };
 
   const avatarOptions = [
-    { id: 'Jack&top=shortHairShortFlat&accessories=prescription02&clothing=blazerSweater', label: 'Jack' },
-    { id: 'Leo&top=shortHairShortCurly&facialHair=beardLight&clothing=hoodie', label: 'Leo' },
-    { id: 'Max&top=shortHairShaggyMullet&facialHair=blank&clothing=graphicShirt', label: 'Max' },
-    { id: 'Mia&top=longHairStraight&accessories=blank&clothing=overall', label: 'Mia' },
-    { id: 'Zoe&top=longHairCurly&accessories=round&clothing=shirtScoopNeck', label: 'Zoe' },
-    { id: 'Ava&top=longHairBob&accessories=blank&clothing=blazerShirt', label: 'Ava' }
+    { id: 'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater', label: 'Jack' },
+    { id: 'Leo&top=shortCurly&clothing=hoodie', label: 'Leo' },
+    { id: 'Max&top=shaggyMullet&clothing=graphicShirt', label: 'Max' },
+    { id: 'Mia&top=straight01&clothing=overall', label: 'Mia' },
+    { id: 'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck', label: 'Zoe' },
+    { id: 'Ava&top=bob&clothing=blazerAndShirt', label: 'Ava' }
   ];
 
   const handleAvatarChange = async (avatarId) => {

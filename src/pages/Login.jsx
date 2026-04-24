@@ -13,7 +13,7 @@ export default function Login() {
   // Guest State
   const [firstName, setFirstName] = useState('');
   const [uid, setUid] = useState('');
-  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortHairShortFlat&accessories=prescription02&clothing=blazerSweater');
+  const [avatarSeed, setAvatarSeed] = useState('Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater');
   
   // Admin State
   const [email, setEmail] = useState('');
@@ -23,12 +23,12 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const guestAvatars = [
-    'Jack&top=shortHairShortFlat&accessories=prescription02&clothing=blazerSweater',
-    'Leo&top=shortHairShortCurly&facialHair=beardLight&clothing=hoodie',
-    'Max&top=shortHairShaggyMullet&facialHair=blank&clothing=graphicShirt',
-    'Mia&top=longHairStraight&accessories=blank&clothing=overall',
-    'Zoe&top=longHairCurly&accessories=round&clothing=shirtScoopNeck',
-    'Ava&top=longHairBob&accessories=blank&clothing=blazerShirt'
+    'Jack&top=shortFlat&accessories=prescription02&clothing=blazerAndSweater',
+    'Leo&top=shortCurly&clothing=hoodie',
+    'Max&top=shaggyMullet&clothing=graphicShirt',
+    'Mia&top=straight01&clothing=overall',
+    'Zoe&top=curly&accessories=round&clothing=shirtScoopNeck',
+    'Ava&top=bob&clothing=blazerAndShirt'
   ];
 
   async function handleGuestSubmit(e) {
