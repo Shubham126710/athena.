@@ -113,7 +113,7 @@ export default function HubPage() {
       {/* Navigation */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto relative z-10">
+      <main className="pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         <div className="mb-12">
             <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">{greeting}.</h1>
             <p className="text-neutral-400">Here's what's happening today.</p>
