@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DitherHero from '../components/DitherHero.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
+import { supabase } from '../lib/supabaseClient.js';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
 
 function SpotlightCard({ children, className = "" }) {
@@ -50,10 +51,18 @@ export default function Landing() {
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(0);
   React.useEffect(() => { 
-    fetch('https://api.counterapi.dev/v1/athena-cu/landing/up')
-      .then(res => res.json())
-      .then(data => setViews(data.count + 23)) // preserving past local counts
-      .catch(console.error);
+    const updateViews = async () => {
+      try {
+        await supabase.from('notes').insert([
+          { title: 'hit', subject: 'site_hits', unit: 'v1', file_url: 'na', file_path: 'na' }
+        ]);
+        const { count } = await supabase.from('notes').select('*', { count: 'exact', head: true }).eq('subject', 'site_hits');
+        setViews(count ? count + 23 : 23);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    updateViews();
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
