@@ -28,24 +28,38 @@ export default function HubNavbar() {
       .order('created_at', { ascending: false });
     
     if (data) {
-        const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v3') || '[]');
+        const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
         // Format time relative to now
         const formattedData = data
             .filter(n => !clearedIds.includes(n.id))
-            .map(n => ({
-            ...n,
-            title: n.title.includes('Domain Camp') ? 'Domain Camp: June 8 - 19' : (n.title.includes('Winning Camp') ? 'Winning Camp: May 25 - June 6' : n.title),
-            message: n.title.includes('Domain Camp') ? 'Prepare for an immersive week of domain-specific training. Check your updated timetable for details.' : (n.title.includes('Winning Camp') ? 'The final sprint begins soon. Join the Winning Camp for DCPD classes to maximize your performance before the break.' : n.message),
-            time: getTimeAgo(new Date(n.created_at))
-        }));
+            .map(n => {
+                let updatedNotif = { ...n };
+                if (updatedNotif.title.includes('Domain Camp')) {
+                    updatedNotif.title = 'Domain Camp: June 8 - 19';
+                    updatedNotif.message = 'Prepare for an immersive week of domain-specific training featuring technical subjects for better placement competencies. Check your updated timetable for details.';
+                    updatedNotif.type = 'info';
+                    updatedNotif.created_at = new Date().toISOString();
+                } else if (updatedNotif.title.includes('Winning Camp')) {
+                    updatedNotif.title = 'Winning Camp: May 25 - June 6';
+                    updatedNotif.message = 'The final sprint begins soon. Join the Winning Camp featuring aptitude and soft skills to help in placement exams and interviews.';
+                    updatedNotif.type = 'info';
+                    updatedNotif.created_at = new Date().toISOString();
+                } else if (updatedNotif.title.includes('Welcome')) {
+                    updatedNotif.created_at = new Date(Date.now() - 1000 * 60 * 5).toISOString(); // 5 mins ago
+                }
+                return {
+                    ...updatedNotif,
+                    time: getTimeAgo(new Date(updatedNotif.created_at))
+                };
+            });
         setNotifications(formattedData);
     }
   };
 
   const handleClearNotifications = () => {
-    const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v3') || '[]');
+    const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
     const newClearedIds = [...new Set([...clearedIds, ...notifications.map(n => n.id)])];
-    localStorage.setItem('cleared_notifications_v3', JSON.stringify(newClearedIds));
+    localStorage.setItem('cleared_notifications_v5', JSON.stringify(newClearedIds));
     setNotifications([]);
   };
 

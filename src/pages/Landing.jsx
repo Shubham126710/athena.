@@ -51,18 +51,25 @@ export default function Landing() {
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(0);
   React.useEffect(() => { 
-    const updateViews = async () => {
-      try {
-        await supabase.from('notes').insert([
-          { title: 'hit', subject: 'site_hits', unit: 'v1', file_url: 'na', file_path: 'na' }
-        ]);
-        const { count } = await supabase.from('notes').select('*', { count: 'exact', head: true }).eq('subject', 'site_hits');
-        setViews(count ? count + 23 : 23);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    updateViews();
+    // Fallback to local storage if API fails, otherwise increment global counter
+    let localHits = parseInt(localStorage.getItem('athena_site_hits') || '25', 10);
+    
+    fetch('https://api.counterapi.dev/v1/athena-cup/landing_page_views/up')
+      .then(res => {
+        if (!res.ok) throw new Error("API Network Error");
+        return res.json();
+      })
+      .then(data => {
+        const total = (data.count || 0) + 25;
+        setViews(total);
+        localStorage.setItem('athena_site_hits', total.toString());
+      })
+      .catch(err => {
+        console.error("Counter API failed:", err);
+        localHits += 1;
+        setViews(localHits);
+        localStorage.setItem('athena_site_hits', localHits.toString());
+      });
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
