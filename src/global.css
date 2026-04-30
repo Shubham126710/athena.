@@ -11,6 +11,7 @@
 
     body {
         @apply bg-neutral-950 text-white;
+        overflow-x: hidden;
     }
 }
 
@@ -36,4 +37,14 @@
         0% { background-position: 0 0; }
         100% { background-position: 4rem 4rem; }
     }
+}
+
+@layer utilities {
+  .container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
