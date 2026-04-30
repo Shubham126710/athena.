@@ -4,6 +4,7 @@ import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
 import SGPACalculator from './SGPACalculator';
+import Avatar from './Avatar';
 
 export default function HubNavbar() {
   const nav = useNavigate();
@@ -254,14 +255,7 @@ export default function HubNavbar() {
                         <div className="text-sm font-bold">{profile?.first_name || 'Student'}</div>
                         <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
                     </div>
-                    <div className="w-10 h-10 bg-neutral-800 rounded-full overflow-hidden border border-neutral-700">
-                        <img 
-                            key={profile?.avatar_seed || 'default'}
-                            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.avatar_seed || user?.email || 'user'}&backgroundColor=transparent`} 
-                            alt="avatar" 
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
+                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-10 h-10 rounded-full border border-neutral-700" />
                 </div>
 
                 {/* Profile Dropdown */}
@@ -285,11 +279,7 @@ export default function HubNavbar() {
                                     onClick={() => handleAvatarChange(avatar.id)}
                                     className={`flex-shrink-0 rounded-full p-0.5 border-2 transition-all ${profile?.avatar_seed === avatar.id ? 'border-white' : 'border-transparent hover:border-neutral-700'}`}
                                 >
-                                    <img 
-                                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatar.id}&backgroundColor=transparent`} 
-                                        alt={avatar.label} 
-                                        className="w-8 h-8 rounded-full bg-neutral-800 transition-opacity"
-                                    />
+                                    <Avatar seed={avatar.id} className="w-8 h-8 rounded-full" />
                                 </button>
                             ))}
                         </div>

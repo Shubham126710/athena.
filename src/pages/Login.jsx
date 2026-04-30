@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DitherHero from '../components/DitherHero';
 import ConstellationBackground from '../components/ConstellationBackground';
+import Avatar from '../components/Avatar';
 
 export default function Login() {
   const nav = useNavigate();
@@ -126,13 +127,9 @@ export default function Login() {
                               <div 
                                   key={seed}
                                   onClick={() => setAvatarSeed(seed)}
-                                  className={`w-16 h-16 rounded-full overflow-hidden flex-shrink-0 cursor-pointer border-2 transition-all ${avatarSeed === seed ? 'border-white scale-110 shadow-[0_0_15px_rgba(255,255,255,0.3)]' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                                  className={`w-16 h-16 flex-shrink-0 cursor-pointer rounded-full transition-all ${avatarSeed === seed ? 'ring-2 ring-white scale-110 shadow-[0_0_15px_rgba(255,255,255,0.3)]' : 'opacity-50 hover:opacity-100 ring-2 ring-transparent'}`}
                               >
-                                  <img 
-                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=transparent`} 
-                                    alt={seed.split('&')[0]} 
-                                    className="w-full h-full bg-neutral-800 grayscale contrast-125 opacity-90 transition-all duration-300" 
-                                  />
+                                  <Avatar seed={seed.split('&')[0]} className="w-full h-full rounded-full" />
                               </div>
                           ))}
                       </div>

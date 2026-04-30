@@ -5,6 +5,7 @@ import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import { supabase } from '../lib/supabaseClient.js';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
+import Avatar from '../components/Avatar.jsx';
 
 function SpotlightCard({ children, className = "" }) {
   const divRef = React.useRef(null);
@@ -49,12 +50,46 @@ export default function Landing() {
   const [text, setText] = React.useState('');
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
-  const [views, setViews] = React.useState(0);
+  const [views, setViews] = React.useState(() => {
+    const cached = parseInt(localStorage.getItem('athena_view_count'), 10);
+    return isNaN(cached) || cached < 0 ? 350 : cached; // Better fallback if NaN
+  });
+
   React.useEffect(() => { 
-    fetch('https://api.counterapi.dev/v1/athena-cu/landing/up')
-      .then(res => res.json())
-      .then(data => setViews(data.count + 25)) // preserving past local counts
-      .catch(console.error);
+    const updateViews = async () => {
+      try {
+        let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
+        if (isNaN(localHits)) localHits = 350;
+        
+        // Register the hit silently
+        await supabase.from('notes').insert([
+          { title: 'session_hit', subject: 'site_analytics', unit: 'pageview', file_url: 'none', file_path: window.navigator.userAgent.substring(0, 48) }
+        ]);
+
+        // Get the global exact count
+        const { count, error } = await supabase
+          .from('notes')
+          .select('*', { count: 'exact', head: true })
+          .eq('subject', 'site_analytics');
+
+        if (error) throw error;
+        
+        const trueCount = (count || 0) + 350; // base offset
+        
+        setViews(trueCount);
+        localStorage.setItem('athena_view_count', trueCount.toString());
+      } catch (err) {
+        console.error("Analytics sync failed", err);
+        // Ensure UI updates even if supabase fails or returns error
+        setViews(prev => {
+          const next = isNaN(prev) ? 350 : prev + 1;
+          localStorage.setItem('athena_view_count', next.toString());
+          return next;
+        });
+      }
+    };
+    
+    setTimeout(updateViews, 100);
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
@@ -274,9 +309,7 @@ export default function Landing() {
                 </div>
 
                 <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
-                    <div className="w-24 h-24 bg-neutral-800 rounded-full overflow-hidden border-2 border-neutral-700 flex-shrink-0">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Shubham&backgroundColor=transparent" alt="Shubham" className="w-full h-full object-cover" />
-                    </div>
+                    <Avatar seed="Shubham" className="w-24 h-24 rounded-full border-2 border-neutral-700 flex-shrink-0 text-3xl" />
                     
                     <div className="flex-1 text-center md:text-left">
                         <h3 className="text-2xl font-bold mb-2 text-white">Shubham Upadhyay</h3>
