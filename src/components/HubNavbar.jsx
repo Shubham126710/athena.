@@ -128,7 +128,8 @@ export default function HubNavbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
         <div className="flex items-center gap-8">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => nav('/')}> 
                 <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
@@ -316,6 +317,7 @@ export default function HubNavbar() {
                 </div>
             </div>
         )}
+        </div>
       </nav>
       <SGPACalculator isOpen={isCalculatorOpen} onClose={() => setIsCalculatorOpen(false)} />
     </>
