@@ -164,7 +164,7 @@ export default function Landing() {
 
       <main className="pt-24">
         {/* Hero Section */}
-        <section className="container mx-auto px-6 md:px-12 min-h-[80vh] grid md:grid-cols-2 gap-12 items-center">
+        <section className="container mx-auto px-6 md:px-12 min-h-[72vh] lg:min-h-[calc(100vh-12rem)] grid md:grid-cols-2 gap-12 items-center">
           <div className="max-w-xl relative z-10">
             <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[240px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />

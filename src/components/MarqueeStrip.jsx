@@ -46,7 +46,7 @@ const MarqueeStrip = memo(() => {
     }, []);
 
     return (
-        <section className="bg-neutral-950 py-12 border-y border-neutral-800 overflow-hidden">
+        <section className="relative z-10 bg-black py-8 border-y border-neutral-800 overflow-hidden">
             <div ref={containerRef} className="flex whitespace-nowrap will-change-transform">
                 <div ref={contentRef} className="flex">
                     {[...Array(2)].map((_, i) => (
