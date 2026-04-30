@@ -51,25 +51,10 @@ export default function Landing() {
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(0);
   React.useEffect(() => { 
-    // Fallback to local storage if API fails, otherwise increment global counter
-    let localHits = parseInt(localStorage.getItem('athena_site_hits') || '25', 10);
-    
-    fetch('https://api.counterapi.dev/v1/athena-cup/landing_page_views/up')
-      .then(res => {
-        if (!res.ok) throw new Error("API Network Error");
-        return res.json();
-      })
-      .then(data => {
-        const total = (data.count || 0) + 25;
-        setViews(total);
-        localStorage.setItem('athena_site_hits', total.toString());
-      })
-      .catch(err => {
-        console.error("Counter API failed:", err);
-        localHits += 1;
-        setViews(localHits);
-        localStorage.setItem('athena_site_hits', localHits.toString());
-      });
+    fetch('https://api.counterapi.dev/v1/athena-cu/landing/up')
+      .then(res => res.json())
+      .then(data => setViews(data.count + 25)) // preserving past local counts
+      .catch(console.error);
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
