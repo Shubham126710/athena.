@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -14,12 +14,25 @@ export default function HubNavbar() {
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showCompose, setShowCompose] = useState(false);
   const [newNotification, setNewNotification] = useState({ title: '', message: '', type: 'info' });
   const [isPosting, setIsPosting] = useState(false);
+  const profileMenuRef = useRef(null);
 
   useEffect(() => {
     fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (!profileMenuRef.current?.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, []);
 
   const fetchNotifications = async () => {
@@ -101,6 +114,7 @@ export default function HubNavbar() {
   };
   
   const handleLogout = async () => {
+    setShowProfileMenu(false);
     await signOut();
     nav('/');
   };
@@ -117,20 +131,21 @@ export default function HubNavbar() {
   const handleAvatarChange = async (avatarId) => {
     try {
         await updateProfile({ avatar_seed: avatarId });
+        setShowProfileMenu(false);
     } catch (error) {
         console.error("Failed to update avatar", error);
     }
   };
   
   const isActive = (path) => location.pathname === path;
-  const activeClass = "px-4 py-1.5 bg-neutral-800 shadow-sm rounded-md text-sm font-medium text-white transition-all";
-  const inactiveClass = "px-4 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
+  const activeClass = "px-3 py-1.5 bg-neutral-800 shadow-sm rounded-md text-sm font-medium text-white transition-all";
+  const inactiveClass = "px-3 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
 
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between gap-6">
+        <div className="flex min-w-0 items-center gap-5">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => nav('/')}> 
                 <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
                 <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
@@ -146,7 +161,7 @@ export default function HubNavbar() {
             </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex shrink-0 items-center gap-4">
           <div className="relative">
             <button 
                 onClick={() => setShowNotifications(!showNotifications)}
@@ -242,7 +257,7 @@ export default function HubNavbar() {
           </div>
           <div className="h-8 w-px bg-neutral-800"></div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Section Badge - Visible for Students & Admins */}
             {(profile?.section || profile?.role === 'admin') && (
                 <div className="hidden md:block px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full text-xs font-medium text-neutral-400">
@@ -250,20 +265,30 @@ export default function HubNavbar() {
                 </div>
             )}
 
-            <div className="relative group">
-                <div className="flex items-center gap-3 cursor-pointer">
-                    <div className="text-right hidden md:block">
-                        <div className="text-sm font-bold">{profile?.first_name || 'Student'}</div>
+            <div className="relative" ref={profileMenuRef}>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setShowProfileMenu(value => !value);
+                        setShowNotifications(false);
+                    }}
+                    className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-neutral-900 transition-colors"
+                    aria-expanded={showProfileMenu}
+                    aria-label="Open profile menu"
+                >
+                    <div className="text-right hidden md:block max-w-28">
+                        <div className="truncate text-sm font-bold">{profile?.first_name || 'Student'}</div>
                         <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
                     </div>
-                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-10 h-10 rounded-full border border-neutral-700" />
-                </div>
+                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-9 h-9 shrink-0 rounded-full border border-neutral-700" />
+                </button>
 
                 {/* Profile Dropdown */}
-                <div className="absolute right-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
+                {showProfileMenu && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 origin-top-right z-50 overflow-hidden">
                     <div className="p-4 border-b border-neutral-800">
-                        <p className="text-sm font-bold text-white">{profile?.first_name} {profile?.last_name}</p>
-                        <p className="text-xs text-neutral-400 mt-1">{user?.email}</p>
+                        <p className="text-sm font-bold text-white">{profile?.first_name || 'Student'} {profile?.last_name}</p>
+                        {user?.email && <p className="text-xs text-neutral-400 mt-1 break-all">{user.email}</p>}
                         {profile?.uid && (
                             <div className="mt-3 inline-block px-2 py-1 bg-neutral-800 rounded text-xs font-mono text-neutral-300">
                                 UID: {profile.uid}
@@ -278,9 +303,9 @@ export default function HubNavbar() {
                                 <button
                                     key={avatar.id}
                                     onClick={() => handleAvatarChange(avatar.id)}
-                                    className={`flex-shrink-0 rounded-full p-0.5 border-2 transition-all ${profile?.avatar_seed === avatar.id ? 'border-white' : 'border-transparent hover:border-neutral-700'}`}
+                                    className={`h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-0.5 border-2 transition-all ${profile?.avatar_seed === avatar.id ? 'border-white' : 'border-transparent hover:border-neutral-700'}`}
                                 >
-                                    <Avatar seed={avatar.id} className="w-8 h-8 rounded-full" />
+                                    <Avatar seed={avatar.id} className="h-full w-full rounded-full" />
                                 </button>
                             ))}
                         </div>
@@ -293,6 +318,7 @@ export default function HubNavbar() {
                         </button>
                     </div>
                 </div>
+                )}
             </div>
           </div>
 
