@@ -50,10 +50,10 @@ export default function Landing() {
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(0);
   React.useEffect(() => { 
-    let localHits = parseInt(localStorage.getItem('athena_site_hits') || '0', 10);
-    localHits += 1;
-    localStorage.setItem('athena_site_hits', localHits);
-    setViews(localHits);
+    fetch('https://api.counterapi.dev/v1/athena-cu/landing/up')
+      .then(res => res.json())
+      .then(data => setViews(data.count))
+      .catch(console.error);
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];

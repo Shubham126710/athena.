@@ -28,13 +28,23 @@ export default function HubNavbar() {
       .order('created_at', { ascending: false });
     
     if (data) {
+        const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications') || '[]');
         // Format time relative to now
-        const formattedData = data.map(n => ({
+        const formattedData = data
+            .filter(n => !clearedIds.includes(n.id))
+            .map(n => ({
             ...n,
             time: getTimeAgo(new Date(n.created_at))
         }));
         setNotifications(formattedData);
     }
+  };
+
+  const handleClearNotifications = () => {
+    const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications') || '[]');
+    const newClearedIds = [...new Set([...clearedIds, ...notifications.map(n => n.id)])];
+    localStorage.setItem('cleared_notifications', JSON.stringify(newClearedIds));
+    setNotifications([]);
   };
 
   const getTimeAgo = (date) => {
@@ -207,7 +217,7 @@ export default function HubNavbar() {
                         )}
                     </div>
                     <div className="p-3 bg-neutral-900 border-t border-neutral-800 text-center">
-                        <button className="text-xs text-neutral-500 hover:text-white transition-colors">Mark all as read</button>
+                        <button onClick={handleClearNotifications} className="text-xs text-neutral-500 hover:text-white transition-colors">Clear all</button>
                     </div>
                 </div>
             )}
