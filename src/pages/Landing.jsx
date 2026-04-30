@@ -275,7 +275,7 @@ export default function Landing() {
 
                 <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
                     <div className="w-24 h-24 bg-neutral-800 rounded-full overflow-hidden border-2 border-neutral-700 flex-shrink-0">
-                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Techie" alt="Shubham" className="w-full h-full object-cover grayscale opacity-90 contrast-125" />
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Shubham&backgroundColor=transparent" alt="Shubham" className="w-full h-full object-cover" />
                     </div>
                     
                     <div className="flex-1 text-center md:text-left">

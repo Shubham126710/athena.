@@ -105,12 +105,12 @@ export default function HubNavbar() {
   };
 
   const avatarOptions = [
-    { id: 'Jack&top=shortFlat&accessories=prescription02&accessoriesProbability=100&clothing=blazerAndSweater&mouth=smile&eyes=happy&eyebrows=defaultNatural', label: 'Jack' },
-    { id: 'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default&eyebrows=defaultNatural', label: 'Leo' },
-    { id: 'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural', label: 'Max' },
-    { id: 'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0', label: 'Mia' },
-    { id: 'Zoe&top=curly&accessories=round&accessoriesProbability=100&clothing=shirtScoopNeck&mouth=default&eyes=default&eyebrows=defaultNatural&facialHairProbability=0', label: 'Zoe' },
-    { id: 'Ava&top=bob&accessories=prescription01&accessoriesProbability=100&clothing=blazerAndShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0', label: 'Ava' }
+    { id: 'Felix', label: 'Felix' },
+    { id: 'Aneka', label: 'Aneka' },
+    { id: 'Christian', label: 'Christian' },
+    { id: 'Jocelyn', label: 'Jocelyn' },
+    { id: 'Alex', label: 'Alex' },
+    { id: 'Aria', label: 'Aria' }
   ];
 
   const handleAvatarChange = async (avatarId) => {
@@ -259,7 +259,7 @@ export default function HubNavbar() {
                             key={profile?.avatar_seed || 'default'}
                             src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.avatar_seed || user?.email || 'user'}&backgroundColor=transparent`} 
                             alt="avatar" 
-                            className="w-full h-full object-cover grayscale"
+                            className="w-full h-full object-cover"
                         />
                     </div>
                 </div>
@@ -288,7 +288,7 @@ export default function HubNavbar() {
                                     <img 
                                         src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${avatar.id}&backgroundColor=transparent`} 
                                         alt={avatar.label} 
-                                        className="w-8 h-8 rounded-full bg-neutral-800 grayscale contrast-125 opacity-90 transition-opacity"
+                                        className="w-8 h-8 rounded-full bg-neutral-800 transition-opacity"
                                     />
                                 </button>
                             ))}
