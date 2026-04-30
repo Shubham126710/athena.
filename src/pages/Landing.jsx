@@ -52,7 +52,7 @@ export default function Landing() {
   React.useEffect(() => { 
     fetch('https://api.counterapi.dev/v1/athena-cu/landing/up')
       .then(res => res.json())
-      .then(data => setViews(data.count))
+      .then(data => setViews(data.count + 23)) // preserving past local counts
       .catch(console.error);
   }, []);
   const [delta, setDelta] = React.useState(150);

@@ -34,6 +34,7 @@ export default function HubNavbar() {
             .filter(n => !clearedIds.includes(n.id))
             .map(n => ({
             ...n,
+            title: n.title.includes('Domain Camp') ? 'Domain Camp: June 8 - 19' : (n.title.includes('Winning Camp') ? 'Winning Camp: May 25 - June 6' : n.title),
             time: getTimeAgo(new Date(n.created_at))
         }));
         setNotifications(formattedData);
