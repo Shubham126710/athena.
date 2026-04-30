@@ -50,46 +50,18 @@ export default function Landing() {
   const [text, setText] = React.useState('');
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
-  const [views, setViews] = React.useState(() => {
-    const cached = parseInt(localStorage.getItem('athena_view_count'), 10);
-    return isNaN(cached) || cached < 0 ? 350 : cached; // Better fallback if NaN
-  });
+  const [views, setViews] = React.useState(350);
 
   React.useEffect(() => { 
-    const updateViews = async () => {
-      try {
-        let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
-        if (isNaN(localHits)) localHits = 350;
-        
-        // Register the hit silently
-        await supabase.from('notes').insert([
-          { title: 'session_hit', subject: 'site_analytics', unit: 'pageview', file_url: 'none', file_path: window.navigator.userAgent.substring(0, 48) }
-        ]);
-
-        // Get the global exact count
-        const { count, error } = await supabase
-          .from('notes')
-          .select('*', { count: 'exact', head: true })
-          .eq('subject', 'site_analytics');
-
-        if (error) throw error;
-        
-        const trueCount = (count || 0) + 350; // base offset
-        
-        setViews(trueCount);
-        localStorage.setItem('athena_view_count', trueCount.toString());
-      } catch (err) {
-        console.error("Analytics sync failed", err);
-        // Ensure UI updates even if supabase fails or returns error
-        setViews(prev => {
-          const next = isNaN(prev) ? 350 : prev + 1;
-          localStorage.setItem('athena_view_count', next.toString());
-          return next;
-        });
-      }
-    };
-    
-    setTimeout(updateViews, 100);
+    fetch('https://api.counterapi.dev/v1/athena-cu-v2/page_views/up')
+      .then(res => res.json())
+      .then(data => {
+        setViews(data.count + 420); // base offset
+      })
+      .catch(err => {
+        console.error(err);
+        setViews(prev => prev + 1);
+      });
   }, []);
   const [delta, setDelta] = React.useState(150);
   const toRotate = ["archive.", "repository.", "companion.", "buddy.", "classmate."];
