@@ -87,7 +87,7 @@ export default function NotesPage() {
         
         const { error: uploadError } = await supabase.storage
             .from('notes')
-            .upload(filePath, file);
+            .upload(filePath, file, { cacheControl: '31536000', upsert: false });
             
         if (uploadError) throw uploadError;
 
