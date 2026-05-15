@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, BookOpen, Star, Zap } from 'lucide-react';
+import { Calendar, BookOpen, Star, Zap, X, Bell } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabaseClient';
 
 const QUOTES = [
   { text: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
@@ -54,6 +55,7 @@ export default function HubPage() {
 
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   const [upcomingExam, setUpcomingExam] = useState({ subject: 'No upcoming exams', date: '--', daysLeft: 0 });
+  const [announcement, setAnnouncement] = useState(null);
   const subjects = [
     { name: 'Software Engineering', code: '23CSH-374', type: 'Hybrid', credits: 4 },
     { name: 'Artificial Intelligence', code: '23CSH-378', type: 'Hybrid', credits: 4 },
@@ -107,6 +109,51 @@ export default function HubPage() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const fetchLatestAnnouncement = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('notifications')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (data && data.length > 0) {
+          const latestNotif = data[0];
+          
+          if (latestNotif.title.includes('Domain Camp')) {
+             latestNotif.title = 'Domain Camp: June 8 - 19';
+             latestNotif.message = 'Prepare for an immersive week of domain-specific training featuring technical subjects for better placement competencies. Check your updated timetable for details.';
+          } else if (latestNotif.title.includes('Winning Camp')) {
+             latestNotif.title = 'Winning Camp: May 25 - June 6';
+             latestNotif.message = 'The final sprint begins soon. Join the Winning Camp featuring aptitude and soft skills to help in placement exams and interviews.';
+          }
+
+          const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+          
+          if (!dismissedAnnouncements.includes(latestNotif.id)) {
+            setAnnouncement(latestNotif);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch announcement:', err);
+      }
+    };
+
+    if (user) {
+      fetchLatestAnnouncement();
+    }
+  }, [user]);
+
+  const handleDismissAnnouncement = () => {
+    if (announcement) {
+      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      dismissedAnnouncements.push(announcement.id);
+      localStorage.setItem('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
+      setAnnouncement(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black relative">
       <ConstellationBackground />
@@ -114,6 +161,24 @@ export default function HubPage() {
       <HubNavbar />
 
       <main className="pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+        {announcement && (
+          <div className="mb-8 bg-neutral-900 border border-red-900/50 p-4 rounded-xl shadow-lg relative overflow-hidden flex items-start gap-4 animate-in fade-in slide-in-from-top-4">
+            <div className="bg-red-900/20 text-red-500 p-2 rounded-lg shrink-0 mt-1">
+              <Bell size={20} />
+            </div>
+            <div className="flex-1 pr-8">
+              <h3 className="font-bold text-lg text-white mb-1">{announcement.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">{announcement.message}</p>
+            </div>
+            <button 
+              onClick={handleDismissAnnouncement}
+              className="absolute top-4 right-4 p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
         <div className="mb-12">
             <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">{greeting}.</h1>
             <p className="text-neutral-400">Here's what's happening today.</p>
