@@ -121,7 +121,9 @@ export default function HubPage() {
         if (data && data.length > 0) {
           const latestNotif = data[0];
           
-          if (latestNotif.title.includes('Domain Camp')) {
+          if (latestNotif.title.includes('Site Downtime')) {
+             latestNotif.message = 'The Site will go offline from tomorrow wef 16th May till 2nd June due to a supabase policy and my oversight, would request everyone to kindly download the FS question bank answers beforehand.\n\nApologies for the inconvenience.';
+          } else if (latestNotif.title.includes('Domain Camp')) {
              latestNotif.title = 'Domain Camp: June 8 - 19';
              latestNotif.message = 'Prepare for an immersive week of domain-specific training featuring technical subjects for better placement competencies. Check your updated timetable for details.';
           } else if (latestNotif.title.includes('Winning Camp')) {
