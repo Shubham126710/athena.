@@ -102,6 +102,7 @@ const ditherFragmentShader = `
 precision highp float;
 uniform float colorNum;
 uniform float pixelSize;
+uniform vec2 resolution;
 const float bayerMatrix8x8[64] = float[64](
   0.0/64.0, 48.0/64.0, 12.0/64.0, 60.0/64.0,  3.0/64.0, 51.0/64.0, 15.0/64.0, 63.0/64.0,
   32.0/64.0,16.0/64.0, 44.0/64.0, 28.0/64.0, 35.0/64.0,19.0/64.0, 47.0/64.0, 31.0/64.0,
@@ -138,10 +139,14 @@ class RetroEffectImpl extends Effect {
   constructor() {
     const uniforms = new Map([
       ['colorNum', new THREE.Uniform(4.0)],
-      ['pixelSize', new THREE.Uniform(2.0)]
+      ['pixelSize', new THREE.Uniform(2.0)],
+      ['resolution', new THREE.Uniform(new THREE.Vector2(window.innerWidth || 1920, window.innerHeight || 1080))]
     ]);
     super('RetroEffect', ditherFragmentShader, { uniforms });
     this.uniforms = uniforms;
+  }
+  setSize(width, height) {
+    this.uniforms.get('resolution').value.set(width, height);
   }
   set colorNum(v) {
     this.uniforms.get('colorNum').value = v;
