@@ -146,19 +146,19 @@ class RetroEffectImpl extends Effect {
     this.uniforms = uniforms;
   }
   setSize(width, height) {
-    this.uniforms.get('resolution').value.set(width, height);
+    if (this.uniforms) this.uniforms.get('resolution').value.set(width, height);
   }
   set colorNum(v) {
-    this.uniforms.get('colorNum').value = v;
+    if (this.uniforms) this.uniforms.get('colorNum').value = v;
   }
   get colorNum() {
-    return this.uniforms.get('colorNum').value;
+    return this.uniforms?.get('colorNum')?.value ?? 4.0;
   }
   set pixelSize(v) {
-    this.uniforms.get('pixelSize').value = v;
+    if (this.uniforms) this.uniforms.get('pixelSize').value = v;
   }
   get pixelSize() {
-    return this.uniforms.get('pixelSize').value;
+    return this.uniforms?.get('pixelSize')?.value ?? 2.0;
   }
 }
 
@@ -191,7 +191,7 @@ function DitheredWaves({
     waveSpeed: new THREE.Uniform(waveSpeed),
     waveFrequency: new THREE.Uniform(waveFrequency),
     waveAmplitude: new THREE.Uniform(waveAmplitude),
-    waveColor: new THREE.Uniform(new THREE.Color(...waveColor)),
+    waveColor: new THREE.Uniform(new THREE.Color(waveColor[0], waveColor[1], waveColor[2])),
     mousePos: new THREE.Uniform(new THREE.Vector2(0, 0)),
     enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
     mouseRadius: new THREE.Uniform(mouseRadius)
@@ -220,7 +220,7 @@ function DitheredWaves({
     if (u.waveAmplitude.value !== waveAmplitude) u.waveAmplitude.value = waveAmplitude;
 
     if (!prevColor.current.every((v, i) => v === waveColor[i])) {
-      u.waveColor.value.set(...waveColor);
+      u.waveColor.value.setRGB(waveColor[0], waveColor[1], waveColor[2]);
       prevColor.current = [...waveColor];
     }
 

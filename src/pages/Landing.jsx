@@ -117,7 +117,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen font-sans bg-neutral-950 text-white selection:bg-white selection:text-black relative">
-      {showLoader && <LoadingScreen />}
+      {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
       
       {/* Grid Background */}
       <div className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none animate-grid" style={{

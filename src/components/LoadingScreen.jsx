@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import Dither from './Dither.jsx';
 
 const QUOTES = [
   "Knowledge is power.",
@@ -63,20 +62,6 @@ export default function LoadingScreen({ onComplete }) {
   return (
     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
-      {/* Interactive Dither Background */}
-      <div className="absolute inset-0 z-0 opacity-40">
-        <Dither
-          waveColor={[0.6, 0.65, 0.7]}
-          waveSpeed={0.04}
-          waveFrequency={2.5}
-          waveAmplitude={0.3}
-          colorNum={4}
-          pixelSize={3}
-          enableMouseInteraction={true}
-          mouseRadius={0.5}
-        />
-      </div>
-
       {/* Animated Light Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-30" style={{
           backgroundImage: 'linear-gradient(to right, #404040 1px, transparent 1px), linear-gradient(to bottom, #404040 1px, transparent 1px)',
