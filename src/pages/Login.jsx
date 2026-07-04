@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import DitherHero from '../components/DitherHero';
+import Dither from '../components/Dither';
 import ConstellationBackground from '../components/ConstellationBackground';
 import Avatar from '../components/Avatar';
 
@@ -65,7 +65,17 @@ export default function Login() {
       {/* Left Side - Visual */}
       <div className="hidden lg:block w-1/2 relative overflow-hidden border-r border-neutral-800">
         <div className="absolute inset-0">
-            <DitherHero color="#ffffff" backgroundColor="#0a0a0a" position={[0, -4, 0]} />
+            <Dither
+              waveColor={[0.75, 0.78, 0.85]}
+              disableAnimation={false}
+              enableMouseInteraction={true}
+              mouseRadius={0.4}
+              colorNum={4}
+              waveAmplitude={0.3}
+              waveFrequency={3}
+              waveSpeed={0.05}
+              pixelSize={2}
+            />
         </div>
         <div className="absolute inset-0 flex flex-col p-12 z-10 pointer-events-none">
             <div className="flex items-center gap-2 pointer-events-auto cursor-pointer hover:opacity-80 transition-opacity mb-20" onClick={() => nav('/')}>

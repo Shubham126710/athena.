@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DitherHero from '../components/DitherHero.jsx';
+import Dither from '../components/Dither.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import { supabase } from '../lib/supabaseClient.js';
@@ -182,7 +182,17 @@ export default function Landing() {
           
           {/* Dither Graphic */}
           <div className="relative h-[500px] w-full bg-neutral-950 border border-neutral-800 rounded-sm overflow-hidden">
-             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />              
+             <Dither
+               waveColor={[0.75, 0.78, 0.85]}
+               disableAnimation={false}
+               enableMouseInteraction={true}
+               mouseRadius={0.4}
+               colorNum={4}
+               waveAmplitude={0.3}
+               waveFrequency={3}
+               waveSpeed={0.05}
+               pixelSize={2}
+             />              
               {/* Hit Counter Widget */}
               <div className="absolute top-4 right-4 z-30 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
