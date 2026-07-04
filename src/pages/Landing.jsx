@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Dither from '../components/Dither.jsx';
+import DitherHero from '../components/DitherHero.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import { supabase } from '../lib/supabaseClient.js';
@@ -117,7 +117,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen font-sans bg-neutral-950 text-white selection:bg-white selection:text-black relative">
-      {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
+      {showLoader && <LoadingScreen />}
       
       {/* Grid Background */}
       <div className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none animate-grid" style={{
@@ -182,17 +182,7 @@ export default function Landing() {
           
           {/* Dither Graphic */}
           <div className="relative h-[500px] w-full bg-neutral-950 border border-neutral-800 rounded-sm overflow-hidden">
-             <Dither
-               waveColor={[0.75, 0.78, 0.85]}
-               disableAnimation={false}
-               enableMouseInteraction={true}
-               mouseRadius={0.4}
-               colorNum={4}
-               waveAmplitude={0.3}
-               waveFrequency={3}
-               waveSpeed={0.05}
-               pixelSize={2}
-             />              
+             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />              
               {/* Hit Counter Widget */}
               <div className="absolute top-4 right-4 z-30 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
