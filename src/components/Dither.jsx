@@ -103,22 +103,81 @@ precision highp float;
 uniform float colorNum;
 uniform float pixelSize;
 uniform vec2 resolution;
-const float bayerMatrix8x8[64] = float[64](
-  0.0/64.0, 48.0/64.0, 12.0/64.0, 60.0/64.0,  3.0/64.0, 51.0/64.0, 15.0/64.0, 63.0/64.0,
-  32.0/64.0,16.0/64.0, 44.0/64.0, 28.0/64.0, 35.0/64.0,19.0/64.0, 47.0/64.0, 31.0/64.0,
-  8.0/64.0, 56.0/64.0,  4.0/64.0, 52.0/64.0, 11.0/64.0,59.0/64.0,  7.0/64.0, 55.0/64.0,
-  40.0/64.0,24.0/64.0, 36.0/64.0, 20.0/64.0, 43.0/64.0,27.0/64.0, 39.0/64.0, 23.0/64.0,
-  2.0/64.0, 50.0/64.0, 14.0/64.0, 62.0/64.0,  1.0/64.0,49.0/64.0, 13.0/64.0, 61.0/64.0,
-  34.0/64.0,18.0/64.0, 46.0/64.0, 30.0/64.0, 33.0/64.0,17.0/64.0, 45.0/64.0, 29.0/64.0,
-  10.0/64.0,58.0/64.0,  6.0/64.0, 54.0/64.0,  9.0/64.0,57.0/64.0,  5.0/64.0, 53.0/64.0,
-  42.0/64.0,26.0/64.0, 38.0/64.0, 22.0/64.0, 41.0/64.0,25.0/64.0, 37.0/64.0, 21.0/64.0
-);
+
+float getBayer8x8(int x, int y) {
+  int index = y * 8 + x;
+  if (index == 0) return 0.0/64.0;
+  if (index == 1) return 48.0/64.0;
+  if (index == 2) return 12.0/64.0;
+  if (index == 3) return 60.0/64.0;
+  if (index == 4) return 3.0/64.0;
+  if (index == 5) return 51.0/64.0;
+  if (index == 6) return 15.0/64.0;
+  if (index == 7) return 63.0/64.0;
+  if (index == 8) return 32.0/64.0;
+  if (index == 9) return 16.0/64.0;
+  if (index == 10) return 44.0/64.0;
+  if (index == 11) return 28.0/64.0;
+  if (index == 12) return 35.0/64.0;
+  if (index == 13) return 19.0/64.0;
+  if (index == 14) return 47.0/64.0;
+  if (index == 15) return 31.0/64.0;
+  if (index == 16) return 8.0/64.0;
+  if (index == 17) return 56.0/64.0;
+  if (index == 18) return 4.0/64.0;
+  if (index == 19) return 52.0/64.0;
+  if (index == 20) return 11.0/64.0;
+  if (index == 21) return 59.0/64.0;
+  if (index == 22) return 7.0/64.0;
+  if (index == 23) return 55.0/64.0;
+  if (index == 24) return 40.0/64.0;
+  if (index == 25) return 24.0/64.0;
+  if (index == 26) return 36.0/64.0;
+  if (index == 27) return 20.0/64.0;
+  if (index == 28) return 43.0/64.0;
+  if (index == 29) return 27.0/64.0;
+  if (index == 30) return 39.0/64.0;
+  if (index == 31) return 23.0/64.0;
+  if (index == 32) return 2.0/64.0;
+  if (index == 33) return 50.0/64.0;
+  if (index == 34) return 14.0/64.0;
+  if (index == 35) return 62.0/64.0;
+  if (index == 36) return 1.0/64.0;
+  if (index == 37) return 49.0/64.0;
+  if (index == 38) return 13.0/64.0;
+  if (index == 39) return 61.0/64.0;
+  if (index == 40) return 34.0/64.0;
+  if (index == 41) return 18.0/64.0;
+  if (index == 42) return 46.0/64.0;
+  if (index == 43) return 30.0/64.0;
+  if (index == 44) return 33.0/64.0;
+  if (index == 45) return 17.0/64.0;
+  if (index == 46) return 45.0/64.0;
+  if (index == 47) return 29.0/64.0;
+  if (index == 48) return 10.0/64.0;
+  if (index == 49) return 58.0/64.0;
+  if (index == 50) return 6.0/64.0;
+  if (index == 51) return 54.0/64.0;
+  if (index == 52) return 9.0/64.0;
+  if (index == 53) return 57.0/64.0;
+  if (index == 54) return 5.0/64.0;
+  if (index == 55) return 53.0/64.0;
+  if (index == 56) return 42.0/64.0;
+  if (index == 57) return 26.0/64.0;
+  if (index == 58) return 38.0/64.0;
+  if (index == 59) return 22.0/64.0;
+  if (index == 60) return 41.0/64.0;
+  if (index == 61) return 25.0/64.0;
+  if (index == 62) return 37.0/64.0;
+  if (index == 63) return 21.0/64.0;
+  return 0.0;
+}
 
 vec3 dither(vec2 uv, vec3 color) {
   vec2 scaledCoord = floor(uv * resolution / pixelSize);
   int x = int(mod(scaledCoord.x, 8.0));
   int y = int(mod(scaledCoord.y, 8.0));
-  float threshold = bayerMatrix8x8[y * 8 + x] - 0.25;
+  float threshold = getBayer8x8(x, y) - 0.25;
   float step = 1.0 / (colorNum - 1.0);
   color += threshold * step;
   float bias = 0.2;
