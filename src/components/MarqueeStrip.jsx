@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, memo } from 'react';
 
-const SUBJECTS = [
+const BASE_SUBJECTS = [
     "NATURAL LANGUAGE PROCESSING",
     "COMPUTER VISION",
     "RESEARCH METHODOLOGY"
 ];
+
+// Duplicate to ensure the single set is wider than any viewport
+const SUBJECTS = [...BASE_SUBJECTS, ...BASE_SUBJECTS, ...BASE_SUBJECTS, ...BASE_SUBJECTS];
 
 const MarqueeStrip = memo(() => {
     const containerRef = useRef(null);
