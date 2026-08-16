@@ -57,11 +57,9 @@ export default function HubPage() {
   const [upcomingExam, setUpcomingExam] = useState({ subject: 'No upcoming exams', date: '--', daysLeft: 0 });
   const [announcement, setAnnouncement] = useState(null);
   const subjects = [
-    { name: 'Software Engineering', code: '23CSH-374', type: 'Hybrid', credits: 4 },
-    { name: 'Artificial Intelligence', code: '23CSH-378', type: 'Hybrid', credits: 4 },
-    { name: 'Advanced Machine Learning', code: '23CSH-379', type: 'Hybrid', credits: 4 },
-    { name: 'System Design', code: '23CST-390', type: 'Theory', credits: 3 },
-    { name: 'Full Stack II', code: '23CSH-382', type: 'Hybrid', credits: 3 }
+    { name: 'Computer Vision', code: '23CSH-437', type: 'Hybrid', credits: 4 },
+    { name: 'Natural Language Processing', code: '23CSH-438', type: 'Hybrid', credits: 4 },
+    { name: 'Research Methodology', code: '23CST-432', type: 'Theory', credits: 3 }
   ];
 
   useEffect(() => {
@@ -110,40 +108,22 @@ export default function HubPage() {
   }, []);
 
   useEffect(() => {
-    const fetchLatestAnnouncement = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('notifications')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(1);
-
-        if (data && data.length > 0) {
-          const latestNotif = data[0];
-          
-          if (latestNotif.title.includes('Site Downtime')) {
-             latestNotif.message = 'The Site will go offline from tomorrow wef 16th May till 2nd June due to a supabase policy and my oversight, would request everyone to kindly download the FS question bank answers beforehand.\n\nApologies for the inconvenience.';
-          } else if (latestNotif.title.includes('Domain Camp')) {
-             latestNotif.title = 'Domain Camp: June 8 - 19';
-             latestNotif.message = 'Prepare for an immersive week of domain-specific training featuring technical subjects for better placement competencies. Check your updated timetable for details.';
-          } else if (latestNotif.title.includes('Winning Camp')) {
-             latestNotif.title = 'Winning Camp: May 25 - June 6';
-             latestNotif.message = 'The final sprint begins soon. Join the Winning Camp featuring aptitude and soft skills to help in placement exams and interviews.';
-          }
-
-          const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
-          
-          if (!dismissedAnnouncements.includes(latestNotif.id)) {
-            setAnnouncement(latestNotif);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to fetch announcement:', err);
+    const showWelcomeAnnouncement = () => {
+      const welcomeNotif = {
+        id: 'sem7-welcome',
+        title: 'Welcome to 7th Semester! 🚀',
+        message: 'Good luck for the final year! Make it count and finish strong. Wishing everyone the best!',
+        type: 'info'
+      };
+      
+      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      if (!dismissedAnnouncements.includes(welcomeNotif.id)) {
+        setAnnouncement(welcomeNotif);
       }
     };
 
     if (user) {
-      fetchLatestAnnouncement();
+      showWelcomeAnnouncement();
     }
   }, [user]);
 

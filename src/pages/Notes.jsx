@@ -13,26 +13,27 @@ export default function NotesPage() {
   const [loading, setLoading] = React.useState(true);
   const [uploading, setUploading] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [semester, setSemester] = React.useState('6th');
+  const [semester, setSemester] = React.useState('7th');
   
   // Upload Form State
   const [file, setFile] = React.useState(null);
   const [title, setTitle] = React.useState('');
-  const [uploadSubject, setUploadSubject] = React.useState('CN');
+  const [uploadSubject, setUploadSubject] = React.useState('CV');
   const [uploadUnit, setUploadUnit] = React.useState('Unit 1');
 
   const [selectedNote, setSelectedNote] = React.useState(null);
   const [showUploadModal, setShowUploadModal] = React.useState(false);
   
   // Accordion State
-  const [expandedSubjects, setExpandedSubjects] = React.useState(['CN', 'FLAT', 'FML', 'PA']);
+  const [expandedSubjects, setExpandedSubjects] = React.useState(['CV', 'NLP', 'RM']);
   const [expandedUnits, setExpandedUnits] = React.useState({});
 
   const fileInputRef = React.useRef(null);
 
   const subjects5th = ['CN', 'FLAT', 'FML', 'PA'];
   const subjects6th = ['SE', 'FS-II', 'AML', 'AI', 'SD'];
-  const subjects = semester === '5th' ? subjects5th : subjects6th;
+  const subjects7th = ['CV', 'NLP', 'RM'];
+  const subjects = semester === '7th' ? subjects7th : (semester === '6th' ? subjects6th : subjects5th);
   const units = ['Unit 1', 'Unit 2', 'Unit 3'];
 
   // Keep uploadSubject valid when semester changes
@@ -118,7 +119,7 @@ export default function NotesPage() {
         setShowUploadModal(false);
         setTitle('');
         setFile(null);
-        setUploadSubject('CN');
+        setUploadSubject('CV');
         setUploadUnit('Unit 1');
         if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (e) {
@@ -188,6 +189,7 @@ export default function NotesPage() {
                 <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
                     <option value="5th">5th Semester</option>
                     <option value="6th">6th Semester</option>
+                    <option value="7th">7th Semester</option>
                 </select>
             {profile?.role === 'admin' && (
               <button onClick={() => setShowUploadModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">

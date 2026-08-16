@@ -7,7 +7,175 @@ export default function SyllabusPage() {
   const nav = useNavigate();
   const [expandedSubject, setExpandedSubject] = React.useState(null);
   const [expandedUnit, setExpandedUnit] = React.useState(null);
-  const [semester, setSemester] = React.useState('6th');
+  const [semester, setSemester] = React.useState('7th');
+
+  const syllabi7th = [
+    {
+      subject: 'Computer Vision', abbr: 'CV', code: '23CSH-437', units: [
+        { id: 1, title: 'Image Formation and Camera Models', hours: 15, topics: [
+           'Introduction to Computer Vision and Components of a Vision System',
+           'Cameras and Types of Camera Systems',
+           'Camera Model and Perspective Projection',
+           'Camera Calibration Techniques',
+           'Radiometry and Image Formation',
+           'Light in Space and Light on Surfaces',
+           'Sources of Illumination, Shadows and Shading',
+           'Introduction to Multiple Images',
+           'Geometry of Multiple Views',
+           'Stereopsis and Depth Perception',
+           'Affine Structure from Motion',
+           'Elements of Affine Geometry',
+           'Affine Structure and Motion from Two Images',
+           'Affine Structure and Motion from Multiple Images',
+           'From Affine to Euclidean Images'
+        ]},
+        { id: 2, title: 'High Level Vision and Geometric Methods', hours: 15, topics: [
+           'Introduction to High Level Vision',
+           'Geometric Methods in Computer Vision',
+           'Model Based Vision',
+           'Pose Consistency and Pose Clustering',
+           'Using Invariants in Vision Systems',
+           'Verification Techniques in Vision',
+           'Applications of High Level Vision',
+           'Introduction to Pattern Recognition and Classification',
+           'Supervised and Unsupervised Learning',
+           'Clustering vs Classification',
+           'Bayesian Decision Theory',
+           'Minimum Error Rate Classification',
+           'Classifiers, Discriminant Functions and Decision Surfaces',
+           'Normal Density Functions',
+           'Discriminant Functions for Normal Density'
+        ]},
+        { id: 3, title: 'Advanced Classifiers and Neural Networks', hours: 15, topics: [
+           'Linear Discriminant Function Based Classifiers',
+           'Perceptron Model',
+           'Minimum Mean Squared Error (MMSE) Method',
+           'Support Vector Machine (SVM)',
+           'Comparison of Linear Classification Techniques',
+           'Introduction to Decision Trees',
+           'CART Algorithm',
+           'ID3 Algorithm',
+           'Basics of Clustering and Clustering Criteria',
+           'Similarity and Dissimilarity Measures',
+           'Distance Functions and Similarity Measures',
+           'K-Means Clustering Algorithm',
+           'Neural Network Structures for Pattern Recognition',
+           'Pattern Classification using Genetic Algorithms',
+           'Recent Advances in Pattern Recognition'
+        ]}
+      ]
+    },
+    {
+      subject: 'Natural Language Processing', abbr: 'NLP', code: '23CSH-438', units: [
+        { id: 1, title: 'INTRODUCTION', hours: 15, topics: [
+           'Introduction to Natural Language Processing',
+           'Regular Expressions',
+           'Edit Distance',
+           'Words and Corpora',
+           'Word Tokenization',
+           'Word Normalization',
+           'Lemmatization and Stemming; Sentence Segmentation',
+           'Word Embeddings: Word2Vec',
+           'Word Embeddings: GloVe',
+           'Dependency Parsing for Syntactic Analysis',
+           'Morphology and Transducers',
+           'N-Grams',
+           'Evaluating Language Models',
+           'Generalization and Zero-Shot Smoothing',
+           'Contextual Embeddings with Transformer Architectures'
+        ]},
+        { id: 2, title: 'Models for Sequential Tagging', hours: 15, topics: [
+           'Maximum Entropy Model',
+           'Maximum Entropy Feature Selection',
+           'Weight Optimization and Training Methods',
+           'Conditional Random Fields Graphical Representation',
+           'CRFs Feature Dependencies and Normalization',
+           'CRFs Likelihood Estimation and Inference',
+           'Viterbi and Forward-Backward Algorithms; Constituency Parsing Definition and Phrase Structure',
+           'Context-Free Grammars and Parse Trees',
+           'Probabilistic Context-Free Grammars',
+           'CYK Algorithm',
+           'Earley\'s Parser',
+           'Parsing as Search and Top-Down Parsers',
+           'Early Algorithm and Finite State Parsing',
+           'Feature Structures and Unification',
+           'Dependency Parsing and Graph-Based Methods'
+        ]},
+        { id: 3, title: 'SEMANTICS', hours: 15, topics: [
+           'Introduction to Semantics',
+           'Distributional Semantics Methods',
+           'Lexical Semantics and Word Structure',
+           'Word Sense Disambiguation',
+           'FrameNet and Computational Desiderata',
+           'Meaning Structure and First Order Predicate Calculus',
+           'Syntax Driven Semantic Analysis; Robust Semantic Analysis',
+           'LDA and LSA Topic Modeling',
+           'Neural Topic Modelling',
+           'Disambiguation and Knowledge Graphs',
+           'Relation Extraction and Event Detection',
+           'Knowledge Graph Construction',
+           'Extractive vs Abstractive Methods',
+           'Transformer-Based Models and BERT Classifiers',
+           'Zero-Shot Relation Extraction with Large Language Models'
+        ]}
+      ]
+    },
+    {
+      subject: 'Research Methodology', abbr: 'RM', code: '23CST-432', units: [
+        { id: 1, title: 'Introduction to Research', hours: 15, topics: [
+           'Definition and objectives of research',
+           'Basic, applied, qualitative, quantitative and exploratory research',
+           'Steps involved in the research process',
+           'Concept and significance of research design',
+           'Exploratory, descriptive and experimental research designs',
+           'Defining and formulating the research problem',
+           'Importance and objectives of literature review',
+           'Primary and secondary sources of information',
+           'Reviews, monographs and patents',
+           'Use of databases and online sources for research',
+           'Identifying gap areas from literature and databases',
+           'Surveying methods and data gathering',
+           'Organizing and synthesizing research findings',
+           'Analysis of collected research data',
+           'Interpretation and presentation of research outcomes'
+        ]},
+        { id: 2, title: 'Mathematical and Statistical Tools for Research', hours: 15, topics: [
+           'Introduction to mathematical tools used in research analysis',
+           'Methods and techniques for statistical data analysis',
+           'Concept and applications of regression analysis',
+           'Correlation and relationship between variables',
+           'Concept of best fit and exact fit with examples from linear regression involving one and more unknowns',
+           'Introduction and fundamentals of patents',
+           'Process of filing patents at national and international levels',
+           'Introduction and significance of IPR',
+           'Commercialization of inventions and royalty concepts',
+           'Copyright laws and trade-related aspects of intellectual property rights',
+           'Administration of the patent system in India',
+           'Patent licensing procedures and agreements',
+           'Concepts and methods of technology transfer',
+           'Analysis of real-world patent and IPR case studies',
+           'Recent developments and challenges in intellectual property management'
+        ]},
+        { id: 3, title: 'Research Ethics and Integrity', hours: 15, topics: [
+           'Meaning and importance of ethics in research',
+           'Falsification, fabrication and plagiarism (FFP)',
+           'Conflict of interest and ethical concerns in research',
+           'Identification and impact of predatory publications',
+           'Open access publication, citation, acknowledgement, reproducibility and accountability',
+           'Software tools for plagiarism and similarity checking',
+           'Importance and methods of citation and acknowledgement',
+           'Ensuring reproducibility and transparency in research',
+           'Referencing styles and practices in academic writing',
+           'Preparation of abstracts and bibliographic records',
+           'Structure and major components of a research report',
+           'Different forms and classifications of research reports',
+           'Standard layout and formatting of research reports',
+           'Process and techniques for writing research reports',
+           'Documentation standards and presentation of research findings'
+        ]}
+      ]
+    }
+  ];
 
     const syllabi6th = [
     {
@@ -294,11 +462,12 @@ export default function SyllabusPage() {
             <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
               <option value="5th">5th Semester</option>
               <option value="6th">6th Semester</option>
+              <option value="7th">7th Semester</option>
             </select>
         </div>
 
         <div className="space-y-6">
-            {(semester === '5th' ? syllabi5th : syllabi6th).map((subject, idx) => (
+            {(semester === '7th' ? syllabi7th : semester === '6th' ? syllabi6th : syllabi5th).map((subject, idx) => (
                 <div key={idx} className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
                     <div 
                         className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
