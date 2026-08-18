@@ -68,14 +68,10 @@ export default function HubPage() {
       
       // --- Upcoming Exam Logic ---
       const events = [
-        // Upcoming EST Exams (May 2026)
-        { id: 11, title: 'EST: Artificial Intelligence', date: new Date(2026, 4, 2), type: 'exam' },
-        { id: 12, title: 'EST: Software Engineering', date: new Date(2026, 4, 5), type: 'exam' },
-        { id: 13, title: 'EST: Aptitude-IV', date: new Date(2026, 4, 7), type: 'exam' },
-        { id: 14, title: 'EST: Adv Machine Learning', date: new Date(2026, 4, 12), type: 'exam' },
-        { id: 15, title: 'EST: System Design', date: new Date(2026, 4, 14), type: 'exam' },
-        { id: 16, title: 'EST: LTM', date: new Date(2026, 4, 16), type: 'exam' },
-        { id: 17, title: 'EST: Full Stack-II', date: new Date(2026, 4, 19), type: 'exam' },
+        { id: 11, title: 'MST-1: Principles of Human Communication', date: new Date(2026, 7, 24), type: 'exam' },
+        { id: 12, title: 'MST-1: Computer Vision', date: new Date(2026, 7, 25), type: 'exam' },
+        { id: 13, title: 'MST-1: Research Methodology', date: new Date(2026, 7, 28), type: 'exam' },
+        { id: 14, title: 'MST-1: Natural Language Processing', date: new Date(2026, 7, 28), type: 'exam' }
       ];
 
       // Filter for future exams (today or later)
