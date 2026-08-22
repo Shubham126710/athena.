@@ -173,7 +173,6 @@ export default function SyllabusPage() {
            'Process and techniques for writing research reports',
            'Documentation standards and presentation of research findings'
         ]}
-        }
       ]
     },
     {
