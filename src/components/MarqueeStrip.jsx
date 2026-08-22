@@ -3,7 +3,8 @@ import React, { useEffect, useRef, memo } from 'react';
 const BASE_SUBJECTS = [
     "NATURAL LANGUAGE PROCESSING",
     "COMPUTER VISION",
-    "RESEARCH METHODOLOGY"
+    "RESEARCH METHODOLOGY",
+    "PRINCIPLES OF HUMAN COMMUNICATION"
 ];
 
 // Duplicate to ensure the single set is wider than any viewport

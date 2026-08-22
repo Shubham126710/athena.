@@ -59,7 +59,8 @@ export default function HubPage() {
   const subjects = [
     { name: 'Computer Vision', code: '23CSH-437', type: 'Hybrid', credits: 4 },
     { name: 'Natural Language Processing', code: '23CSH-438', type: 'Hybrid', credits: 4 },
-    { name: 'Research Methodology', code: '23CST-432', type: 'Theory', credits: 3 }
+    { name: 'Research Methodology', code: '23CST-432', type: 'Theory', credits: 3 },
+    { name: 'Principles of Human Communication', code: 'JMO-354', type: 'Theory', credits: 1 }
   ];
 
   useEffect(() => {

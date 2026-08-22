@@ -25,14 +25,14 @@ export default function NotesPage() {
   const [showUploadModal, setShowUploadModal] = React.useState(false);
   
   // Accordion State
-  const [expandedSubjects, setExpandedSubjects] = React.useState(['CV', 'NLP', 'RM']);
+  const [expandedSubjects, setExpandedSubjects] = React.useState(['CV', 'NLP', 'RM', 'PHC']);
   const [expandedUnits, setExpandedUnits] = React.useState({});
 
   const fileInputRef = React.useRef(null);
 
   const subjects5th = ['CN', 'FLAT', 'FML', 'PA'];
   const subjects6th = ['SE', 'FS-II', 'AML', 'AI', 'SD'];
-  const subjects7th = ['CV', 'NLP', 'RM'];
+  const subjects7th = ['CV', 'NLP', 'RM', 'PHC'];
   const subjects = semester === '7th' ? subjects7th : (semester === '6th' ? subjects6th : subjects5th);
   const units = ['Unit 1', 'Unit 2', 'Unit 3'];
 
@@ -171,6 +171,7 @@ export default function NotesPage() {
   }
 
   function getNotesFor(subject, unit) {
+    if (subject === 'PHC') return notes.filter(n => n.subject === subject);
     return notes.filter(n => n.subject === subject && n.unit === unit);
   }
 
@@ -216,7 +217,47 @@ export default function NotesPage() {
                         
                         {expandedSubjects.includes(subject) && (
                             <div className="p-4 space-y-3">
-                                {units.map(unit => {
+                                {subject === 'PHC' ? (() => {
+                                    const phcNotes = getNotesFor(subject);
+                                    return (
+                                        <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-950/30 p-3">
+                                            {phcNotes.length === 0 ? (
+                                                <p className="text-sm text-neutral-400 italic pl-3 md:pl-6">No notes uploaded.</p>
+                                            ) : (
+                                                <div className="grid gap-3 pl-2 md:pl-6">
+                                                    {phcNotes.map(note => (
+                                                        <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-2 rounded border border-neutral-800 hover:shadow-sm transition-all">
+                                                            <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden mr-2">
+                                                                <div className="w-7 h-7 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
+                                                                    <FileText size={14} />
+                                                                </div>
+                                                                <div className="truncate">
+                                                                    <h4 className="font-medium text-xs md:text-sm truncate" title={note.title}>{note.title}</h4>
+                                                                    <p className="text-[10px] text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                                                                <button 
+                                                                    onClick={() => setSelectedNote(note)} 
+                                                                    className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
+                                                                    title="View Note"
+                                                                >
+                                                                    <span className="md:hidden"><Eye size={14} /></span>
+                                                                    <span className="hidden md:inline">View</span>
+                                                                </button>
+                                                                {profile?.role === 'admin' && (
+                                                                  <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1.5">
+                                                                      <Trash2 size={14} />
+                                                                  </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })() : units.map(unit => {
                                     const unitNotes = getNotesFor(subject, unit);
                                     const isExpanded = expandedUnits[`${subject}-${unit}`];
                                     
@@ -320,6 +361,7 @@ export default function NotesPage() {
                             {subjects.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                     </div>
+                    {uploadSubject !== 'PHC' && (
                     <div>
                         <label className="block text-sm font-medium mb-1 text-neutral-300">Unit</label>
                         <select 
@@ -330,6 +372,7 @@ export default function NotesPage() {
                             {units.map(u => <option key={u} value={u}>{u}</option>)}
                         </select>
                     </div>
+                    )}
                     <div>
                         <label className="block text-sm font-medium mb-1 text-neutral-300">Title</label>
                         <input 
