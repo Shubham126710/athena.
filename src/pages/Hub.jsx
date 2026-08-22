@@ -31,15 +31,43 @@ export default function HubPage() {
   useEffect(() => {
     if (profile?.first_name) {
         const hour = new Date().getHours();
-        let timeGreeting = 'Welcome back';
+        let timeOptions = [];
 
-        if (hour >= 5 && hour < 12) timeGreeting = 'Good morning';
-        else if (hour >= 12 && hour < 17) timeGreeting = 'Good afternoon';
-        else if (hour >= 17 && hour < 22) timeGreeting = 'Good evening';
-        else timeGreeting = 'Have a great night';
+        if (hour >= 5 && hour < 12) {
+            timeOptions = [
+                'Good morning',
+                'Rise and shine',
+                'Ready to tackle the day',
+                'A fresh start today',
+                'Early bird gets the worm'
+            ];
+        }
+        else if (hour >= 12 && hour < 17) {
+            timeOptions = [
+                'Good afternoon',
+                'Hope your day is going well',
+                'Midday check-in',
+                'Keep up the momentum'
+            ];
+        }
+        else if (hour >= 17 && hour < 22) {
+            timeOptions = [
+                'Good evening',
+                'Winding down for the day',
+                'Evening productivity session',
+                'Hope you had a great day'
+            ];
+        }
+        else {
+            timeOptions = [
+                'Have a great night',
+                "It's a late-night jam session",
+                'Burning the midnight oil',
+                'Late night learning'
+            ];
+        }
 
-        const options = [
-            timeGreeting,
+        const generalOptions = [
             "How're you doing",
             "Welcome back",
             "Happy learning",
@@ -48,7 +76,9 @@ export default function HubPage() {
             "Let's get to work"
         ];
 
+        const options = [...timeOptions, ...generalOptions];
         const randomGreeting = options[Math.floor(Math.random() * options.length)];
+        
         setGreeting(`${randomGreeting}, ${profile.first_name}`);
     }
   }, [profile]);
