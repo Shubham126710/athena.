@@ -173,6 +173,45 @@ export default function SyllabusPage() {
            'Process and techniques for writing research reports',
            'Documentation standards and presentation of research findings'
         ]}
+        }
+      ]
+    },
+    {
+      subject: 'Principles of Human Communication', abbr: 'PHC', code: 'JMO-354', units: [
+        { id: 1, title: 'Foundations of Human Communication', hours: 15, topics: [
+           'Defining Communication — the communication pyramid, why communication is a "process"',
+           'Models of Communication — Linear, Interactive, and Transactional models',
+           'Verbal Communication — verbal expressions, denotative vs. connotative meaning, spoken vs. written, language & gender',
+           'Nonverbal Communication — functions of nonverbal cues, kinesics, haptics, chronemics, proxemics',
+           'Listening — the listening process, barriers, types of listening',
+           'Culture & Diversity in Communication — individualism vs. collectivism, culture shock, gender communication',
+           'Introduction to Communication Theory — Elaboration Likelihood Model, Social Judgment Theory, rhetorical criticism'
+        ]},
+        { id: 2, title: 'Interpersonal Communication', hours: 15, topics: [
+           'Defining Interpersonal Communication — dyadic communication, its formal/informal settings',
+           'Relationship Development — self-disclosure, Social Penetration Theory, Uncertainty Reduction Theory',
+           'Conflict Management — conflict styles (competing, accommodating, avoiding, compromising, collaborating), constructive vs. destructive conflict'
+        ]},
+        { id: 3, title: 'Small Group Communication', hours: 8, topics: [
+           'Defining Small Groups',
+           'Group Development — Tuckman\'s stages (Forming, Storming, Norming, Performing, Adjourning)',
+           'Group Roles — task, maintenance, dysfunctional roles',
+           'Decision-Making — groupthink, group polarization',
+           'Leadership Styles — autocratic, democratic, laissez-faire'
+        ]},
+        { id: 4, title: 'Organizational Communication', hours: 10, topics: [
+           'Applying Interpersonal Principles to the Workplace',
+           'Communication Flow — downward, upward, horizontal, and grapevine (informal) communication',
+           'Organizational Culture & Climate — supportive vs. defensive climates',
+           'Workplace Conflict & Networks — formal vs. informal networks'
+        ]},
+        { id: 5, title: 'Mass Communication', hours: 12, topics: [
+           'Defining Mass Communication & Mass Media',
+           'Functions of Mass Communication — surveillance, correlation, transmission, entertainment, mobilization, validation, sensationalization',
+           'Evolution & Effects of Media — printing press → radio → TV → internet/social media; mass personal communication; the "global village"',
+           'Mass Communication Theories — Magic Bullet, Two-Step/Multi-Step Flow, Cultivation, Uses & Gratifications',
+           'Ethics & Media Literacy'
+        ]}
       ]
     }
   ];
