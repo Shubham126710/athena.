@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
-import PdfViewer from '../components/PdfViewer.jsx';
 import { supabase } from '../lib/supabaseClient';
 import HubNavbar from '../components/HubNavbar.jsx';
 import { useAuth } from '../context/AuthContext';
@@ -16,19 +15,16 @@ export default function NotesPage() {
   const [semester, setSemester] = React.useState('7th');
   
   // Upload Form State
-  const [file, setFile] = React.useState(null);
+  const [link, setLink] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [uploadSubject, setUploadSubject] = React.useState('CV');
   const [uploadUnit, setUploadUnit] = React.useState('Unit 1');
 
-  const [selectedNote, setSelectedNote] = React.useState(null);
   const [showUploadModal, setShowUploadModal] = React.useState(false);
   
   // Accordion State
   const [expandedSubjects, setExpandedSubjects] = React.useState(['CV', 'NLP', 'RM', 'PHC']);
   const [expandedUnits, setExpandedUnits] = React.useState({});
-
-  const fileInputRef = React.useRef(null);
 
   const subjects5th = ['CN', 'FLAT', 'FML', 'PA'];
   const subjects6th = ['SE', 'FS-II', 'AML', 'AI', 'SD'];
@@ -60,7 +56,6 @@ export default function NotesPage() {
       setNotes(data || []);
     } catch (e) {
       console.error('Error loading notes:', e);
-      // Fallback to local storage if Supabase fails (optional, but good for transition)
       const localNotes = JSON.parse(localStorage.getItem('pt_notes') || '[]');
       if (localNotes.length > 0) setNotes(localNotes);
     } finally {
@@ -68,42 +63,17 @@ export default function NotesPage() {
     }
   }
 
-  function handleFile(e) {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    setFile(f);
-    if (!title) setTitle(f.name.replace(/\.[^.]+$/, ''));
-  }
-
   async function addNote() {
-    if (!title.trim() || !file) return;
+    if (!title.trim() || !link.trim()) return;
     setError('');
     setUploading(true);
     
     try {
-        // 1. Upload file to Supabase Storage
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}.${fileExt}`;
-        const filePath = `${uploadSubject}/${uploadUnit}/${fileName}`;
-        
-        const { error: uploadError } = await supabase.storage
-            .from('notes')
-            .upload(filePath, file, { cacheControl: '31536000', upsert: false });
-            
-        if (uploadError) throw uploadError;
-
-        // 2. Get Public URL
-        const { data: { publicUrl } } = supabase.storage
-            .from('notes')
-            .getPublicUrl(filePath);
-
-        // 3. Insert Metadata into Table
         const newNote = {
             title: title.trim(),
             subject: uploadSubject,
-            unit: uploadUnit,
-            file_url: publicUrl,
-            file_path: filePath
+            unit: uploadSubject === 'PHC' ? 'General' : uploadUnit,
+            file_url: link.trim()
         };
 
         const { data, error: insertError } = await supabase
@@ -113,18 +83,16 @@ export default function NotesPage() {
 
         if (insertError) throw insertError;
 
-        // Update UI
         setNotes(prev => [data[0], ...prev]);
         
         setShowUploadModal(false);
         setTitle('');
-        setFile(null);
+        setLink('');
         setUploadSubject('CV');
         setUploadUnit('Unit 1');
-        if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (e) {
         console.error(e);
-        setError(e.message || 'Failed to upload note.');
+        setError(e.message || 'Failed to add note.');
     } finally {
         setUploading(false);
     }
@@ -238,7 +206,7 @@ export default function NotesPage() {
                                                             </div>
                                                             <div className="flex items-center gap-1.5 flex-shrink-0">
                                                                 <button 
-                                                                    onClick={() => setSelectedNote(note)} 
+                                                                    onClick={() => window.open(note.file_url || note.fileUrl, '_blank')} 
                                                                     className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
                                                                     title="View Note"
                                                                 >
@@ -293,7 +261,7 @@ export default function NotesPage() {
                                                                     </div>
                                                                     <div className="flex items-center gap-1.5 flex-shrink-0">
                                                                         <button 
-                                                                            onClick={() => setSelectedNote(note)} 
+                                                                            onClick={() => window.open(note.file_url || note.fileUrl, '_blank')} 
                                                                             className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
                                                                             title="View Note"
                                                                         >
@@ -322,23 +290,6 @@ export default function NotesPage() {
             </div>
         )}
       </main>
-
-      {/* PDF Viewer Modal */}
-      {selectedNote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div className="px-6 py-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-900">
-                    <h3 className="font-bold text-lg truncate text-white">{selectedNote.title}</h3>
-                    <button onClick={() => setSelectedNote(null)} className="text-neutral-400 hover:text-white">
-                        <X size={20} />
-                    </button>
-                </div>
-                <div className="flex-1 overflow-auto bg-neutral-950 p-4 flex justify-center">
-                     <PdfViewer fileUrl={selectedNote.file_url || selectedNote.fileUrl} />
-                </div>
-            </div>
-        </div>
-      )}
 
       {/* Upload Modal */}
       {showUploadModal && (
@@ -384,20 +335,14 @@ export default function NotesPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-neutral-300">File (PDF)</label>
-                        <div className="border-2 border-dashed border-neutral-700 rounded-lg p-8 text-center hover:bg-neutral-800 transition-colors cursor-pointer relative">
-                            <input 
-                                type="file" 
-                                ref={fileInputRef} 
-                                onChange={handleFile} 
-                                accept="application/pdf" 
-                                className="absolute inset-0 opacity-0 cursor-pointer"
-                            />
-                            <Upload className="mx-auto text-neutral-400 mb-2" size={24} />
-                            <p className="text-sm text-neutral-500">
-                                {fileInputRef.current?.files?.[0]?.name || "Click to browse or drag file"}
-                            </p>
-                        </div>
+                        <label className="block text-sm font-medium mb-1 text-neutral-300">Drive Link (URL)</label>
+                        <input 
+                            type="url" 
+                            value={link} 
+                            onChange={e => setLink(e.target.value)} 
+                            placeholder="https://drive.google.com/..." 
+                            className="w-full px-3 py-2 border border-neutral-700 rounded focus:outline-none focus:border-white transition-colors bg-neutral-800 text-white placeholder:text-neutral-600"
+                        />
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
@@ -405,10 +350,10 @@ export default function NotesPage() {
                     <button onClick={() => setShowUploadModal(false)} className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-white">Cancel</button>
                     <button 
                         onClick={addNote} 
-                        disabled={uploading || !title || !file}
+                        disabled={uploading || !title || !link}
                         className="px-4 py-2 bg-white text-black text-sm font-medium rounded hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                        {uploading ? 'Uploading...' : 'Upload Note'}
+                        {uploading ? 'Adding...' : 'Add Note'}
                     </button>
                 </div>
             </div>
