@@ -2,7 +2,15 @@ import React from 'react';
 import { Download, FileText } from 'lucide-react';
 
 export default function PdfViewer({ fileUrl, className='' }) {
-  const isSupabase = fileUrl?.includes('supabase.co');
+  let finalUrl = fileUrl;
+  
+  // Convert standard Google Drive view links to embeddable preview links
+  if (fileUrl?.includes('drive.google.com')) {
+      const match = fileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+          finalUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
+      }
+  }
 
   return (
     <div className={`flex flex-col items-center w-full h-full ${className}`}>
@@ -23,32 +31,14 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </a>
       </div>
 
-      <div className="w-full h-full relative bg-neutral-900/50 rounded-xl overflow-hidden mx-auto border border-neutral-800 max-w-[800px] flex-1 flex flex-col items-center justify-center">
-        {isSupabase ? (
-            <iframe
-                src={`${fileUrl}#toolbar=0`}
-                title="PDF Viewer"
-                className="w-full h-full border-0"
-                loading="lazy"
-            />
-        ) : (
-            <div className="text-center p-8">
-                <FileText size={48} className="mx-auto text-neutral-500 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">External Note</h3>
-                <p className="text-neutral-400 mb-6 max-w-md">
-                    This note is hosted on an external drive. Please open it in a new tab to view the contents.
-                </p>
-                <a 
-                    href={fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-neutral-200 transition-colors inline-flex items-center gap-2"
-                >
-                    <Download size={18} />
-                    Open Note
-                </a>
-            </div>
-        )}
+      <div className="w-full h-full relative bg-neutral-900/50 rounded-xl overflow-hidden mx-auto border border-neutral-800 max-w-[800px] flex-1">
+        <iframe
+            src={finalUrl.includes('drive.google.com') ? finalUrl : `${finalUrl}#toolbar=0`}
+            title="PDF Viewer"
+            className="w-full h-full border-0 bg-white"
+            loading="lazy"
+            allow="autoplay"
+        />
       </div>
     </div>
   );
