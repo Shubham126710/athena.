@@ -51,13 +51,13 @@ export default function Landing() {
   const [text, setText] = React.useState('');
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
-  const [views, setViews] = React.useState(350);
+  const [views, setViews] = React.useState(1080);
 
   React.useEffect(() => { 
     const updateViews = async () => {
       try {
         let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
-        if (isNaN(localHits)) localHits = 350;
+        if (isNaN(localHits)) localHits = 1080;
         
         // Ensure firebase works, update and fetch count
         const coll = collection(db, 'notes');
@@ -66,7 +66,7 @@ export default function Landing() {
         const q = query(coll, where('subject', '==', 'site_analytics'));
         const snapshot = await getCountFromServer(q);
         
-        const trueCount = snapshot.data().count + 350; // base offset
+        const trueCount = snapshot.data().count + 1080; // base offset
         
         setViews(trueCount);
         localStorage.setItem('athena_view_count', trueCount.toString());
