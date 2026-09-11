@@ -123,8 +123,19 @@ export default function SGPACalculator({ isOpen, onClose }) {
 
   const fetchHistory = async () => {
     if (!user) return;
-    // TEMPORARY: STOP QUERIES TO ALLOW DATABASE TO COOL DOWN
-    return;
+    setLoadingHistory(true);
+    const { data, error } = await supabase
+      .from('sgpa_history')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching history:', error);
+    } else {
+      setHistory(data || []);
+    }
+    setLoadingHistory(false);
   };
 
   const deleteHistoryItem = async (id) => {

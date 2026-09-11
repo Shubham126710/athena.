@@ -36,8 +36,6 @@ export default function HubNavbar() {
   }, []);
 
   const fetchNotifications = async () => {
-    // TEMPORARY: STOP QUERIES TO ALLOW DATABASE TO COOL DOWN
-    return;
     const { data, error } = await supabase
       .from('notifications')
       .select('*')
