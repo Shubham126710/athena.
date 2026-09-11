@@ -4,7 +4,6 @@ import { Calendar, BookOpen, Star, Zap, X, Bell } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import { useAuth } from '../context/AuthContext';
-import { supabase } from '../lib/supabaseClient';
 
 const QUOTES = [
   { text: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
