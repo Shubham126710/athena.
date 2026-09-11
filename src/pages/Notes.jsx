@@ -47,12 +47,15 @@ export default function NotesPage() {
 
   // Fetch notes on mount
   React.useEffect(() => {
-    loadNotes();
+    fetchNotes();
   }, []);
 
-  async function loadNotes() {
-    setLoading(true);
+  async function fetchNotes() {
     try {
+      setLoading(true);
+      
+      // TEMPORARY: STOP QUERIES TO ALLOW DATABASE TO COOL DOWN
+      return;
       const { data, error } = await supabase
         .from('notes')
         .select('*')
