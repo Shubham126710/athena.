@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from '../lib/firebase';
 import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -40,7 +40,14 @@ export function AuthProvider({ children }) {
       if (docSnap.exists()) {
         setProfile({ id: docSnap.id, ...docSnap.data() });
       } else {
-        console.warn('Profile not found in Firestore.');
+        // Auto-create profile if it doesn't exist (e.g. first time admin login)
+        const newProfile = {
+          first_name: 'Admin',
+          role: 'admin',
+          avatar_seed: userId
+        };
+        await setDoc(docRef, newProfile);
+        setProfile({ id: userId, ...newProfile });
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
