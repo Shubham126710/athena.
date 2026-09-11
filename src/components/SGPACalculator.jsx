@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Trash2, Save, Calculator, History, RotateCcw } from 'lucide-react';
-import { supabase } from '../lib/supabaseClient';
+import { db } from '../lib/firebase';
+import { collection, query, where, orderBy, getDocs, addDoc, deleteDoc, doc, writeBatch } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 
 export default function SGPACalculator({ isOpen, onClose }) {
@@ -100,23 +101,21 @@ export default function SGPACalculator({ isOpen, onClose }) {
     if (!user || !result) return;
     setSaving(true);
 
-    const { error } = await supabase
-      .from('sgpa_history')
-      .insert({
-        user_id: user.id,
-        semester_name: semesterName || `Semester ${history.length + 1}`,
-        sgpa: result.sgpa,
-        total_credits: result.totalCredits,
-        grade_points: result.totalPoints
-      });
-
-    if (error) {
-      console.error('Error saving SGPA:', error);
-      alert('Failed to save history. Make sure the database table exists.');
-    } else {
-      fetchHistory();
-      setActiveTab('history');
-      resetCalculator();
+    try {
+        await addDoc(collection(db, 'sgpa_history'), {
+            user_id: user.uid || user.id,
+            semester_name: semesterName || `Semester ${history.length + 1}`,
+            sgpa: result.sgpa,
+            total_credits: result.totalCredits,
+            grade_points: result.totalPoints,
+            created_at: Date.now()
+        });
+        fetchHistory();
+        setActiveTab('history');
+        resetCalculator();
+    } catch (error) {
+        console.error('Error saving SGPA:', error);
+        alert('Failed to save history.');
     }
     setSaving(false);
   };
@@ -124,41 +123,42 @@ export default function SGPACalculator({ isOpen, onClose }) {
   const fetchHistory = async () => {
     if (!user) return;
     setLoadingHistory(true);
-    const { data, error } = await supabase
-      .from('sgpa_history')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching history:', error);
-    } else {
-      setHistory(data || []);
+    try {
+        const q = query(
+            collection(db, 'sgpa_history'), 
+            where('user_id', '==', user.uid || user.id),
+            orderBy('created_at', 'desc')
+        );
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setHistory(data);
+    } catch (error) {
+        console.error('Error fetching history:', error);
     }
     setLoadingHistory(false);
   };
 
   const deleteHistoryItem = async (id) => {
-    const { error } = await supabase
-      .from('sgpa_history')
-      .delete()
-      .eq('id', id);
-    
-    if (!error) {
-      setHistory(history.filter(h => h.id !== id));
+    try {
+        await deleteDoc(doc(db, 'sgpa_history', id));
+        setHistory(history.filter(h => h.id !== id));
+    } catch (e) { 
+        console.error(e); 
     }
   };
 
   const clearAllHistory = async () => {
     if (!confirm('Are you sure you want to clear all history?')) return;
     
-    const { error } = await supabase
-      .from('sgpa_history')
-      .delete()
-      .eq('user_id', user.id);
-
-    if (!error) {
-      setHistory([]);
+    try {
+        const batch = writeBatch(db);
+        history.forEach(item => {
+            batch.delete(doc(db, 'sgpa_history', item.id));
+        });
+        await batch.commit();
+        setHistory([]);
+    } catch (e) {
+        console.error(e);
     }
   };
 

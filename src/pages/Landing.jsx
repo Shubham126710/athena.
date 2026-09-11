@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import DitherHero from '../components/DitherHero.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
-import { supabase } from '../lib/supabaseClient.js';
+import { db } from '../lib/firebase';
+import { collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
 import Avatar from '../components/Avatar.jsx';
 
@@ -58,19 +59,14 @@ export default function Landing() {
         let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
         if (isNaN(localHits)) localHits = 350;
         
-        // Ensure supabase works, update and fetch count
-        await supabase.from('notes').insert([
-          { title: 'session_hit', subject: 'site_analytics', unit: 'pageview', file_url: 'none', file_path: 'hit' }
-        ]);
+        // Ensure firebase works, update and fetch count
+        const coll = collection(db, 'notes');
+        await addDoc(coll, { title: 'session_hit', subject: 'site_analytics', unit: 'pageview', file_url: 'none', file_path: 'hit' });
 
-        const { count, error } = await supabase
-          .from('notes')
-          .select('*', { count: 'exact', head: true })
-          .eq('subject', 'site_analytics');
-
-        if (error) throw error;
+        const q = query(coll, where('subject', '==', 'site_analytics'));
+        const snapshot = await getCountFromServer(q);
         
-        const trueCount = (count || 0) + 350; // base offset
+        const trueCount = snapshot.data().count + 350; // base offset
         
         setViews(trueCount);
         localStorage.setItem('athena_view_count', trueCount.toString());

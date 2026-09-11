@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
 import PdfViewer from '../components/PdfViewer.jsx';
-import { supabase } from '../lib/supabaseClient';
+import { db, storage } from '../lib/firebase';
+import { collection, getDocs, addDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import HubNavbar from '../components/HubNavbar.jsx';
 import { useAuth } from '../context/AuthContext';
 
@@ -53,13 +55,10 @@ export default function NotesPage() {
   async function loadNotes() {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('notes')
-        .select('*')
-        .order('created_at', { ascending: false });
-        
-      if (error) throw error;
-      setNotes(data || []);
+      const q = query(collection(db, 'notes'), orderBy('created_at', 'desc'));
+      const querySnapshot = await getDocs(q);
+      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setNotes(data);
     } catch (e) {
       console.error('Error loading notes:', e);
       // Fallback to local storage if Supabase fails (optional, but good for transition)
@@ -90,42 +89,32 @@ export default function NotesPage() {
         let filePath = null;
 
         if (uploadType === 'file') {
-            // 1. Upload file to Supabase Storage
+            // 1. Upload file to Firebase Storage
             const fileExt = file.name.split('.').pop();
             const fileName = `${Date.now()}.${fileExt}`;
-            filePath = `${uploadSubject}/${uploadUnit}/${fileName}`;
+            filePath = `notes/${uploadSubject}/${uploadUnit}/${fileName}`;
+            const storageRef = ref(storage, filePath);
             
-            const { error: uploadError } = await supabase.storage
-                .from('notes')
-                .upload(filePath, file, { cacheControl: '31536000', upsert: false });
-                
-            if (uploadError) throw uploadError;
-
-            // 2. Get Public URL
-            const { data } = supabase.storage.from('notes').getPublicUrl(filePath);
-            publicUrl = data.publicUrl;
+            await uploadBytes(storageRef, file, { cacheControl: 'public, max-age=31536000' });
+            publicUrl = await getDownloadURL(storageRef);
         } else {
             publicUrl = link.trim();
         }
 
-        // 3. Insert Metadata into Table
+        // 3. Insert Metadata into Firestore
         const newNote = {
             title: title.trim(),
             subject: uploadSubject,
             unit: uploadSubject === 'PHC' ? 'General' : uploadUnit,
             file_url: publicUrl,
-            file_path: filePath
+            file_path: filePath,
+            created_at: Date.now()
         };
 
-        const { data, error: insertError } = await supabase
-            .from('notes')
-            .insert([newNote])
-            .select();
-
-        if (insertError) throw insertError;
+        const docRef = await addDoc(collection(db, 'notes'), newNote);
 
         // Update UI
-        setNotes(prev => [data[0], ...prev]);
+        setNotes(prev => [{ id: docRef.id, ...newNote }, ...prev]);
         
         setShowUploadModal(false);
         setTitle('');
@@ -147,19 +136,12 @@ export default function NotesPage() {
     try {
         // 1. Delete from Storage
         if (note.file_path) {
-            const { error: storageError } = await supabase.storage
-                .from('notes')
-                .remove([note.file_path]);
-            if (storageError) console.error('Storage delete error:', storageError);
+            const fileRef = ref(storage, note.file_path);
+            await deleteObject(fileRef).catch(e => console.error('Storage delete error:', e));
         }
 
-        // 2. Delete from Table
-        const { error: tableError } = await supabase
-            .from('notes')
-            .delete()
-            .eq('id', note.id);
-            
-        if (tableError) throw tableError;
+        // 2. Delete from Firestore
+        await deleteDoc(doc(db, 'notes', note.id));
 
         setNotes(prev => prev.filter(n => n.id !== note.id));
     } catch (e) {

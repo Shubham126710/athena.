@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { supabase } from '../lib/supabaseClient';
+import { db } from '../lib/firebase';
+import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
 import SGPACalculator from './SGPACalculator';
 import Avatar from './Avatar';
 
@@ -36,13 +37,13 @@ export default function HubNavbar() {
   }, []);
 
   const fetchNotifications = async () => {
-    const { data, error } = await supabase
-      .from('notifications')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (data) {
-        const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
+    try {
+        const q = query(collection(db, 'notifications'), orderBy('created_at', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        if (data.length >= 0) {
+            const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
         // Format time relative to now
         const formattedData = data
             .filter(n => !clearedIds.includes(n.id))
@@ -68,7 +69,10 @@ export default function HubNavbar() {
                     time: getTimeAgo(new Date(updatedNotif.created_at))
                 };
             });
-        setNotifications(formattedData);
+            setNotifications(formattedData);
+        }
+    } catch (err) {
+        console.error("Error fetching notifications", err);
     }
   };
 
@@ -98,11 +102,11 @@ export default function HubNavbar() {
     e.preventDefault();
     setIsPosting(true);
     try {
-        const { error } = await supabase
-            .from('notifications')
-            .insert([newNotification]);
-        
-        if (error) throw error;
+        const notifToPost = {
+            ...newNotification,
+            created_at: new Date().toISOString()
+        };
+        await addDoc(collection(db, 'notifications'), notifToPost);
         
         setNewNotification({ title: '', message: '', type: 'info' });
         setShowCompose(false);
