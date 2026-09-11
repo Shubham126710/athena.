@@ -2,9 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
 import PdfViewer from '../components/PdfViewer.jsx';
-import { db, storage } from '../lib/firebase';
+import { db } from '../lib/firebase';
 import { collection, getDocs, addDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import HubNavbar from '../components/HubNavbar.jsx';
 import { useAuth } from '../context/AuthContext';
 
@@ -89,14 +88,29 @@ export default function NotesPage() {
         let filePath = null;
 
         if (uploadType === 'file') {
-            // 1. Upload file to Firebase Storage
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Date.now()}.${fileExt}`;
-            filePath = `notes/${uploadSubject}/${uploadUnit}/${fileName}`;
-            const storageRef = ref(storage, filePath);
+            // 1. Upload file to Cloudinary
+            const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+            const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
             
-            await uploadBytes(storageRef, file, { cacheControl: 'public, max-age=31536000' });
-            publicUrl = await getDownloadURL(storageRef);
+            if (!cloudName || !uploadPreset) {
+                throw new Error("Cloudinary keys missing in .env");
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', uploadPreset);
+            formData.append('folder', `notes/${uploadSubject}/${uploadUnit}`);
+
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error?.message || 'Upload failed');
+
+            publicUrl = data.secure_url;
+            filePath = data.public_id;
         } else {
             publicUrl = link.trim();
         }
@@ -135,11 +149,9 @@ export default function NotesPage() {
     if(!confirm('Are you sure you want to delete this note?')) return;
     try {
         // 1. Delete from Storage
-        if (note.file_path) {
-            const fileRef = ref(storage, note.file_path);
-            await deleteObject(fileRef).catch(e => console.error('Storage delete error:', e));
-        }
-
+        // Note: Cloudinary unsigned API does not support deletion.
+        // The file stays in Cloudinary, but the Firestore record is removed.
+        
         // 2. Delete from Firestore
         await deleteDoc(doc(db, 'notes', note.id));
 
