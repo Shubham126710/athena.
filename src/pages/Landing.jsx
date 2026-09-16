@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CrowdCanvas from '../components/CrowdCanvas.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
+import Footer1 from '../components/Footer1.jsx';
 import { db } from '../lib/firebase';
 import { collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
@@ -123,7 +124,7 @@ export default function Landing() {
        }}></div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-neutral-950/90 backdrop-blur-md border-b border-neutral-800">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
         {/* Updated Navbar */}
         <div className="flex items-center gap-2">
           <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
@@ -160,7 +161,7 @@ export default function Landing() {
 
       <main className="pt-24">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+        <section className="relative w-full min-h-[85vh] flex flex-col items-center justify-start pt-32 text-center overflow-hidden">
           
           {/* Depth Effect Background - Higher Z-Index to place people in front of text */}
           <div className="absolute inset-0 w-full z-20 pointer-events-none">
@@ -170,7 +171,7 @@ export default function Landing() {
           </div>
           
           {/* Text content wrapped in container, pushed behind people (z-10) */}
-          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 pt-16 flex flex-col items-center">
+          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center mb-48">
             <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
@@ -196,7 +197,7 @@ export default function Landing() {
         <MarqueeStrip />
 
         {/* 1. About / Goal Section */}
-        <section id="about" className="py-32 bg-neutral-950">
+        <section id="about" className="py-24 bg-neutral-950 border-t border-neutral-900/50">
           <div className="container mx-auto px-6 md:px-12">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8 text-white">The Goal</h2>
@@ -208,9 +209,9 @@ export default function Landing() {
         </section>
 
         {/* 2. Features Section (Bento Grid) */}
-        <section id="features" className="bg-neutral-950 text-white py-32 relative overflow-hidden">
+        <section id="features" className="bg-neutral-950 text-white py-24 relative overflow-hidden border-t border-neutral-900/50">
           {/* Background Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neutral-900/30 blur-[120px] rounded-full pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 blur-[120px] rounded-full pointer-events-none"></div>
 
           <div className="container mx-auto px-6 md:px-12 text-center mb-24 relative z-10">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Forged for Wisdom</h2>
@@ -287,7 +288,7 @@ export default function Landing() {
         </section>
 
         {/* 3. Contact Section */}
-        <section id="contact" className="py-24 bg-neutral-900 border-t border-neutral-800">
+        <section id="contact" className="py-24 bg-neutral-950 border-t border-neutral-900/50">
           <div className="container mx-auto px-6 md:px-12">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold tracking-tight mb-8 text-white">Contact</h2>
@@ -328,81 +329,7 @@ export default function Landing() {
         </section>
 
         {/* Footer */}
-        <footer className="relative bg-neutral-950 text-neutral-400 pt-32 pb-20">
-            {/* Wave Top */}
-            <div className="absolute top-0 left-0 right-0 w-full -mt-1 overflow-hidden leading-none">
-                 <svg viewBox="0 0 1440 54" className="w-full fill-neutral-900 block" preserveAspectRatio="none">
-                    <path d="M0,54 C280,0 400,0 720,54 C1040,0 1160,0 1440,54 V0 H0 V54 Z" />
-                 </svg>
-            </div>
-
-            <div className="container mx-auto px-6 md:px-12">
-                {/* Content Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
-                    {/* Brand Column (2 cols wide) */}
-                    <div className="lg:col-span-2">
-                        <div className="flex items-center gap-2 mb-6 text-white">
-                            <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-                            <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
-                        </div>
-                        <div className="flex gap-4 mb-6">
-                            <a href="https://www.instagram.com/iamshubham_15" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                                <Instagram size={20} />
-                            </a>
-                            <a href="https://www.threads.net/@iamshubham_15" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                                <AtSign size={20} />
-                            </a>
-                            <a href="https://twitter.com/iamshubham_15" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                                <Twitter size={20} />
-                            </a>
-                            <a href="https://www.linkedin.com/in/shubham-upadhyay-a12a9428b/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                                <Linkedin size={20} />
-                            </a>
-                            <a href="https://github.com/Shubham126710" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                                <Github size={20} />
-                            </a>
-                        </div>
-                        <a href="mailto:shubham360upadhyay@gmail.com" className="text-sm hover:text-white transition-colors">
-                            shubham360upadhyay@gmail.com
-                        </a>
-                    </div>
-
-                    {/* Links Columns */}
-                    <div>
-                        <h4 className="font-bold text-white mb-6">Platform</h4>
-                        <ul className="space-y-4 text-sm">
-                            <li><button onClick={() => nav('/hub')} className="hover:text-white transition-colors">Hub</button></li>
-                            <li><button onClick={() => nav('/notes')} className="hover:text-white transition-colors">Notes</button></li>
-                            <li><button onClick={() => nav('/syllabus')} className="hover:text-white transition-colors">Syllabus</button></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                    <h4 className="font-bold text-white mb-6">Creator</h4>
-                    <ul className="space-y-4 text-sm">
-                        <li><a href="https://shubham-upadhyay.vercel.app/" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Portfolio</a></li>
-                        <li><a href="https://github.com/Shubham126710" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
-                        <li><a href="https://twitter.com/iamshubham_15" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter (X)</a></li>
-                    </ul>
-                </div>
-
-                    <div>
-                        <h4 className="font-bold text-white mb-6">Legal</h4>
-                        <ul className="space-y-4 text-sm">
-                            <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Bottom Bar */}
-                <div className="pt-8 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
-                    <p>© 2025 Athena. All rights reserved.</p>
-                    <p>Designed & Built by Shubham Upadhyay</p>
-                </div>
-            </div>
-        </footer>
+        <Footer1 />
       </main>
     </div>
   );
