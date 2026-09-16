@@ -63,56 +63,48 @@ export default function LoadingScreen({ onComplete }) {
     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
       {/* Animated Light Grid */}
-      <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-30" style={{
-          backgroundImage: 'linear-gradient(to right, #404040 1px, transparent 1px), linear-gradient(to bottom, #404040 1px, transparent 1px)',
+      <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-20" style={{
+          backgroundImage: 'linear-gradient(to right, #262626 1px, transparent 1px), linear-gradient(to bottom, #262626 1px, transparent 1px)',
           backgroundSize: '4rem 4rem',
-          maskImage: 'radial-gradient(circle at center, black 30%, transparent 80%)'
+          maskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)'
        }}></div>
       
       {/* Subtle Glow Center */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-white opacity-[0.03] blur-[100px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-white opacity-[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
-      {/* Scanline Overlay */}
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.5)_51%)] bg-[length:100%_4px] opacity-20 drop-shadow-md"></div>
-
-      {/* Main Content */}
-      <div className="w-full max-w-md px-8 flex flex-col items-center text-center relative z-10 backdrop-blur-sm bg-neutral-950/30 p-10 rounded-2xl border border-white/5 shadow-2xl">
-        
-        {/* Logo */}
-        <div className="mb-12 flex flex-col items-center gap-4">
-           <div className="relative">
-             <div className="absolute -inset-2 bg-white/20 blur-xl rounded-full"></div>
-             <img src="/logo.png" alt="Athena Logo" className="relative w-20 h-20 rounded-xl shadow-2xl border border-white/10" />
-           </div>
-           <span className="font-serif font-extrabold tracking-tight text-3xl">athena.</span>
-        </div>
-
-        {/* Quote */}
-        <div className="h-28 flex items-center justify-center mb-8 w-full">
-            <p className="text-lg md:text-xl font-light italic text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-white to-neutral-400 leading-relaxed drop-shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            "{quote}"
-            </p>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-neutral-900 rounded-full overflow-hidden mb-4 relative">
+      {/* Main Content (Massive Typography) */}
+      <div className="relative z-10 w-full px-6 flex flex-col items-center justify-center h-full">
+        <div className="relative overflow-hidden w-full text-center">
+          {/* Background Outline Text */}
+          <h1 className="text-[12vw] md:text-[10vw] font-serif font-extrabold tracking-tighter leading-none text-transparent mix-blend-plus-lighter" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}>
+            ATHENA.
+          </h1>
+          
+          {/* Filled Text that reveals with progress */}
           <div 
-            className="absolute top-0 left-0 h-full bg-white transition-all duration-300 ease-out shadow-[0_0_15px_rgba(255,255,255,0.8)]"
-            style={{ width: `${progress}%` }}
-          />
+            className="absolute top-0 left-0 w-full h-full overflow-hidden transition-all duration-300 ease-out"
+            style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
+          >
+            <h1 className="text-[12vw] md:text-[10vw] font-serif font-extrabold tracking-tighter leading-none text-white drop-shadow-2xl">
+              ATHENA.
+            </h1>
+          </div>
         </div>
 
-        {/* Status Text */}
-        <div className="flex justify-between w-full text-xs font-mono text-neutral-500 uppercase tracking-widest">
-            <span>Loading Assets...</span>
-            <span>{Math.floor(progress)}%</span>
+        {/* Dynamic Subtitle / Quote */}
+        <div className="mt-8 flex items-center justify-between w-full max-w-4xl px-4 md:px-12 border-t border-neutral-900 pt-6">
+            <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-md line-clamp-2 pr-8 animate-in fade-in slide-in-from-bottom-2 duration-1000">
+                "{quote}"
+            </p>
+            <div className="text-right">
+                <span className="block text-[2.5rem] md:text-[4rem] font-bold font-mono tracking-tighter leading-none text-white mix-blend-difference">
+                    {Math.floor(progress)}<span className="text-2xl text-neutral-600">%</span>
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest mt-1 block">
+                    Loading Assets...
+                </span>
+            </div>
         </div>
-
-      </div>
-
-      {/* Footer / Version */}
-      <div className="absolute bottom-8 text-[10px] text-neutral-600 font-mono">
-        ATHENA SYSTEM v1.0.4
       </div>
     </div>
   );

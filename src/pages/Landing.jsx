@@ -124,50 +124,55 @@ export default function Landing() {
           maskImage: 'linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)'
        }}></div>
 
-      {/* Navigation & Ticker Wrapper */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col">
-        <nav className="px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm relative z-20">
-          {/* Updated Navbar */}
-          <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-            <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
-          </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
-            <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <button onClick={() => nav('/hub')} className="hidden md:block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
-            
-            {/* Mobile Menu Toggle */}
-            <button 
-              className="md:hidden p-2 text-neutral-400 hover:text-white"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Mobile Menu Overlay */}
-          {isMobileMenuOpen && (
-              <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
-                  <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
-                  <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
-                  <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
-                  <div className="h-px bg-neutral-800 my-2"></div>
-                  <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
-              </div>
-          )}
-        </nav>
-        <div className="w-full relative z-10 hidden md:block">
-            <MarqueeStrip />
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
+        {/* Updated Navbar */}
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
+          <span className="font-serif font-bold tracking-tight text-xl hidden sm:block">athena.</span>
         </div>
-      </div>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
+          <a href="#about" className="hover:text-white transition-colors">About</a>
+          <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+        </div>
+        <div className="flex items-center gap-4">
+          {/* Hit Counter Widget in Navbar */}
+          <div className="hidden md:flex items-center gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-[10px] font-mono text-neutral-300 font-medium tracking-widest uppercase">Views: <span className="text-white font-bold">{views}</span></span>
+          </div>
 
-      <main className="pt-32 md:pt-40">
+          <button onClick={() => nav('/hub')} className="hidden md:block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-neutral-400 hover:text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
+                <div className="flex items-center gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-1.5 w-fit">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                    <span className="text-[10px] font-mono text-neutral-300 font-medium tracking-widest uppercase">Views: <span className="text-white font-bold">{views}</span></span>
+                </div>
+                <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
+                <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+                <div className="h-px bg-neutral-800 my-2"></div>
+                <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+            </div>
+        )}
+      </nav>
+
+      <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[85vh] flex flex-col items-center justify-center text-center overflow-hidden">
+        <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-center justify-start pt-[12vh] text-center overflow-hidden">
           
           {/* Depth Effect Background - Higher Z-Index to place people in front of text */}
           <div className="absolute inset-0 w-full z-20 pointer-events-none">
@@ -177,7 +182,7 @@ export default function Landing() {
           </div>
           
           {/* Text content wrapped in container, pushed behind people (z-10) */}
-          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center mb-32">
+          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center">
             <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
@@ -190,12 +195,11 @@ export default function Landing() {
               Get Started
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            
-            {/* Hit Counter Widget */}
-            <div className="mt-12 inline-flex items-center gap-2 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 shadow-lg">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-xs font-mono text-neutral-300 font-medium tracking-widest uppercase">Page Views: <span className="text-white font-bold">{views}</span></span>
-            </div>
+          </div>
+          
+          {/* Logos Strip / Marquee - Placed at the bottom of the hero above the fold */}
+          <div className="absolute bottom-0 left-0 w-full z-30">
+              <MarqueeStrip />
           </div>
         </section>
 
