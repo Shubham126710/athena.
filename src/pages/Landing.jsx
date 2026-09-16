@@ -127,16 +127,19 @@ export default function Landing() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
         {/* Updated Navbar */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-10 w-1/3">
           <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
           <span className="font-serif font-bold tracking-tight text-xl hidden sm:block">athena.</span>
         </div>
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
+        
+        {/* Perfectly Centered Nav Links */}
+        <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center justify-end gap-4 relative z-10 w-2/3 md:w-1/3">
           {/* Hit Counter Widget in Navbar */}
           <div className="hidden md:flex items-center gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
@@ -183,18 +186,14 @@ export default function Landing() {
           
           {/* Text content wrapped in container, pushed behind people (z-10) */}
           <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center">
-            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
+            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-6 md:mb-8 text-white min-h-[140px] md:min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
               <span className="text-neutral-300 italic pr-2">{text}</span><span className="animate-pulse text-white">_</span>
             </h1>
-            <p className="text-lg text-neutral-400 mb-10 leading-relaxed font-light mx-auto max-w-xl">
+            <p className="text-base md:text-lg text-neutral-400 leading-relaxed font-light mx-auto max-w-xl">
               Build, connect, and scale intelligent workflows — all from one place.
             </p>
-            <button onClick={() => nav('/hub')} className="mx-auto group flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-sm text-base font-medium hover:bg-neutral-200 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-              Get Started
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
           
           {/* Logos Strip / Marquee - Placed at the bottom of the hero above the fold */}

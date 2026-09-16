@@ -76,8 +76,8 @@ export default function LoadingScreen({ onComplete }) {
       <div className="relative z-10 w-full px-6 flex flex-col items-center justify-center h-full">
         <div className="relative overflow-hidden w-full text-center">
           {/* Background Outline Text */}
-          <h1 className="text-[12vw] md:text-[10vw] font-serif font-extrabold tracking-tighter leading-none text-transparent mix-blend-plus-lighter" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}>
-            ATHENA.
+          <h1 className="text-[14vw] md:text-[12vw] font-serif font-extrabold tracking-tighter leading-none text-transparent mix-blend-plus-lighter" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}>
+            athena.
           </h1>
           
           {/* Filled Text that reveals with progress */}
@@ -85,8 +85,8 @@ export default function LoadingScreen({ onComplete }) {
             className="absolute top-0 left-0 w-full h-full overflow-hidden transition-all duration-300 ease-out"
             style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
           >
-            <h1 className="text-[12vw] md:text-[10vw] font-serif font-extrabold tracking-tighter leading-none text-white drop-shadow-2xl">
-              ATHENA.
+            <h1 className="text-[14vw] md:text-[12vw] font-serif font-extrabold tracking-tighter leading-none text-white drop-shadow-2xl">
+              athena.
             </h1>
           </div>
         </div>
