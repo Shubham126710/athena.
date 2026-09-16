@@ -160,10 +160,6 @@ export default function Landing() {
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
             <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
-                <div className="flex items-center gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-1.5 w-fit">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-[10px] font-mono text-neutral-300 font-medium tracking-widest uppercase">Views: <span className="text-white font-bold">{views}</span></span>
-                </div>
                 <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
                 <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
                 <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
