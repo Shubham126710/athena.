@@ -139,11 +139,11 @@ export default function Landing() {
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </div>
 
-        <div className="flex items-center justify-end gap-4 relative z-10 w-2/3 md:w-1/3">
-          {/* Hit Counter Widget in Navbar */}
-          <div className="hidden md:flex items-center gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-3 py-1.5">
+        <div className="flex items-center justify-end gap-2 md:gap-4 relative z-10 w-2/3 md:w-1/3">
+          {/* Hit Counter Widget in Navbar - Now visible on mobile */}
+          <div className="flex items-center gap-1.5 md:gap-2 bg-neutral-900/80 border border-neutral-800 rounded-full px-2 py-1 md:px-3 md:py-1.5 transform scale-90 md:scale-100 origin-right">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] font-mono text-neutral-300 font-medium tracking-widest uppercase">Views: <span className="text-white font-bold">{views}</span></span>
+            <span className="text-[9px] md:text-[10px] font-mono text-neutral-300 font-medium tracking-widest uppercase"><span className="hidden sm:inline">Views: </span><span className="text-white font-bold">{views}</span></span>
           </div>
 
           <button onClick={() => nav('/hub')} className="hidden md:block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
@@ -173,8 +173,8 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-center justify-start pt-[12vh] text-center overflow-hidden">
           
-          {/* Depth Effect Background - Higher Z-Index to place people in front of text */}
-          <div className="absolute inset-0 w-full z-20 pointer-events-none">
+          {/* Depth Effect Background - Scaled down on mobile to prevent overlapping */}
+          <div className="absolute inset-x-0 bottom-0 top-auto w-full h-[65%] md:h-full z-20 pointer-events-none">
              <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
              {/* Gradient overlay to blend the canvas edge with background */}
              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent"></div>
