@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
 
 const SocialCloud = ({ className }) => (
