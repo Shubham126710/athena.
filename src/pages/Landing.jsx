@@ -160,14 +160,17 @@ export default function Landing() {
 
       <main className="pt-24">
         {/* Hero Section */}
-        <section className="relative container mx-auto px-6 md:px-12 min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
-          <div className="absolute inset-0 z-0">
+        <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+          
+          {/* Depth Effect Background - Higher Z-Index to place people in front of text */}
+          <div className="absolute inset-0 w-full z-20 pointer-events-none">
              <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
-             {/* Gradient overlay to fade the canvas out near the text/bottom */}
-             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-transparent pointer-events-none"></div>
+             {/* Gradient overlay to blend the canvas edge with background */}
+             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent"></div>
           </div>
           
-          <div className="max-w-3xl relative z-10 pt-16">
+          {/* Text content wrapped in container, pushed behind people (z-10) */}
+          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 pt-16 flex flex-col items-center">
             <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>

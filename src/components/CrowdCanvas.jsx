@@ -249,7 +249,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
 
   // Added invert class to make it suitable for dark mode
   return (
-    <canvas ref={canvasRef} className="absolute bottom-0 h-full w-full invert" style={{ pointerEvents: 'none' }} />
+    <canvas ref={canvasRef} className="absolute bottom-0 h-full w-full" style={{ pointerEvents: 'none' }} />
   );
 };
 
