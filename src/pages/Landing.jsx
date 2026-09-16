@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DitherHero from '../components/DitherHero.jsx';
+import CrowdCanvas from '../components/CrowdCanvas.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import { db } from '../lib/firebase';
@@ -160,32 +160,32 @@ export default function Landing() {
 
       <main className="pt-24">
         {/* Hero Section */}
-        <section className="container mx-auto px-6 md:px-12 min-h-[72vh] lg:min-h-[calc(100vh-12rem)] grid md:grid-cols-2 gap-12 items-center">
-          <div className="max-w-xl relative z-10">
-            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[240px] drop-shadow-2xl">
+        <section className="relative container mx-auto px-6 md:px-12 min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+          <div className="absolute inset-0 z-0">
+             <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
+             {/* Gradient overlay to fade the canvas out near the text/bottom */}
+             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-transparent pointer-events-none"></div>
+          </div>
+          
+          <div className="max-w-3xl relative z-10 pt-16">
+            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
               <span className="text-neutral-300 italic pr-2">{text}</span><span className="animate-pulse text-white">_</span>
             </h1>
-            <p className="text-lg text-neutral-400 mb-10 leading-relaxed font-light">
+            <p className="text-lg text-neutral-400 mb-10 leading-relaxed font-light mx-auto max-w-xl">
               Build, connect, and scale intelligent workflows — all from one place.
             </p>
-            <button onClick={() => nav('/hub')} className="group flex items-center gap-2 px-8 py-4 bg-white text-black rounded-sm text-base font-medium hover:bg-neutral-200 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+            <button onClick={() => nav('/hub')} className="mx-auto group flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-sm text-base font-medium hover:bg-neutral-200 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
               Get Started
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
-          </div>
-          
-          {/* Dither Graphic */}
-          <div className="relative h-[500px] w-full bg-neutral-950 border border-neutral-800 rounded-sm overflow-hidden">
-             <DitherHero color="#ffffff" backgroundColor="#0a0a0a" />              
-              {/* Hit Counter Widget */}
-              <div className="absolute top-4 right-4 z-30 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-xs font-mono text-neutral-300 font-medium tracking-widest uppercase">Page Views: <span className="text-white font-bold">{views}</span></span>
-              </div>
-             {/* Overlay UI Mockup */}
-             <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-transparent pointer-events-none"></div>
+            
+            {/* Hit Counter Widget */}
+            <div className="mt-12 inline-flex items-center gap-2 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-full px-4 py-2 shadow-lg">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span className="text-xs font-mono text-neutral-300 font-medium tracking-widest uppercase">Page Views: <span className="text-white font-bold">{views}</span></span>
+            </div>
           </div>
         </section>
 
