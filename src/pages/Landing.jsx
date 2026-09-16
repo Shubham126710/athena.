@@ -174,7 +174,7 @@ export default function Landing() {
         <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-center justify-start pt-[12vh] text-center overflow-hidden">
           
           {/* Depth Effect Background - Scaled down on mobile to prevent overlapping */}
-          <div className="absolute inset-x-0 bottom-0 top-auto w-full h-[65%] md:h-full z-20 pointer-events-none">
+          <div className="absolute inset-x-0 bottom-0 top-auto w-full h-[40%] md:h-full z-20 pointer-events-none">
              <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
              {/* Gradient overlay to blend the canvas edge with background */}
              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent"></div>
