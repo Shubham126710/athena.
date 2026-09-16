@@ -20,6 +20,20 @@ module.exports = {
       },
       boxShadow: {
         'inner-grid': 'inset 0 0 0 1px rgba(255,255,255,0.04)'
+      },
+      keyframes: {
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
+        },
+      },
+      animation: {
+        marquee: "marquee var(--duration) infinite linear",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       }
     },
   },

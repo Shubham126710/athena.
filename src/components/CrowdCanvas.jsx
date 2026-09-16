@@ -195,8 +195,13 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
       availablePeeps.push(peep);
     };
 
+    let lastTime = 0;
     const render = () => {
       if (!canvas) return;
+      const now = performance.now();
+      if (now - lastTime < 33) return; // limit to ~30fps
+      lastTime = now;
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.scale(devicePixelRatio, devicePixelRatio);

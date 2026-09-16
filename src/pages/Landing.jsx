@@ -4,6 +4,7 @@ import CrowdCanvas from '../components/CrowdCanvas.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import Footer1 from '../components/Footer1.jsx';
+import Features from '../components/Features.jsx';
 import { db } from '../lib/firebase';
 import { collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
@@ -123,45 +124,50 @@ export default function Landing() {
           maskImage: 'linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)'
        }}></div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
-        {/* Updated Navbar */}
-        <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-          <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
-          <a href="#about" className="hover:text-white transition-colors">About</a>
-          <a href="#features" className="hover:text-white transition-colors">Features</a>
-          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-        </div>
-        <div className="flex items-center gap-4">
-          <button onClick={() => nav('/hub')} className="hidden md:block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
-          
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="md:hidden p-2 text-neutral-400 hover:text-white"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+      {/* Navigation & Ticker Wrapper */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col">
+        <nav className="px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm relative z-20">
+          {/* Updated Navbar */}
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
+            <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
+            <a href="#about" className="hover:text-white transition-colors">About</a>
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <button onClick={() => nav('/hub')} className="hidden md:block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+            
+            {/* Mobile Menu Toggle */}
+            <button 
+              className="md:hidden p-2 text-neutral-400 hover:text-white"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
 
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
-                <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
-                <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
-                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
-                <div className="h-px bg-neutral-800 my-2"></div>
-                <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
-            </div>
-        )}
-      </nav>
+          {/* Mobile Menu Overlay */}
+          {isMobileMenuOpen && (
+              <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
+                  <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
+                  <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
+                  <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+                  <div className="h-px bg-neutral-800 my-2"></div>
+                  <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+              </div>
+          )}
+        </nav>
+        <div className="w-full relative z-10 hidden md:block">
+            <MarqueeStrip />
+        </div>
+      </div>
 
-      <main className="pt-24">
+      <main className="pt-32 md:pt-40">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[85vh] flex flex-col items-center justify-start pt-32 text-center overflow-hidden">
+        <section className="relative w-full min-h-[85vh] flex flex-col items-center justify-center text-center overflow-hidden">
           
           {/* Depth Effect Background - Higher Z-Index to place people in front of text */}
           <div className="absolute inset-0 w-full z-20 pointer-events-none">
@@ -171,7 +177,7 @@ export default function Landing() {
           </div>
           
           {/* Text content wrapped in container, pushed behind people (z-10) */}
-          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center mb-48">
+          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center mb-32">
             <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-8 text-white min-h-[160px] drop-shadow-2xl">
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
               <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
@@ -193,8 +199,6 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Logos Strip / Marquee */}
-        <MarqueeStrip />
 
         {/* 1. About / Goal Section */}
         <section id="about" className="py-24 bg-neutral-950 border-t border-neutral-900/50">
@@ -208,84 +212,8 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* 2. Features Section (Bento Grid) */}
-        <section id="features" className="bg-neutral-950 text-white py-24 relative overflow-hidden border-t border-neutral-900/50">
-          {/* Background Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-          <div className="container mx-auto px-6 md:px-12 text-center mb-24 relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Forged for Wisdom</h2>
-            <p className="text-neutral-400 max-w-2xl mx-auto text-lg font-light">
-              A suite of tools designed to elevate your intellect and streamline your academic pursuit.
-            </p>
-          </div>
-
-          {/* Bento Grid */}
-          <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-            
-            {/* Card 1: Knowledge Vault (Large) */}
-            <SpotlightCard className="md:col-span-2 p-8 md:p-12 min-h-[300px] flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                    <Book size={200} strokeWidth={0.5} />
-                </div>
-                <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Database className="text-white" size={24} />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-bold mb-3 text-white">Digital Library</h3>
-                    <p className="text-neutral-400 leading-relaxed max-w-md">
-                        Your personal archive. Upload handwritten notes, organize them by subject, and access your study materials from any device.
-                    </p>
-                </div>
-            </SpotlightCard>
-
-            {/* Card 2: Chronos Timeline */}
-            <SpotlightCard className="p-8 md:p-12 min-h-[300px] flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                    <Calendar size={150} strokeWidth={0.5} />
-                </div>
-                <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Clock className="text-white" size={24} />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-bold mb-3 text-white">Academic Planner</h3>
-                    <p className="text-neutral-400 leading-relaxed">
-                        Stay ahead of deadlines. Track your exams, assignments, and lecture schedules in one view.
-                    </p>
-                </div>
-            </SpotlightCard>
-
-            {/* Card 3: Neural Link */}
-            <SpotlightCard className="p-8 md:p-12 min-h-[300px] flex flex-col justify-between group">
-                <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Brain className="text-white" size={24} />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-bold mb-3 text-white">Smart Organization</h3>
-                    <p className="text-neutral-400 leading-relaxed">
-                        Find what you need. Tag your notes by topic or unit to keep your revision efficient.
-                    </p>
-                </div>
-            </SpotlightCard>
-
-            {/* Card 4: Fortified Access (Large) */}
-            <SpotlightCard className="md:col-span-2 p-8 md:p-12 min-h-[300px] flex flex-col justify-between group">
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                    <Shield size={200} strokeWidth={0.5} />
-                </div>
-                <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Lock className="text-white" size={24} />
-                </div>
-                <div>
-                    <h3 className="text-2xl font-bold mb-3 text-white">Secure & Private</h3>
-                    <p className="text-neutral-400 leading-relaxed max-w-md">
-                        Your academic records are yours alone. Built with modern authentication to ensure your notes and data stay private.
-                    </p>
-                </div>
-            </SpotlightCard>
-
-          </div>
-        </section>
+        {/* 2. Features Section */}
+        <Features />
 
         {/* 3. Contact Section */}
         <section id="contact" className="py-24 bg-neutral-950 border-t border-neutral-900/50">
