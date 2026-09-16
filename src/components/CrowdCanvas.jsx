@@ -249,7 +249,15 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
     img.onload = init;
     img.src = config.src;
 
-    const handleResize = () => resize();
+    let lastWidth = window.innerWidth;
+    const handleResize = () => {
+      // On mobile, scrolling hides/shows the address bar which changes window height
+      // and triggers resize events. We only want to rebuild the canvas if the width changes.
+      if (window.innerWidth !== lastWidth) {
+        lastWidth = window.innerWidth;
+        resize();
+      }
+    };
     window.addEventListener("resize", handleResize);
 
     return () => {
