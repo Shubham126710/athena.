@@ -30,7 +30,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
     // TWEEN FACTORIES
     const resetPeep = ({ stage, peep }) => {
       const direction = Math.random() > 0.5 ? 1 : -1;
-      const offsetY = 100 - 250 * gsap.parseEase("power2.in")(Math.random());
+      const offsetY = (100 - 250 * gsap.parseEase("power2.in")(Math.random())) * (stage.scale || 1);
       const startY = stage.height - peep.height + offsetY;
       let startX;
       let endX;
@@ -135,6 +135,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
     const stage = {
       width: 0,
       height: 0,
+      scale: 1,
     };
 
     const allPeeps = [];
@@ -217,6 +218,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
       if (!canvas) return;
       stage.width = canvas.clientWidth;
       stage.height = canvas.clientHeight;
+      stage.scale = canvas.clientWidth < 768 ? 0.55 : 1;
       canvas.width = stage.width * devicePixelRatio;
       canvas.height = stage.height * devicePixelRatio;
 
@@ -226,6 +228,13 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }) => {
 
       crowd.length = 0;
       availablePeeps.length = 0;
+      
+      // Update sizes based on scale
+      allPeeps.forEach((peep) => {
+         peep.width = peep.rect[2] * stage.scale;
+         peep.height = peep.rect[3] * stage.scale;
+      });
+
       availablePeeps.push(...allPeeps);
 
       initCrowd();
