@@ -126,17 +126,18 @@ export default function Landing() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
-        {/* Updated Navbar */}
-        <div className="flex items-center gap-2 relative z-10 w-1/3">
-          <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-          <span className="font-serif font-bold tracking-tight text-xl hidden sm:block">athena.</span>
-        </div>
         
-        {/* Perfectly Centered Nav Links */}
-        <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
+        {/* Nav Links on the Left */}
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400 w-1/3 relative z-10">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+        </div>
+
+        {/* Centered Athena Logo */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+          <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
+          <span className="font-serif font-bold tracking-tight text-xl hidden sm:block">athena.</span>
         </div>
 
         <div className="flex items-center justify-end gap-2 md:gap-4 relative z-10 w-2/3 md:w-1/3">
