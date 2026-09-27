@@ -167,7 +167,7 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full h-[100svh] min-h-[600px] flex flex-col justify-center overflow-hidden">
+        <section className="relative w-full h-[calc(100svh-5rem)] min-h-[600px] flex flex-col justify-center overflow-hidden">
           
           {/* Subtle Architectural Grid */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-20" style={{

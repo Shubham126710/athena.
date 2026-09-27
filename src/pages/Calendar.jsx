@@ -144,8 +144,8 @@ export default function CalendarPage() {
                 </div>
 
                 {/* Calendar Grid */}
-                <div className="border border-neutral-900 bg-black">
-                    <div className="grid grid-cols-7 gap-px bg-neutral-900">
+                <div className="bg-black">
+                    <div className="grid grid-cols-7 gap-y-4">
                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
                             <div key={d} className="bg-black p-3 text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest text-center">
                                 {d}
@@ -167,9 +167,9 @@ export default function CalendarPage() {
                                 <div 
                                     key={day} 
                                     onClick={() => setSelectedDate(currentDayDate)}
-                                    className={`h-32 p-2 transition-all duration-200 relative group cursor-pointer
-                                        ${isToday ? 'bg-neutral-900/50' : 'bg-black hover:bg-neutral-900/30'}
-                                        ${isSelected ? 'ring-1 ring-inset ring-white bg-neutral-900/50' : ''}
+                                    className={`h-32 p-2 transition-all duration-200 relative group cursor-pointer border-t border-neutral-900/50 hover:bg-neutral-900/20
+                                        ${isToday ? 'bg-neutral-900/30' : 'bg-black'}
+                                        ${isSelected ? 'ring-1 ring-inset ring-white/50 bg-neutral-900/40' : ''}
                                     `}
                                 >
                                     <div className="flex justify-between items-start">
@@ -183,9 +183,9 @@ export default function CalendarPage() {
                                         )}
                                     </div>
                                     
-                                    <div className="mt-1 flex flex-col gap-1">
+                                    <div className="mt-2 flex flex-col gap-1.5">
                                         {dayEvents.slice(0, 2).map(ev => (
-                                            <div key={ev.id} className={`group/event relative text-[10px] px-2 py-0.5 rounded border truncate font-medium transition-transform hover:scale-[1.02] ${getEventStyle(ev.type)}`}>
+                                            <div key={ev.id} className={`group/event relative text-[10px] px-2 py-1 rounded-sm border-none truncate font-medium transition-transform hover:scale-[1.02] ${getEventStyle(ev.type)}`}>
                                                 {ev.title}
                                                 
                                                 {/* Tooltip */}
@@ -221,11 +221,8 @@ export default function CalendarPage() {
 
             {/* Sidebar: Upcoming */}
             <div className="lg:col-span-4 flex flex-col gap-6">
-                <div className="border-b border-neutral-900 pb-4">
-                    <h3 className="text-[10px] font-mono tracking-widest uppercase text-neutral-400">System Schedule</h3>
-                </div>
-                <div className="flex-1 border border-neutral-900 bg-black p-6 sticky top-24">
-                    <h2 className="text-xl font-serif italic mb-8 text-white">
+                <div className="flex-1 p-6 sticky top-24 bg-neutral-900/5 rounded-sm">
+                    <h2 className="text-2xl font-bold tracking-tight mb-8 text-white">
                         Upcoming Events
                     </h2>
                     <div className="space-y-6 relative">
@@ -237,11 +234,11 @@ export default function CalendarPage() {
                                 <div className="flex-shrink-0 w-5 h-5 mt-0.5 rounded-full bg-black border border-neutral-800 flex items-center justify-center z-10 group-hover:border-white transition-colors">
                                     <div className="w-1.5 h-1.5 rounded-full bg-neutral-600 group-hover:bg-white transition-colors"></div>
                                 </div>
-                                <div className="flex-1 pb-6 border-b border-neutral-900 group-last:border-0 group-last:pb-0">
-                                    <div className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase mb-1">
+                                <div className="flex-1 pb-6 border-b border-neutral-900/50 group-last:border-0 group-last:pb-0">
+                                    <div className="text-xs font-medium text-neutral-500 mb-1">
                                         {ev.date.getDate()} {monthNames[ev.date.getMonth()].substring(0,3)}
                                     </div>
-                                    <div className="font-bold text-sm text-neutral-300 group-hover:text-white transition-colors uppercase tracking-wide">{ev.title}</div>
+                                    <div className="font-bold text-sm text-neutral-200 group-hover:text-white transition-colors">{ev.title}</div>
                                     <div className="text-[10px] font-mono text-neutral-600 mt-2 flex flex-col gap-1">
                                         <span className="uppercase tracking-widest">T: {ev.time}</span>
                                         {ev.location && (

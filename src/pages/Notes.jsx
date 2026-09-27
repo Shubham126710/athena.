@@ -226,8 +226,8 @@ export default function NotesPage() {
                             className="w-full flex items-center justify-between py-6 md:py-8 px-4 -mx-4 hover:bg-neutral-900/30 transition-colors text-left"
                         >
                             <div className="flex items-center gap-6">
-                                <span className="text-2xl font-medium text-white">{subject}</span>
-                                <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">Archive</span>
+                                <span className="text-3xl font-bold tracking-tight text-white">{subject}</span>
+                                <span className="text-sm font-medium text-neutral-500">Archive</span>
                             </div>
                             <div className="text-neutral-600 group-hover:text-white transition-colors">
                                 {expandedSubjects.includes(subject) ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
@@ -239,7 +239,7 @@ export default function NotesPage() {
                                 {subject === 'PHC' ? (() => {
                                     const phcNotes = getNotesFor(subject);
                                     return (
-                                        <div className="border border-neutral-900 p-6 bg-neutral-950/50">
+                                        <div className="p-4 bg-black">
                                             {phcNotes.length === 0 ? (
                                                 <p className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">No records found.</p>
                                             ) : (

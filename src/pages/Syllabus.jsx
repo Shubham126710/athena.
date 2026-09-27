@@ -524,10 +524,11 @@ export default function SyllabusPage() {
                                 {(idx + 1).toString().padStart(2, '0')}
                             </div>
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-medium text-white mb-2">{subject.subject}</h2>
-                                <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
-                                    <span>CODE: {subject.code}</span>
-                                    <span>ABBR: {subject.abbr}</span>
+                                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">{subject.subject}</h2>
+                                <div className="flex items-center gap-4 text-sm font-medium text-neutral-500">
+                                    <span>{subject.code}</span>
+                                    <span>·</span>
+                                    <span>{subject.abbr}</span>
                                 </div>
                             </div>
                         </div>
@@ -537,16 +538,15 @@ export default function SyllabusPage() {
                     </div>
 
                     {expandedSubject === idx && (
-                        <div className="pb-8 pt-4 px-4 md:px-20 border-t border-neutral-900/50 bg-black">
-                            <div className="text-[10px] tracking-widest uppercase font-mono text-neutral-600 mb-6">Course Units</div>
+                        <div className="pb-8 pt-4 px-4 md:px-20 bg-black">
                             {subject.units.map((unit, uIdx) => (
-                                <div key={uIdx} className="mb-6 last:mb-0 border border-neutral-900 bg-neutral-950/50">
+                                <div key={uIdx} className="mb-2 last:mb-0">
                                     <div 
-                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-900 transition-colors"
+                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-900/30 transition-colors rounded-sm"
                                         onClick={() => setExpandedUnit(expandedUnit === `${idx}-${uIdx}` ? null : `${idx}-${uIdx}`)}
                                     >
                                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
-                                            <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-neutral-500">UNIT {(uIdx+1).toString().padStart(2, '0')}</span>
+                                            <span className="text-sm font-medium text-neutral-500">Unit {(uIdx+1)}</span>
                                             <span className="font-medium text-sm md:text-base text-neutral-200">{unit.title}</span>
                                         </div>
                                         <div className="text-neutral-500">
@@ -555,12 +555,12 @@ export default function SyllabusPage() {
                                     </div>
                                     
                                     {expandedUnit === `${idx}-${uIdx}` && (
-                                        <div className="px-6 pb-6 pt-4 border-t border-neutral-900">
-                                            <ul className="space-y-3">
+                                        <div className="px-6 pb-6 pt-2 pl-20">
+                                            <ul className="space-y-4 border-l border-neutral-900/50 pl-6">
                                                 {unit.topics.map((topic, tIdx) => (
-                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-4">
-                                                        <span className="text-[10px] font-mono text-neutral-600 mt-1">{(tIdx + 1).toString().padStart(2, '0')}</span>
-                                                        <span className="leading-relaxed">{topic}</span>
+                                                    <li key={tIdx} className="text-sm md:text-base text-neutral-400 leading-relaxed relative">
+                                                        <span className="absolute -left-[31px] top-2 w-2 h-px bg-neutral-800"></span>
+                                                        {topic}
                                                     </li>
                                                 ))}
                                             </ul>
