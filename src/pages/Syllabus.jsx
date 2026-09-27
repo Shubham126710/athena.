@@ -487,64 +487,80 @@ export default function SyllabusPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto">
-                <div className="mb-12 flex justify-between items-end">
+      <main className="pt-32 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <div className="mb-16 border-b border-neutral-900 pb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
-              <p className="text-neutral-400">Track your curriculum progress and topics.</p>
+                <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase mb-4 font-mono">
+                    Athena / Syllabus
+                </div>
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
+                    Curriculum <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive_</span>
+                </h1>
             </div>
-            <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
-              <option value="5th">5th Semester</option>
-              <option value="6th">6th Semester</option>
-              <option value="7th">7th Semester</option>
+            <select 
+                value={semester} 
+                onChange={e => setSemester(e.target.value)} 
+                className="bg-black border border-neutral-800 text-[10px] font-mono tracking-widest uppercase text-white px-4 py-2 hover:border-neutral-600 transition-colors cursor-pointer outline-none"
+            >
+              <option value="5th">SEMESTER 05</option>
+              <option value="6th">SEMESTER 06</option>
+              <option value="7th">SEMESTER 07</option>
             </select>
         </div>
 
-        <div className="space-y-6">
+        <div className="flex flex-col border-t border-neutral-900">
             {(semester === '7th' ? syllabi7th : semester === '6th' ? syllabi6th : syllabi5th).map((subject, idx) => (
-                <div key={idx} className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
+                <div key={idx} className="border-b border-neutral-900 group">
                     <div 
-                        className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
+                        className="py-6 md:py-8 flex flex-col md:flex-row md:items-center justify-between cursor-pointer hover:bg-neutral-900/30 transition-colors px-4 -mx-4"
                         onClick={() => setExpandedSubject(expandedSubject === idx ? null : idx)}
                     >
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-black text-white rounded-lg grid place-items-center font-bold text-lg">
-                                {subject.abbr}
+                        <div className="flex items-start md:items-center gap-6 md:gap-12">
+                            <div className="text-xl font-serif italic text-neutral-500 w-8">
+                                {(idx + 1).toString().padStart(2, '0')}
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold">{subject.subject}</h2>
-                                <p className="text-sm text-neutral-500 font-mono">{subject.code}</p>
+                                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tighter text-white mb-2">{subject.subject}</h2>
+                                <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
+                                    <span>CODE: {subject.code}</span>
+                                    <span>ABBR: {subject.abbr}</span>
+                                </div>
                             </div>
                         </div>
-                        {expandedSubject === idx ? <ChevronDown /> : <ChevronRight />}
+                        <div className="mt-4 md:mt-0 flex items-center self-end md:self-auto text-neutral-600 group-hover:text-white transition-colors">
+                            {expandedSubject === idx ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
+                        </div>
                     </div>
 
                     {expandedSubject === idx && (
-                        <div className="border-t border-neutral-800 bg-neutral-950/30">
+                        <div className="pb-8 pt-4 px-4 md:px-20 border-t border-neutral-900/50 bg-black">
+                            <div className="text-[10px] tracking-widest uppercase font-mono text-neutral-600 mb-6">Course Units</div>
                             {subject.units.map((unit, uIdx) => (
-                                <div key={uIdx} className="border-b border-neutral-800 last:border-0">
+                                <div key={uIdx} className="mb-6 last:mb-0 border border-neutral-900 bg-neutral-950/50">
                                     <div 
-                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
+                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-900 transition-colors"
                                         onClick={() => setExpandedUnit(expandedUnit === `${idx}-${uIdx}` ? null : `${idx}-${uIdx}`)}
                                     >
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-xs font-bold bg-neutral-800 px-2 py-1 rounded text-neutral-300">UNIT {unit.id}</span>
-                                            <span className="font-medium text-neutral-200">{unit.title}</span>
+                                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                                            <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-neutral-500">UNIT {(uIdx+1).toString().padStart(2, '0')}</span>
+                                            <span className="font-bold text-sm md:text-base text-neutral-200 uppercase tracking-wide">{unit.title}</span>
                                         </div>
-                                        {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} className="text-neutral-400" /> : <ChevronRight size={16} className="text-neutral-400" />}
+                                        <div className="text-neutral-500">
+                                            {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                                        </div>
                                     </div>
                                     
                                     {expandedUnit === `${idx}-${uIdx}` && (
-                                        <div className="px-6 pb-6 pt-2 pl-14">
-                                            <ul className="space-y-2">
+                                        <div className="px-6 pb-6 pt-4 border-t border-neutral-900">
+                                            <ul className="space-y-3">
                                                 {unit.topics.map((topic, tIdx) => (
-                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-2">
-                                                        <div className="w-1.5 h-1.5 bg-neutral-700 rounded-full mt-1.5 flex-shrink-0"></div>
-                                                        {topic}
+                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-4">
+                                                        <span className="text-[10px] font-mono text-neutral-600 mt-1">{(tIdx + 1).toString().padStart(2, '0')}</span>
+                                                        <span className="leading-relaxed">{topic}</span>
                                                     </li>
                                                 ))}
                                             </ul>

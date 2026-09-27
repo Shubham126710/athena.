@@ -168,84 +168,111 @@ export default function HubPage() {
       {/* Navigation */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+      <main className="pt-32 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto relative z-10">
         {announcement && (
-          <div className="mb-8 bg-neutral-900 border border-red-900/50 p-4 rounded-xl shadow-lg relative overflow-hidden flex items-start gap-4 animate-in fade-in slide-in-from-top-4">
-            <div className="bg-red-900/20 text-red-500 p-2 rounded-lg shrink-0 mt-1">
-              <Bell size={20} />
+          <div className="mb-12 border-t border-b border-neutral-900 py-4 relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 animate-in fade-in">
+            <div className="text-[10px] font-mono tracking-widest uppercase text-white flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+              SYSTEM MESSAGE
             </div>
-            <div className="flex-1 pr-8">
-              <h3 className="font-bold text-lg text-white mb-1">{announcement.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{announcement.message}</p>
+            <div className="flex-1 pr-8 md:pr-0">
+              <h3 className="text-sm font-bold text-white mb-1 uppercase tracking-wider">{announcement.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed max-w-2xl">{announcement.message}</p>
             </div>
             <button 
               onClick={handleDismissAnnouncement}
-              className="absolute top-4 right-4 p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded transition-colors"
+              className="absolute top-4 right-0 md:relative md:top-0 p-1.5 text-neutral-500 hover:text-white transition-colors"
             >
               <X size={18} />
             </button>
           </div>
         )}
 
-        <div className="mb-12">
-            <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">{greeting}.</h1>
-            <p className="text-neutral-400">Here's what's happening today.</p>
+        <div className="mb-16">
+            <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase mb-4 font-mono">
+                Athena / Hub
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
+                {greeting.split(',')[0]},<br />
+                <span className="font-serif italic font-normal text-neutral-300 normal-case">{profile?.first_name || 'Student'}_</span>
+            </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {/* Upcoming Exam Card */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700 transition-colors col-span-1 md:col-span-2">
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <Calendar size={100} />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-12">
+            
+            {/* Primary Module: Upcoming Exam */}
+            <div className="col-span-1 md:col-span-7 flex flex-col">
+                <div className="border-b border-neutral-800 pb-2 mb-6">
+                    <h3 className="text-[10px] font-mono tracking-widest uppercase text-neutral-400">Upcoming Exam</h3>
                 </div>
-                <div className="relative z-10">
-                    <div className="text-sm font-medium text-neutral-500 mb-1">Upcoming Exam</div>
-                    <h2 className="text-2xl font-bold mb-4 text-white">{upcomingExam.subject}</h2>
-                    <div className="flex items-center gap-4 text-sm">
-                        <span className="bg-red-900/30 text-red-400 px-3 py-1 rounded-full font-medium">{upcomingExam.date}</span>
-                        <span className="text-neutral-500">{upcomingExam.daysLeft} days left</span>
+                <div className="flex-1 border border-neutral-900 p-8 md:p-12 flex flex-col justify-between group hover:border-neutral-800 transition-colors bg-black">
+                    <div>
+                        <h2 className="text-3xl md:text-4xl font-bold text-white uppercase tracking-tighter mb-4">{upcomingExam.subject}</h2>
+                        <div className="text-neutral-500 font-mono text-[10px] tracking-widest uppercase">
+                            MODULE — {upcomingExam.subject !== 'No upcoming exams' ? subjects[0]?.code : '--'}
+                        </div>
+                    </div>
+                    <div className="mt-12 flex items-end justify-between">
+                        <div>
+                            <div className="text-[10px] font-mono tracking-widest uppercase text-neutral-500 mb-1">Time Remaining</div>
+                            <div className="text-2xl font-serif italic text-white">{upcomingExam.daysLeft} Days</div>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-[10px] font-mono tracking-widest uppercase text-neutral-500 mb-1">Scheduled</div>
+                            <div className="text-sm font-medium text-white">{upcomingExam.date}</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Quick Stats / Quote */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2">
-                <p className="font-serif italic text-lg text-neutral-400 mb-4">"{quote.text}"</p>
-                <span className="text-xs font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
+            {/* Secondary Module: Academic Quote */}
+            <div className="col-span-1 md:col-span-5 flex flex-col">
+                <div className="border-b border-neutral-800 pb-2 mb-6">
+                    <h3 className="text-[10px] font-mono tracking-widest uppercase text-neutral-400">Archival Record</h3>
+                </div>
+                <div className="flex-1 p-8 flex flex-col justify-center border border-neutral-900 bg-black/50">
+                    <p className="font-serif italic text-xl md:text-2xl text-neutral-300 leading-relaxed mb-6">"{quote.text}"</p>
+                    <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">— {quote.author}</span>
+                </div>
             </div>
             
-            {/* Course Credits Widget */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2">
-                 <div className="flex items-center gap-2 mb-4 mt-2">
-                    <h3 className="font-bold text-lg text-white">Course Credits</h3>
+            {/* Lower Module: Course Credits */}
+            <div className="col-span-1 md:col-span-8 flex flex-col">
+                 <div className="border-b border-neutral-800 pb-2 mb-6">
+                    <h3 className="text-[10px] font-mono tracking-widest uppercase text-neutral-400">Course Catalogue / Credits</h3>
                 </div>
-                <div className="space-y-3">
+                <div className="border border-neutral-900 bg-black">
                     {subjects.map((sub, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800 pb-2 last:border-0 last:pb-0">
-                            <div>
-                                <span className="font-medium text-neutral-200">{sub.name}</span>
-                                <span className="ml-2 text-[10px] text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-sm">{sub.code}</span>
-                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-sm">{sub.type}</span>
+                        <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-6 border-b border-neutral-900 last:border-0 hover:bg-neutral-900/30 transition-colors">
+                            <div className="mb-2 sm:mb-0">
+                                <div className="text-sm font-bold text-neutral-200 uppercase tracking-wide mb-1">{sub.name}</div>
+                                <div className="flex gap-4 text-[10px] font-mono tracking-widest text-neutral-500">
+                                    <span>{sub.code}</span>
+                                    <span>TYPE: {sub.type}</span>
+                                </div>
                             </div>
-                            <span className="text-neutral-400 font-bold">{sub.credits} <span className="font-normal text-xs uppercase">Cr</span></span>
+                            <div className="text-right flex sm:block items-center gap-2">
+                                <span className="text-neutral-500 font-mono text-[10px] tracking-widest sm:hidden">CREDITS: </span>
+                                <span className="text-white font-serif italic text-xl">{sub.credits}</span>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Quick Actions / Important Links */}
-            <div className="bg-gradient-to-br from-neutral-900 to-neutral-950 border border-neutral-800 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center">
-                 <div className="flex items-center gap-2 mb-6 mt-2">
-                    <h3 className="font-bold text-lg text-white">Quick Hub Actions</h3>
+            {/* Lower Secondary: Quick Actions */}
+            <div className="col-span-1 md:col-span-4 flex flex-col">
+                 <div className="border-b border-neutral-800 pb-2 mb-6">
+                    <h3 className="text-[10px] font-mono tracking-widest uppercase text-neutral-400">System Actions</h3>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <button onClick={() => nav('/notes')} className="flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 transition px-4 py-6 rounded-lg group">
-                        <BookOpen size={20} className="text-neutral-400 group-hover:text-white transition" />
-                        <span className="font-medium text-sm">Study Notes</span>
+                <div className="flex-1 flex flex-col gap-4">
+                    <button onClick={() => nav('/notes')} className="flex-1 flex items-center justify-between p-6 border border-neutral-900 bg-black hover:border-neutral-700 transition-colors group">
+                        <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 group-hover:text-white transition-colors">Study Archive</span>
+                        <BookOpen size={16} className="text-neutral-600 group-hover:text-white transition-colors" />
                     </button>
-                    <button onClick={() => nav('/syllabus')} className="flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 transition px-4 py-6 rounded-lg group">
-                        <Calendar size={20} className="text-neutral-400 group-hover:text-white transition" />
-                        <span className="font-medium text-sm">Syllabus Prep</span>
+                    <button onClick={() => nav('/syllabus')} className="flex-1 flex items-center justify-between p-6 border border-neutral-900 bg-black hover:border-neutral-700 transition-colors group">
+                        <span className="text-xs font-bold uppercase tracking-widest text-neutral-400 group-hover:text-white transition-colors">Curriculum</span>
+                        <Calendar size={16} className="text-neutral-600 group-hover:text-white transition-colors" />
                     </button>
                 </div>
             </div>

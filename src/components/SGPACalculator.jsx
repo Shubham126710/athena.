@@ -171,94 +171,95 @@ export default function SGPACalculator({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-200" onClick={onClose}>
       <div 
-        className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[85vh]" 
+        className="bg-black border border-neutral-800 w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] ring-1 ring-white/5" 
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-950">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
-              <Calculator size={20} />
+        <div className="px-6 py-4 border-b border-neutral-900 flex items-center justify-between bg-black">
+          <div className="flex items-center gap-4">
+            <div className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase border border-neutral-800 px-2 py-1">
+              Compute Matrix
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">SGPA Calculator</h3>
-              <p className="text-neutral-500 text-xs font-medium">Calculate & Track your performance</p>
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest">SGPA Calculator</h3>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="p-2 hover:bg-neutral-900 rounded-full text-neutral-500 hover:text-white transition-colors"
+            className="text-neutral-600 hover:text-white transition-colors"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-neutral-800">
+        <div className="flex border-b border-neutral-900 bg-neutral-950">
           <button 
             onClick={() => setActiveTab('calculator')}
-            className={`flex-1 py-3 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${activeTab === 'calculator' ? 'bg-neutral-900 text-white border-b-2 border-indigo-500' : 'text-neutral-500 hover:text-white hover:bg-neutral-900/50'}`}
+            className={`flex-1 py-3 text-[10px] font-mono tracking-widest uppercase transition-colors flex items-center justify-center gap-2 ${activeTab === 'calculator' ? 'bg-black text-white border-b border-white' : 'text-neutral-600 hover:text-neutral-300'}`}
           >
-            <Calculator size={16} /> Calculator
+            <Calculator size={14} /> Calculate
           </button>
           <button 
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-3 text-sm font-medium transition-colors flex items-center justify-center gap-2 ${activeTab === 'history' ? 'bg-neutral-900 text-white border-b-2 border-indigo-500' : 'text-neutral-500 hover:text-white hover:bg-neutral-900/50'}`}
+            className={`flex-1 py-3 text-[10px] font-mono tracking-widest uppercase transition-colors flex items-center justify-center gap-2 ${activeTab === 'history' ? 'bg-black text-white border-b border-white' : 'text-neutral-600 hover:text-neutral-300'}`}
           >
-            <History size={16} /> History
+            <History size={14} /> Log
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-6 bg-black">
           {activeTab === 'calculator' ? (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Result Card */}
               {result && (
-                <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-6 text-center animate-in slide-in-from-top-2">
-                  <div className="text-sm text-indigo-300 font-medium mb-1">Your SGPA</div>
-                  <div className="text-5xl font-bold text-indigo-400 mb-2">{result.sgpa}</div>
-                  <div className="text-xs text-indigo-300/70">
-                    Total Credits: {result.totalCredits} • Grade Points: {result.totalPoints}
+                <div className="border border-neutral-800 p-8 text-center animate-in fade-in duration-300 relative overflow-hidden bg-neutral-950">
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                  <div className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase mb-4">Final Computed Result</div>
+                  <div className="text-7xl font-serif italic text-white mb-6 tracking-tighter">{result.sgpa}</div>
+                  <div className="flex justify-center gap-8 text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                    <span>Credits_ {result.totalCredits}</span>
+                    <span>Points_ {result.totalPoints}</span>
                   </div>
                   
-                  <div className="mt-4 flex gap-2 justify-center">
+                  <div className="mt-8 flex gap-3 justify-center items-center">
                     <input 
                       type="text" 
-                      placeholder="Semester Name (Optional)" 
-                      className="bg-neutral-900 border border-neutral-700 rounded px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 w-48"
+                      placeholder="Identifier (e.g. Sem 7)" 
+                      className="bg-black border border-neutral-800 px-4 py-2 text-[10px] font-mono text-white focus:outline-none focus:border-white w-48 uppercase placeholder:text-neutral-700"
                       value={semesterName}
                       onChange={(e) => setSemesterName(e.target.value)}
                     />
                     <button 
                       onClick={saveToHistory}
                       disabled={saving}
-                      className="flex items-center gap-2 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-sm font-medium transition-colors disabled:opacity-50"
+                      className="flex items-center gap-2 px-6 py-2 bg-white text-black text-[10px] font-mono tracking-widest uppercase font-bold hover:bg-neutral-200 transition-colors disabled:opacity-50"
                     >
-                      <Save size={16} /> {saving ? 'Saving...' : 'Save'}
+                      <Save size={14} /> {saving ? 'Writing...' : 'Log'}
                     </button>
                   </div>
                 </div>
               )}
 
               {/* Inputs */}
-              <div className="space-y-3">
-                <div className="grid grid-cols-12 gap-4 text-xs font-bold text-neutral-500 uppercase tracking-wider px-2">
-                  <div className="col-span-6">Subject (Optional)</div>
-                  <div className="col-span-3">Credit</div>
+              <div className="space-y-1">
+                <div className="grid grid-cols-12 gap-2 text-[10px] font-mono font-bold text-neutral-600 uppercase tracking-widest pb-2 border-b border-neutral-900">
+                  <div className="col-span-6 pl-2">Parameter</div>
+                  <div className="col-span-3">Credits</div>
                   <div className="col-span-2">Grade</div>
                   <div className="col-span-1"></div>
                 </div>
                 
                 {subjects.map((sub, idx) => (
-                  <div key={sub.id} className="grid grid-cols-12 gap-4 items-center animate-in fade-in slide-in-from-left-2" style={{ animationDelay: `${idx * 50}ms` }}>
+                  <div key={sub.id} className="grid grid-cols-12 gap-2 items-center py-2 border-b border-neutral-900 last:border-0 group">
                     <div className="col-span-6">
                       <input 
                         type="text" 
-                        placeholder={`Subject ${idx + 1}`}
-                        className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-neutral-600 transition-colors"
+                        placeholder={`Subject ${(idx + 1).toString().padStart(2, '0')}`}
+                        className="w-full bg-transparent px-2 py-1.5 text-sm text-white font-medium focus:outline-none placeholder:text-neutral-700 uppercase"
                         value={sub.name}
                         onChange={(e) => updateSubject(sub.id, 'name', e.target.value)}
                       />
@@ -266,89 +267,89 @@ export default function SGPACalculator({ isOpen, onClose }) {
                     <div className="col-span-3">
                       <input 
                         type="number" 
-                        placeholder="Cr"
-                        className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-neutral-600 transition-colors"
+                        placeholder="0.0"
+                        className="w-full bg-transparent px-2 py-1.5 text-sm font-mono text-neutral-300 focus:outline-none placeholder:text-neutral-700"
                         value={sub.credit}
                         onChange={(e) => updateSubject(sub.id, 'credit', e.target.value)}
                       />
                     </div>
                     <div className="col-span-2">
                       <select
-                        className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-2 py-2 text-sm text-white focus:outline-none focus:border-neutral-600 transition-colors appearance-none cursor-pointer"
+                        className="w-full bg-transparent px-2 py-1.5 text-sm font-mono text-neutral-300 focus:outline-none appearance-none cursor-pointer"
                         value={sub.grade}
                         onChange={(e) => updateSubject(sub.id, 'grade', e.target.value)}
                       >
-                        <option value="" disabled>Gr</option>
+                        <option value="" disabled className="bg-neutral-900 text-neutral-500">Gr</option>
                         {GRADES.map(g => (
-                          <option key={g.value} value={g.value}>{g.label}</option>
+                          <option key={g.value} value={g.value} className="bg-neutral-900 text-white">{g.value}</option>
                         ))}
                       </select>
                     </div>
-                    <div className="col-span-1 text-center">
+                    <div className="col-span-1 flex justify-center">
                       <button 
                         onClick={() => removeSubject(sub.id)}
-                        className="text-neutral-600 hover:text-red-400 transition-colors p-1"
+                        className="text-neutral-800 hover:text-red-500 transition-colors p-1"
                       >
-                        <X size={16} />
+                        <X size={14} />
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-4 pt-4">
                 <button 
                   onClick={addSubject}
-                  className="flex items-center gap-2 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 rounded-lg text-sm font-medium transition-colors border border-neutral-800"
+                  className="flex items-center gap-2 px-4 py-2 text-[10px] font-mono tracking-widest uppercase border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 transition-colors"
                 >
-                  <Plus size={16} /> Add Subject
+                  <Plus size={14} /> Add Line
                 </button>
                 <div className="flex-1"></div>
                 <button 
                   onClick={resetCalculator}
-                  className="flex items-center gap-2 px-4 py-2 text-neutral-500 hover:text-white transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 text-[10px] font-mono tracking-widest uppercase text-neutral-600 hover:text-white transition-colors"
                 >
-                  <RotateCcw size={16} /> Reset
+                  <RotateCcw size={14} /> Reset
                 </button>
                 <button 
                   onClick={calculateSGPA}
-                  className="flex items-center gap-2 px-6 py-2 bg-white text-black hover:bg-neutral-200 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-white/10"
+                  className="flex items-center gap-2 px-6 py-2 bg-white text-black hover:bg-neutral-200 text-[10px] font-mono font-bold tracking-widest uppercase transition-colors"
                 >
-                  Calculate
+                  Compute
                 </button>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
               {loadingHistory ? (
-                <div className="text-center py-12 text-neutral-500">Loading history...</div>
+                <div className="text-center py-12 text-[10px] font-mono tracking-widest uppercase text-neutral-500">Retrieving logs...</div>
               ) : history.length > 0 ? (
                 <>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Saved Calculations</span>
-                    <button onClick={clearAllHistory} className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1">
-                      <Trash2 size={12} /> Clear All
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest">Computation Log</span>
+                    <button onClick={clearAllHistory} className="text-[10px] font-mono uppercase tracking-widest text-red-500 hover:text-red-400 flex items-center gap-2 transition-colors">
+                      <Trash2 size={12} /> Purge
                     </button>
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-1 border-t border-neutral-900 pt-4">
                     {history.map((item) => (
-                      <div key={item.id} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 flex items-center justify-between group hover:border-neutral-700 transition-colors">
+                      <div key={item.id} className="group flex items-center justify-between py-4 border-b border-neutral-900 hover:bg-neutral-950 px-2 -mx-2 transition-colors">
                         <div>
-                          <div className="font-bold text-white text-lg">{item.semester_name || 'Untitled Semester'}</div>
-                          <div className="text-xs text-neutral-500 mt-1">
-                            {new Date(item.created_at).toLocaleDateString()} • {item.total_credits} Credits
+                          <div className="font-bold text-white text-sm uppercase tracking-wide mb-1">{item.semester_name || 'Untitled_'}</div>
+                          <div className="text-[9px] font-mono text-neutral-600 uppercase tracking-widest">
+                            {new Date(item.created_at).toLocaleDateString()} • {item.total_credits} CR
                           </div>
                         </div>
                         <div className="flex items-center gap-6">
                           <div className="text-right">
-                            <div className="text-xs text-neutral-500 uppercase font-bold">SGPA</div>
-                            <div className="text-2xl font-bold text-indigo-400">{item.sgpa}</div>
+                            <div className="text-[9px] text-neutral-600 font-mono uppercase tracking-widest mb-0.5">Result</div>
+                            <div className="text-lg font-serif italic text-white">{item.sgpa}</div>
                           </div>
                           <button 
                             onClick={() => deleteHistoryItem(item.id)}
-                            className="p-2 text-neutral-600 hover:text-red-400 hover:bg-neutral-800 rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                            className="text-neutral-800 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 p-1"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={14} />
                           </button>
                         </div>
                       </div>
@@ -357,9 +358,10 @@ export default function SGPACalculator({ isOpen, onClose }) {
                 </>
               ) : (
                 <div className="text-center py-16 text-neutral-600">
-                  <History size={48} className="mx-auto mb-4 opacity-20" />
-                  <p>No history found.</p>
-                  <p className="text-sm mt-2">Calculations you save will appear here.</p>
+                  <div className="w-12 h-12 border border-neutral-800 mx-auto mb-4 flex items-center justify-center bg-neutral-950">
+                    <History size={20} className="opacity-50" />
+                  </div>
+                  <p className="text-[10px] font-mono tracking-widest uppercase">Log empty.</p>
                 </div>
               )}
             </div>

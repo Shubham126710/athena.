@@ -182,77 +182,89 @@ export default function NotesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-4 md:px-12 container mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+      <main className="pt-32 pb-12 px-4 md:px-12 max-w-[1400px] mx-auto">
+        <div className="mb-16 border-b border-neutral-900 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight mb-2">My Notes</h1>
-                <p className="text-neutral-400">Manage and view your uploaded documents.</p>
+                <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase mb-4 font-mono">
+                    Athena / Notes
+                </div>
+                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
+                    Academic <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive_</span>
+                </h1>
             </div>
             <div className="flex items-center gap-4">
-                <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
-                    <option value="5th">5th Semester</option>
-                    <option value="6th">6th Semester</option>
-                    <option value="7th">7th Semester</option>
+                <select 
+                    value={semester} 
+                    onChange={e => setSemester(e.target.value)} 
+                    className="bg-black border border-neutral-800 text-[10px] font-mono tracking-widest uppercase text-white px-4 py-2 hover:border-neutral-600 transition-colors cursor-pointer outline-none"
+                >
+                    <option value="5th">SEMESTER 05</option>
+                    <option value="6th">SEMESTER 06</option>
+                    <option value="7th">SEMESTER 07</option>
                 </select>
-            {profile?.role === 'admin' && (
-              <button onClick={() => setShowUploadModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-medium rounded-sm hover:bg-neutral-200 transition-all shadow-sm">
-                  <Plus size={16} />
-                  Upload Note
-              </button>
-            )}
+                {profile?.role === 'admin' && (
+                  <button onClick={() => setShowUploadModal(true)} className="flex items-center gap-2 px-4 py-2 border border-white bg-white text-black text-[10px] font-mono tracking-widest uppercase font-bold hover:bg-neutral-200 transition-colors">
+                      <Plus size={14} />
+                      Upload
+                  </button>
+                )}
             </div>
         </div>
 
         {loading ? (
-            <div className="text-center py-20 text-neutral-400">Loading notes...</div>
+            <div className="text-center py-20 text-[10px] font-mono tracking-widest uppercase text-neutral-500">Retrieving archive data...</div>
         ) : (
-            <div className="space-y-4">
+            <div className="flex flex-col border-t border-neutral-900">
                 {subjects.map(subject => (
-                    <div key={subject} className="border border-neutral-800 rounded-xl bg-neutral-900 overflow-hidden">
+                    <div key={subject} className="border-b border-neutral-900 group">
                         <button 
                             onClick={() => toggleSubject(subject)}
-                            className="w-full flex items-center justify-between p-4 bg-neutral-900 hover:bg-neutral-800 transition-colors text-left"
+                            className="w-full flex items-center justify-between py-6 md:py-8 px-4 -mx-4 hover:bg-neutral-900/30 transition-colors text-left"
                         >
-                            <span className="font-bold text-lg">{subject}</span>
-                            {expandedSubjects.includes(subject) ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                            <div className="flex items-center gap-6">
+                                <span className="text-2xl font-bold uppercase tracking-tighter">{subject}</span>
+                                <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">Archive</span>
+                            </div>
+                            <div className="text-neutral-600 group-hover:text-white transition-colors">
+                                {expandedSubjects.includes(subject) ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                            </div>
                         </button>
                         
                         {expandedSubjects.includes(subject) && (
-                            <div className="p-4 space-y-3">
+                            <div className="pb-8 pt-4 px-4 md:px-12 bg-black">
                                 {subject === 'PHC' ? (() => {
                                     const phcNotes = getNotesFor(subject);
                                     return (
-                                        <div className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-950/30 p-3">
+                                        <div className="border border-neutral-900 p-6 bg-neutral-950/50">
                                             {phcNotes.length === 0 ? (
-                                                <p className="text-sm text-neutral-400 italic pl-3 md:pl-6">No notes uploaded.</p>
+                                                <p className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">No records found.</p>
                                             ) : (
-                                                <div className="grid gap-3 pl-2 md:pl-6">
+                                                <div className="flex flex-col gap-2">
                                                     {phcNotes.map(note => (
-                                                        <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-2 rounded border border-neutral-800 hover:shadow-sm transition-all">
-                                                            <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden mr-2">
-                                                                <div className="w-7 h-7 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
+                                                        <div key={note.id} className="flex items-center justify-between p-4 border-b border-neutral-900 last:border-0 hover:bg-neutral-900/50 transition-colors group/note">
+                                                            <div className="flex-1 min-w-0 flex items-center gap-4 overflow-hidden mr-4">
+                                                                <div className="w-8 h-8 border border-neutral-800 bg-black text-neutral-400 flex items-center justify-center flex-shrink-0 group-hover/note:border-white group-hover/note:text-white transition-colors">
                                                                     <FileText size={14} />
                                                                 </div>
                                                                 <div className="truncate">
-                                                                    <h4 className="font-medium text-xs md:text-sm truncate" title={note.title}>{note.title}</h4>
-                                                                    <p className="text-[10px] text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
+                                                                    <h4 className="font-bold text-xs uppercase tracking-wider truncate mb-1" title={note.title}>{note.title}</h4>
+                                                                    <p className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                 </div>
                                                             </div>
-                                                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                                                            <div className="flex items-center gap-3 flex-shrink-0">
                                                                 <button 
                                                                     onClick={() => setSelectedNote(note)} 
-                                                                    className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
-                                                                    title="View Note"
+                                                                    className="text-[10px] font-mono tracking-widest uppercase font-bold px-4 py-2 border border-neutral-800 hover:border-white hover:bg-white hover:text-black transition-colors"
                                                                 >
-                                                                    <span className="md:hidden"><Eye size={14} /></span>
                                                                     <span className="hidden md:inline">View</span>
+                                                                    <span className="md:hidden"><Eye size={14} /></span>
                                                                 </button>
                                                                 {profile?.role === 'admin' && (
-                                                                  <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1.5">
+                                                                  <button onClick={() => remove(note)} className="text-neutral-500 hover:text-red-500 p-2 border border-transparent hover:border-red-900/50 transition-colors">
                                                                       <Trash2 size={14} />
                                                                   </button>
                                                                 )}
@@ -268,46 +280,49 @@ export default function NotesPage() {
                                     const isExpanded = expandedUnits[`${subject}-${unit}`];
                                     
                                     return (
-                                        <div key={unit} className="border border-neutral-800 rounded-lg overflow-hidden">
+                                        <div key={unit} className="border-b border-neutral-900 last:border-0">
                                             <button 
                                                 onClick={() => toggleUnit(subject, unit)}
-                                                className="w-full flex items-center justify-between p-3 bg-neutral-900 hover:bg-neutral-800 transition-colors text-left"
+                                                className="w-full flex items-center justify-between py-4 hover:pl-2 transition-all text-left group/unit"
                                             >
-                                                <div className="flex items-center gap-2">
-                                                    {isExpanded ? <ChevronDown size={16} className="text-neutral-400" /> : <ChevronRight size={16} className="text-neutral-400" />}
-                                                    <span className="font-medium">{unit}</span>
-                                                    <span className="text-xs text-neutral-400 bg-neutral-800 px-2 py-0.5 rounded-full">{unitNotes.length}</span>
+                                                <div className="flex items-center gap-4">
+                                                    <div className="text-neutral-600 group-hover/unit:text-white transition-colors">
+                                                        {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                                                    </div>
+                                                    <span className="text-xs font-bold uppercase tracking-widest text-neutral-300">{unit}</span>
+                                                </div>
+                                                <div className="text-[10px] font-mono text-neutral-600">
+                                                    {unitNotes.length.toString().padStart(2, '0')}
                                                 </div>
                                             </button>
 
                                             {isExpanded && (
-                                                <div className="p-3 bg-neutral-950/30 border-t border-neutral-800">
+                                                <div className="p-6 bg-neutral-950 border-t border-neutral-900">
                                                     {unitNotes.length === 0 ? (
-                                                        <p className="text-sm text-neutral-400 italic pl-3 md:pl-6">No notes uploaded.</p>
+                                                        <p className="text-[10px] font-mono tracking-widest text-neutral-600 uppercase">No records found.</p>
                                                     ) : (
-                                                        <div className="grid gap-3 pl-2 md:pl-6">
+                                                        <div className="flex flex-col gap-2">
                                                             {unitNotes.map(note => (
-                                                                <div key={note.id} className="flex items-center justify-between bg-neutral-900 p-2 rounded border border-neutral-800 hover:shadow-sm transition-all">
-                                                                    <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden mr-2">
-                                                                        <div className="w-7 h-7 bg-red-900/20 text-red-400 rounded flex items-center justify-center flex-shrink-0">
+                                                                <div key={note.id} className="flex items-center justify-between p-4 border border-neutral-900 bg-black hover:border-neutral-700 transition-colors group/note">
+                                                                    <div className="flex-1 min-w-0 flex items-center gap-4 overflow-hidden mr-4">
+                                                                        <div className="w-8 h-8 border border-neutral-800 bg-black text-neutral-400 flex items-center justify-center flex-shrink-0 group-hover/note:border-white group-hover/note:text-white transition-colors">
                                                                             <FileText size={14} />
                                                                         </div>
                                                                         <div className="truncate">
-                                                                            <h4 className="font-medium text-xs md:text-sm truncate" title={note.title}>{note.title}</h4>
-                                                                            <p className="text-[10px] text-neutral-400">{new Date(note.created_at).toLocaleDateString()}</p>
+                                                                            <h4 className="font-bold text-xs uppercase tracking-wider truncate mb-1" title={note.title}>{note.title}</h4>
+                                                                            <p className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                                                                    <div className="flex items-center gap-3 flex-shrink-0">
                                                                         <button 
                                                                             onClick={() => setSelectedNote(note)} 
-                                                                            className="text-xs font-medium px-2 py-1.5 md:px-3 md:py-1.5 border border-neutral-700 rounded hover:bg-white hover:text-black transition-colors flex items-center justify-center"
-                                                                            title="View Note"
+                                                                            className="text-[10px] font-mono tracking-widest uppercase font-bold px-4 py-2 border border-neutral-800 hover:border-white hover:bg-white hover:text-black transition-colors"
                                                                         >
-                                                                            <span className="md:hidden"><Eye size={14} /></span>
                                                                             <span className="hidden md:inline">View</span>
+                                                                            <span className="md:hidden"><Eye size={14} /></span>
                                                                         </button>
                                                                         {profile?.role === 'admin' && (
-                                                                          <button onClick={() => remove(note)} className="text-neutral-400 hover:text-red-600 p-1.5">
+                                                                          <button onClick={() => remove(note)} className="text-neutral-500 hover:text-red-500 p-2 border border-transparent hover:border-red-900/50 transition-colors">
                                                                               <Trash2 size={14} />
                                                                           </button>
                                                                         )}

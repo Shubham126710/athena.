@@ -144,30 +144,31 @@ export default function HubNavbar() {
   };
   
   const isActive = (path) => location.pathname === path;
-  const activeClass = "px-3 py-1.5 bg-neutral-800 shadow-sm rounded-md text-sm font-medium text-white transition-all";
-  const inactiveClass = "px-3 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
+  const activeClass = "text-[10px] font-bold tracking-[0.15em] uppercase text-white transition-colors relative after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-white";
+  const inactiveClass = "text-[10px] font-bold tracking-[0.15em] uppercase text-neutral-500 hover:text-white transition-colors relative";
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between gap-6">
-        <div className="flex min-w-0 items-center gap-5">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => nav('/')}> 
-                <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-                <span className="font-serif font-bold tracking-tight text-xl">athena.</span>
-            </div>
-            
-            {/* Dashboard Navigation */}
-            <div className="hidden md:flex items-center gap-1 bg-neutral-900 p-1 rounded-lg border border-neutral-800">
-                <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>Hub</button>
-                <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>Calendar</button>
-                <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>Syllabus</button>
-                <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>Notes</button>
-                <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>SGPA</button>
-            </div>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-neutral-900">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-16 flex items-center justify-between gap-6">
+        
+        {/* LEFT: Logo */}
+        <div className="flex items-center gap-2 cursor-pointer w-1/4" onClick={() => nav('/')}> 
+            <img src="/logo.png" alt="Athena Logo" className="w-6 h-6 rounded-sm grayscale" />
+            <span className="font-serif font-bold tracking-tight text-lg">athena.</span>
+        </div>
+        
+        {/* CENTER: Navigation */}
+        <div className="hidden md:flex items-center justify-center gap-8 w-2/4">
+            <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>Hub</button>
+            <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>Calendar</button>
+            <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>Syllabus</button>
+            <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>Notes</button>
+            <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>SGPA</button>
         </div>
 
-        <div className="flex shrink-0 items-center gap-4">
+        {/* RIGHT: User Actions */}
+        <div className="flex shrink-0 items-center justify-end gap-6 w-1/4">
           <div className="relative">
             <button 
                 onClick={() => setShowNotifications(!showNotifications)}
@@ -266,27 +267,26 @@ export default function HubNavbar() {
           <div className="flex items-center gap-3">
             {/* Section Badge - Visible for Students & Admins */}
             {(profile?.section || profile?.role === 'admin') && (
-                <div className="hidden md:block px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-full text-xs font-medium text-neutral-400">
+                <div className="hidden md:block px-2 py-0.5 border border-neutral-800 text-[9px] font-mono tracking-widest uppercase text-neutral-500">
                     {profile?.section || 'Admin View'}
                 </div>
             )}
 
-            <div className="relative" ref={profileMenuRef}>
+            <div className="relative group" ref={profileMenuRef}>
                 <button
                     type="button"
                     onClick={() => {
                         setShowProfileMenu(value => !value);
                         setShowNotifications(false);
                     }}
-                    className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-neutral-900 transition-colors"
+                    className="flex items-center gap-3 px-2 py-1 hover:bg-neutral-900/50 transition-colors cursor-pointer"
                     aria-expanded={showProfileMenu}
                     aria-label="Open profile menu"
                 >
-                    <div className="text-right hidden md:block max-w-28">
-                        <div className="truncate text-sm font-bold">{profile?.first_name || 'Student'}</div>
-                        <div className="text-xs text-neutral-500 capitalize">{profile?.role || 'Student'}</div>
+                    <div className="text-right hidden md:block max-w-28 mt-0.5">
+                        <div className="truncate text-[10px] font-bold tracking-widest uppercase">{profile?.first_name || 'Student'}</div>
                     </div>
-                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-9 h-9 shrink-0 rounded-full border border-neutral-700" />
+                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-8 h-8 shrink-0 rounded-sm border border-neutral-800 grayscale opacity-80 group-hover:opacity-100 transition-opacity" />
                 </button>
 
                 {/* Profile Dropdown */}
