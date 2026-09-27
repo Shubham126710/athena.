@@ -10,6 +10,9 @@ export default function PdfViewer({ fileUrl, className='' }) {
       if (match && match[1]) {
           finalUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
       }
+  } else if (fileUrl) {
+      // Use Google Docs Viewer for Cloudinary and other public PDFs for cross-browser support
+      finalUrl = `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
   }
 
   return (
@@ -33,7 +36,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
 
       <div className="w-full h-full relative bg-neutral-900/50 rounded-xl overflow-hidden mx-auto border border-neutral-800 max-w-[800px] flex-1">
         <iframe
-            src={finalUrl.includes('drive.google.com') ? finalUrl : `${finalUrl}#toolbar=0`}
+            src={finalUrl}
             title="PDF Viewer"
             className="w-full h-full border-0 bg-white"
             loading="lazy"

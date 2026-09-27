@@ -6,11 +6,11 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const CLOUD_NAME = "dhdyooirr";
 const UPLOAD_PRESET = "athena_notes";
 const FIREBASE_PROJECT = "athena-56f24";
+const MAX_SIZE = 10 * 1024 * 1024; // 10MB limit
 
 async function run() {
-  console.log("Starting data rescue...");
+  console.log("Starting data rescue for files <= 10MB...");
   
-  // 1. Fetch notes from Supabase
   const supaRes = await fetch(`${SUPABASE_URL}/rest/v1/notes?select=*`, {
     headers: {
       apikey: SUPABASE_KEY,
@@ -20,7 +20,6 @@ async function run() {
   
   if (!supaRes.ok) {
     console.error("Failed to fetch from Supabase. Quota might be fully blocked.");
-    console.log(await supaRes.text());
     return;
   }
   
@@ -31,8 +30,25 @@ async function run() {
     console.log(`Processing: ${note.title}`);
     let newUrl = note.file_url;
     let newPath = note.file_path;
+    let shouldSkip = false;
     
-    // 2. Transfer to Cloudinary (if it's a supabase URL)
+    // Check file size first
+    if (note.file_url && note.file_url.includes('supabase')) {
+      try {
+        const headRes = await fetch(note.file_url, { method: 'HEAD' });
+        const sizeStr = headRes.headers.get('content-length');
+        if (sizeStr && parseInt(sizeStr, 10) > MAX_SIZE) {
+          console.log(`-> Skipping (larger than 10MB)`);
+          shouldSkip = true;
+        }
+      } catch (err) {
+        console.error(`-> Error checking size:`, err.message);
+      }
+    }
+    
+    if (shouldSkip) continue; // Skip large files for now
+    
+    // Transfer to Cloudinary
     if (note.file_url && note.file_url.includes('supabase')) {
        const formData = new FormData();
        formData.append('file', note.file_url);
@@ -51,13 +67,14 @@ async function run() {
          console.log(`-> Migrated to Cloudinary`);
        } else {
          console.error(`-> Failed to migrate to Cloudinary: ${await cRes.text()}`);
+         continue; // Don't save to firestore if it failed to upload to cloudinary
        }
     }
     
-    // 3. Insert into Firestore
-    // Using Firestore REST API
+    // Insert into Firestore using PATCH to specific ID to avoid duplicates
     const docData = {
       fields: {
+        id: { stringValue: note.id.toString() },
         title: { stringValue: note.title },
         subject: { stringValue: note.subject },
         unit: { stringValue: note.unit },
@@ -67,8 +84,9 @@ async function run() {
       }
     };
     
-    const fRes = await fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/notes`, {
-      method: 'POST',
+    // PATCH creates the document if it doesn't exist when we use updateMask
+    const fRes = await fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/notes/${note.id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -82,7 +100,7 @@ async function run() {
     }
   }
   
-  console.log("Migration complete!");
+  console.log("Migration complete for files <= 10MB!");
 }
 
 run();
