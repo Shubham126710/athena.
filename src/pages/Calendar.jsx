@@ -99,61 +99,54 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-24 pb-8 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <div className="mb-12">
-            <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase mb-4 font-mono">
-                Athena / Calendar
-            </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1] mb-2 flex items-center gap-4">
-                {monthNames[date.getMonth()]}
-                <span className="font-serif italic font-normal text-neutral-300 normal-case">{date.getFullYear()}</span>
-            </h1>
-        </div>
-
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-12">
-            <div className="lg:col-span-8 flex flex-col gap-6">
+      <main className="pt-24 pb-8 px-6 md:px-12 container mx-auto">
+        <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 flex flex-col gap-6">
                 {/* Calendar Header & Controls */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-neutral-900 pb-4">
-                    <div className="flex gap-2">
-                        <button onClick={prevMonth} className="px-4 py-2 border border-neutral-800 text-[10px] font-mono tracking-widest uppercase hover:bg-white hover:text-black transition-colors">Prev</button>
-                        <button onClick={nextMonth} className="px-4 py-2 border border-neutral-800 text-[10px] font-mono tracking-widest uppercase hover:bg-white hover:text-black transition-colors">Next</button>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-3xl font-bold tracking-tight">{monthNames[date.getMonth()]} {date.getFullYear()}</h1>
+                        <div className="flex gap-1">
+                            <button onClick={prevMonth} className="p-2 hover:bg-neutral-800 rounded-full transition-colors"><ChevronLeft size={20} /></button>
+                            <button onClick={nextMonth} className="p-2 hover:bg-neutral-800 rounded-full transition-colors"><ChevronRight size={20} /></button>
+                        </div>
                     </div>
                     
                     {/* Legends */}
-                    <div className="flex flex-wrap gap-4 text-[9px] font-mono tracking-widest uppercase">
-                        <div className="flex items-center gap-2 text-indigo-400">
-                            <div className="w-1 h-1 bg-indigo-500 rounded-sm"></div> MST
+                    <div className="flex flex-wrap gap-3 text-xs font-medium">
+                        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-indigo-900/30 text-indigo-300 border border-indigo-800">
+                            <div className="w-2 h-2 rounded-full bg-indigo-500"></div> MST
                         </div>
-                        <div className="flex items-center gap-2 text-rose-400">
-                            <div className="w-1 h-1 bg-rose-500 rounded-sm"></div> EST
+                        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-rose-900/30 text-rose-300 border border-rose-800">
+                            <div className="w-2 h-2 rounded-full bg-rose-500"></div> EST
                         </div>
-                        <div className="flex items-center gap-2 text-amber-400">
-                            <div className="w-1 h-1 bg-amber-500 rounded-sm"></div> OTHER EXAMS
+                        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-amber-900/30 text-amber-300 border border-amber-800">
+                            <div className="w-2 h-2 rounded-full bg-amber-500"></div> Other Exams
                         </div>
-                        <div className="flex items-center gap-2 text-emerald-400">
-                            <div className="w-1 h-1 bg-emerald-500 rounded-sm"></div> EVENTS
+                        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-900/30 text-emerald-300 border border-emerald-800">
+                            <div className="w-2 h-2 rounded-full bg-emerald-500"></div> Events
                         </div>
-                        <div className="flex items-center gap-2 text-blue-400">
-                            <div className="w-1 h-1 bg-blue-500 rounded-sm"></div> ACADEMIC
+                        <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-blue-900/30 text-blue-300 border border-blue-800">
+                            <div className="w-2 h-2 rounded-full bg-blue-500"></div> Academic
                         </div>
                     </div>
                 </div>
 
                 {/* Calendar Grid */}
-                <div className="bg-black">
-                    <div className="grid grid-cols-7 gap-y-4">
+                <div className="rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/5">
+                    <div className="grid grid-cols-7 gap-px bg-black border border-neutral-800">
                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => (
-                            <div key={d} className="bg-black p-3 text-[10px] font-mono font-bold text-neutral-500 uppercase tracking-widest text-center">
+                            <div key={d} className="bg-neutral-900 p-3 text-xs font-bold text-neutral-500 uppercase tracking-wider text-center">
                                 {d}
                             </div>
                         ))}
                         
                         {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-                            <div key={`empty-${i}`} className="bg-neutral-950/50 h-32"></div>
+                            <div key={`empty-${i}`} className="bg-neutral-950 h-24"></div>
                         ))}
 
                         {Array.from({ length: daysInMonth }).map((_, i) => {
@@ -167,13 +160,13 @@ export default function CalendarPage() {
                                 <div 
                                     key={day} 
                                     onClick={() => setSelectedDate(currentDayDate)}
-                                    className={`h-32 p-2 transition-all duration-200 relative group cursor-pointer border-t border-neutral-900/50 hover:bg-neutral-900/20
-                                        ${isToday ? 'bg-neutral-900/30' : 'bg-black'}
-                                        ${isSelected ? 'ring-1 ring-inset ring-white/50 bg-neutral-900/40' : ''}
+                                    className={`h-24 p-2 border-t border-transparent transition-all duration-200 relative group cursor-pointer
+                                        ${isToday ? 'bg-neutral-900' : 'bg-neutral-950 hover:bg-neutral-900'}
+                                        ${isSelected ? 'ring-2 ring-inset ring-indigo-500 bg-neutral-900' : ''}
                                     `}
                                 >
                                     <div className="flex justify-between items-start">
-                                        <span className={`text-[10px] font-mono tracking-widest transition-all duration-300 ${isToday ? 'text-white' : 'text-neutral-500 group-hover:text-white'}`}>
+                                        <span className={`text-sm font-medium transition-all duration-300 ${isToday ? 'bg-indigo-500 text-white w-7 h-7 flex items-center justify-center rounded-full shadow-lg shadow-indigo-500/20' : 'text-neutral-400 group-hover:text-white'}`}>
                                             {day}
                                         </span>
                                         {dayEvents.length > 0 && (
@@ -183,9 +176,9 @@ export default function CalendarPage() {
                                         )}
                                     </div>
                                     
-                                    <div className="mt-2 flex flex-col gap-1.5">
+                                    <div className="mt-1 flex flex-col gap-1">
                                         {dayEvents.slice(0, 2).map(ev => (
-                                            <div key={ev.id} className={`group/event relative text-[10px] px-2 py-1 rounded-sm border-none truncate font-medium transition-transform hover:scale-[1.02] ${getEventStyle(ev.type)}`}>
+                                            <div key={ev.id} className={`group/event relative text-[10px] px-2 py-0.5 rounded border truncate font-medium transition-transform hover:scale-[1.02] ${getEventStyle(ev.type)}`}>
                                                 {ev.title}
                                                 
                                                 {/* Tooltip */}
@@ -220,36 +213,35 @@ export default function CalendarPage() {
             </div>
 
             {/* Sidebar: Upcoming */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-                <div className="flex-1 p-6 sticky top-24 bg-neutral-900/5 rounded-sm">
-                    <h2 className="text-2xl font-bold tracking-tight mb-8 text-white">
+            <div className="space-y-8">
+                <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-xl p-6 shadow-sm sticky top-32">
+                    <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-white">
+                        <Clock size={18} className="text-indigo-400" />
                         Upcoming Events
                     </h2>
-                    <div className="space-y-6 relative">
+                    <div className="space-y-1 relative">
                         {/* Timeline line */}
-                        <div className="absolute left-2.5 top-2 bottom-2 w-px bg-neutral-900"></div>
+                        <div className="absolute left-[1.65rem] top-2 bottom-2 w-px bg-neutral-800"></div>
 
                         {events.filter(e => e.date >= new Date()).sort((a,b) => a.date - b.date).slice(0, 5).map((ev, idx) => (
-                            <div key={ev.id} className="relative flex gap-6 items-start group cursor-pointer">
-                                <div className="flex-shrink-0 w-5 h-5 mt-0.5 rounded-full bg-black border border-neutral-800 flex items-center justify-center z-10 group-hover:border-white transition-colors">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-neutral-600 group-hover:bg-white transition-colors"></div>
+                            <div key={ev.id} className="relative flex gap-4 items-start py-3 group cursor-pointer hover:bg-neutral-800/50 rounded-lg px-2 -mx-2 transition-colors">
+                                <div className="flex-shrink-0 w-14 text-center z-10 bg-neutral-900 group-hover:bg-neutral-800 transition-colors rounded-lg border border-neutral-800 py-1">
+                                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{monthNames[ev.date.getMonth()].substring(0,3)}</div>
+                                    <div className="text-lg font-bold text-white">{ev.date.getDate()}</div>
                                 </div>
-                                <div className="flex-1 pb-6 border-b border-neutral-900/50 group-last:border-0 group-last:pb-0">
-                                    <div className="text-xs font-medium text-neutral-500 mb-1">
-                                        {ev.date.getDate()} {monthNames[ev.date.getMonth()].substring(0,3)}
-                                    </div>
-                                    <div className="font-bold text-sm text-neutral-200 group-hover:text-white transition-colors">{ev.title}</div>
-                                    <div className="text-[10px] font-mono text-neutral-600 mt-2 flex flex-col gap-1">
-                                        <span className="uppercase tracking-widest">T: {ev.time}</span>
+                                <div className="pt-1">
+                                    <div className="font-medium text-sm text-neutral-200 group-hover:text-white transition-colors">{ev.title}</div>
+                                    <div className="text-xs text-neutral-500 mt-1.5 flex items-center gap-3">
+                                        <span className="flex items-center gap-1"><Clock size={10} /> {ev.time}</span>
                                         {ev.location && (
-                                            <span className="uppercase tracking-widest">L: {ev.location}</span>
+                                            <span className="flex items-center gap-1"><MapPin size={10} /> {ev.location}</span>
                                         )}
                                     </div>
                                 </div>
                             </div>
                         ))}
                         {events.filter(e => e.date >= new Date()).length === 0 && (
-                            <p className="text-sm font-mono text-neutral-500">No upcoming events.</p>
+                            <p className="text-sm text-neutral-500 pl-4">No upcoming events.</p>
                         )}
                     </div>
                 </div>

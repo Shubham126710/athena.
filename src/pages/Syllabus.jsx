@@ -487,79 +487,63 @@ export default function SyllabusPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto">
-        <div className="mb-16 border-b border-neutral-900 pb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+      <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto">
+                <div className="mb-12 flex justify-between items-end">
             <div>
-                <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase mb-4 font-mono">
-                    Athena / Syllabus
-                </div>
-                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
-                    Curriculum <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive</span>
-                </h1>
+              <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
+              <p className="text-neutral-400">Track your curriculum progress and topics.</p>
             </div>
-            <select 
-                value={semester} 
-                onChange={e => setSemester(e.target.value)} 
-                className="bg-black border border-neutral-800 text-[10px] font-mono tracking-widest uppercase text-white px-4 py-2 hover:border-neutral-600 transition-colors cursor-pointer outline-none"
-            >
-              <option value="5th">SEMESTER 05</option>
-              <option value="6th">SEMESTER 06</option>
-              <option value="7th">SEMESTER 07</option>
+            <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
+              <option value="5th">5th Semester</option>
+              <option value="6th">6th Semester</option>
+              <option value="7th">7th Semester</option>
             </select>
         </div>
 
-        <div className="flex flex-col border-t border-neutral-900">
+        <div className="space-y-6">
             {(semester === '7th' ? syllabi7th : semester === '6th' ? syllabi6th : syllabi5th).map((subject, idx) => (
-                <div key={idx} className="border-b border-neutral-900 group">
+                <div key={idx} className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
                     <div 
-                        className="py-6 md:py-8 flex flex-col md:flex-row md:items-center justify-between cursor-pointer hover:bg-neutral-900/30 transition-colors px-4 -mx-4"
+                        className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
                         onClick={() => setExpandedSubject(expandedSubject === idx ? null : idx)}
                     >
-                        <div className="flex items-start md:items-center gap-6 md:gap-12">
-                            <div className="text-xl font-serif italic text-neutral-500 w-8">
-                                {(idx + 1).toString().padStart(2, '0')}
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-black text-white rounded-lg grid place-items-center font-bold text-lg">
+                                {subject.abbr}
                             </div>
                             <div>
-                                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">{subject.subject}</h2>
-                                <div className="flex items-center gap-4 text-sm font-medium text-neutral-500">
-                                    <span>{subject.code}</span>
-                                    <span>·</span>
-                                    <span>{subject.abbr}</span>
-                                </div>
+                                <h2 className="text-xl font-bold">{subject.subject}</h2>
+                                <p className="text-sm text-neutral-500 font-mono">{subject.code}</p>
                             </div>
                         </div>
-                        <div className="mt-4 md:mt-0 flex items-center self-end md:self-auto text-neutral-600 group-hover:text-white transition-colors">
-                            {expandedSubject === idx ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
-                        </div>
+                        {expandedSubject === idx ? <ChevronDown /> : <ChevronRight />}
                     </div>
 
                     {expandedSubject === idx && (
-                        <div className="pb-8 pt-4 px-4 md:px-20 bg-black">
+                        <div className="border-t border-neutral-800 bg-neutral-950/30">
                             {subject.units.map((unit, uIdx) => (
-                                <div key={uIdx} className="mb-2 last:mb-0">
+                                <div key={uIdx} className="border-b border-neutral-800 last:border-0">
                                     <div 
-                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-900/30 transition-colors rounded-sm"
+                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
                                         onClick={() => setExpandedUnit(expandedUnit === `${idx}-${uIdx}` ? null : `${idx}-${uIdx}`)}
                                     >
-                                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
-                                            <span className="text-sm font-medium text-neutral-500">Unit {(uIdx+1)}</span>
-                                            <span className="font-medium text-sm md:text-base text-neutral-200">{unit.title}</span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-xs font-bold bg-neutral-800 px-2 py-1 rounded text-neutral-300">UNIT {unit.id}</span>
+                                            <span className="font-medium text-neutral-200">{unit.title}</span>
                                         </div>
-                                        <div className="text-neutral-500">
-                                            {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                                        </div>
+                                        {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} className="text-neutral-400" /> : <ChevronRight size={16} className="text-neutral-400" />}
                                     </div>
                                     
                                     {expandedUnit === `${idx}-${uIdx}` && (
-                                        <div className="px-6 pb-6 pt-2 pl-20">
-                                            <ul className="space-y-4 border-l border-neutral-900/50 pl-6">
+                                        <div className="px-6 pb-6 pt-2 pl-14">
+                                            <ul className="space-y-2">
                                                 {unit.topics.map((topic, tIdx) => (
-                                                    <li key={tIdx} className="text-sm md:text-base text-neutral-400 leading-relaxed relative">
-                                                        <span className="absolute -left-[31px] top-2 w-2 h-px bg-neutral-800"></span>
+                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-2">
+                                                        <div className="w-1.5 h-1.5 bg-neutral-700 rounded-full mt-1.5 flex-shrink-0"></div>
                                                         {topic}
                                                     </li>
                                                 ))}
