@@ -144,8 +144,8 @@ export default function HubNavbar() {
   };
   
   const isActive = (path) => location.pathname === path;
-  const activeClass = "text-[11px] font-medium tracking-wide text-white transition-colors";
-  const inactiveClass = "text-[11px] font-medium tracking-wide text-neutral-500 hover:text-white transition-colors";
+  const activeClass = "text-xs font-bold tracking-[0.2em] uppercase text-white transition-colors";
+  const inactiveClass = "text-xs font-bold tracking-[0.2em] uppercase text-neutral-500 hover:text-white transition-colors";
 
   return (
     <>
@@ -161,15 +161,11 @@ export default function HubNavbar() {
         </div>
         
         {/* CENTER: Navigation */}
-        <div className="hidden md:flex items-center justify-center gap-6 w-2/4">
+        <div className="hidden md:flex items-center justify-center gap-8 w-2/4">
             <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>Hub</button>
-            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>Calendar</button>
-            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>Syllabus</button>
-            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>Notes</button>
-            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>SGPA</button>
         </div>
 

@@ -129,7 +129,7 @@ export default function Landing() {
         </div>
 
         {/* CENTER: Nav Links */}
-        <div className="hidden md:flex items-center justify-center gap-8 text-sm font-medium text-neutral-400 w-2/4 relative z-10">
+        <div className="hidden md:flex items-center justify-center gap-8 text-xs font-bold tracking-[0.2em] uppercase text-neutral-500 w-2/4 relative z-10">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
