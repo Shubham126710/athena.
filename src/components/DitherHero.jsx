@@ -60,9 +60,8 @@ const DitherMaterial = shaderMaterial(
       // Increase contrast so edges dissolve cleanly into black
       luminance = smoothstep(0.05, 0.8, luminance);
       
-      // Add very subtle noise/drift
-      float noise = sin(uTime * 0.5 + vUv.x * 20.0 + vUv.y * 20.0) * 0.02;
-      luminance = clamp(luminance + noise, 0.0, 1.0);
+      // Ensure transparent areas in the texture do not produce dots
+      luminance *= texColor.a;
 
       // Bayer dither calculation based on screen coordinates
       vec2 xy = gl_FragCoord.xy / 2.0; // scale the dots
