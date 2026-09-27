@@ -184,7 +184,7 @@ export default function SGPACalculator({ isOpen, onClose }) {
             </div>
             <div>
               <h3 className="text-lg font-bold text-white">SGPA Calculator</h3>
-              <p className="text-neutral-500 text-xs font-medium">Calculate & Track your performance</p>
+              <p className="text-neutral-500 text-xs font-medium">Calculate & track your <span className="font-serif italic font-normal text-neutral-400">performance.</span></p>
             </div>
           </div>
           <button 

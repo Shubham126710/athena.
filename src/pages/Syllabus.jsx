@@ -495,7 +495,7 @@ export default function SyllabusPage() {
                 <div className="mb-12 flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
-              <p className="text-neutral-400">Track your curriculum progress and topics.</p>
+              <p className="text-neutral-400">Track your curriculum, <span className="font-serif italic font-normal text-neutral-300">your way.</span></p>
             </div>
             <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
               <option value="5th">5th Semester</option>

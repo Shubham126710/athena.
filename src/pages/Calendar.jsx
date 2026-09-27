@@ -109,7 +109,7 @@ export default function CalendarPage() {
                 {/* Calendar Header & Controls */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <h1 className="text-3xl font-bold tracking-tight">{monthNames[date.getMonth()]} {date.getFullYear()}</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">{monthNames[date.getMonth()]} <span className="font-serif italic font-normal text-neutral-300">{date.getFullYear()}</span></h1>
                         <div className="flex gap-1">
                             <button onClick={prevMonth} className="p-2 hover:bg-neutral-800 rounded-full transition-colors"><ChevronLeft size={20} /></button>
                             <button onClick={nextMonth} className="p-2 hover:bg-neutral-800 rounded-full transition-colors"><ChevronRight size={20} /></button>
@@ -215,9 +215,9 @@ export default function CalendarPage() {
             {/* Sidebar: Upcoming */}
             <div className="space-y-8">
                 <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-xl p-6 shadow-sm sticky top-32">
-                    <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-white">
+                    <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-white tracking-tight">
                         <Clock size={18} className="text-indigo-400" />
-                        Upcoming Events
+                        Upcoming <span className="font-serif italic font-normal text-neutral-300">Events.</span>
                     </h2>
                     <div className="space-y-1 relative">
                         {/* Timeline line */}

@@ -190,7 +190,7 @@ export default function NotesPage() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">My Notes</h1>
-                <p className="text-neutral-400">Manage and view your uploaded documents.</p>
+                <p className="text-neutral-400">Organize what you <span className="font-serif italic font-normal text-neutral-300">learn.</span></p>
             </div>
             <div className="flex items-center gap-4">
                 <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
