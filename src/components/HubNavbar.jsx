@@ -144,8 +144,10 @@ export default function HubNavbar() {
   };
   
   const isActive = (path) => location.pathname === path;
-  const activeClass = "px-3 py-1.5 bg-neutral-800 shadow-sm rounded-md text-sm font-medium text-white transition-all";
-  const inactiveClass = "px-3 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
+  const activeClass = "relative px-4 py-1.5 text-sm font-medium text-white transition-all";
+  const inactiveClass = "relative px-4 py-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors";
+
+  const renderActiveDot = (path) => isActive(path) ? <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span> : null;
 
   return (
     <>
@@ -158,12 +160,22 @@ export default function HubNavbar() {
             </div>
             
             {/* Dashboard Navigation */}
-            <div className="hidden md:flex items-center gap-1 bg-neutral-900 p-1 rounded-lg border border-neutral-800">
-                <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>Hub</button>
-                <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>Calendar</button>
-                <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>Syllabus</button>
-                <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>Notes</button>
-                <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>SGPA</button>
+            <div className="hidden md:flex items-center gap-2 bg-neutral-900/50 backdrop-blur-sm p-1.5 rounded-lg border border-neutral-800/80">
+                <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>
+                    Hub{renderActiveDot('/hub')}
+                </button>
+                <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>
+                    Calendar{renderActiveDot('/calendar')}
+                </button>
+                <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>
+                    Syllabus{renderActiveDot('/syllabus')}
+                </button>
+                <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>
+                    Notes{renderActiveDot('/notes')}
+                </button>
+                <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>
+                    SGPA
+                </button>
             </div>
         </div>
 

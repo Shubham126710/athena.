@@ -21,14 +21,14 @@ export default function ConstellationBackground() {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.size = Math.random() * 2.5; // Slightly larger for better glow visibility
+        this.vx = (Math.random() - 0.5) * 0.2;
+        this.vy = (Math.random() - 0.5) * 0.2;
+        this.size = Math.random() * 1.5; // Finer particles
         
         // Twinkle properties
         this.phase = Math.random() * Math.PI * 2;
-        this.oscillationSpeed = 0.02 + Math.random() * 0.03; // Slow pulse
-        this.opacity = 0.5;
+        this.oscillationSpeed = 0.01 + Math.random() * 0.02; // Very slow pulse
+        this.opacity = 0.3;
       }
 
       update() {
@@ -40,8 +40,8 @@ export default function ConstellationBackground() {
 
         // Firefly effect: Smooth sine wave oscillation
         this.phase += this.oscillationSpeed;
-        // Opacity oscillates between 0.1 (dim) and 0.9 (bright)
-        this.opacity = 0.1 + (Math.sin(this.phase) + 1) * 0.4;
+        // Opacity oscillates very subtly
+        this.opacity = 0.05 + (Math.sin(this.phase) + 1) * 0.15;
       }
 
       draw() {
@@ -54,7 +54,7 @@ export default function ConstellationBackground() {
 
     const initParticles = () => {
       particles = [];
-      const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
+      const numberOfParticles = Math.floor((canvas.width * canvas.height) / 25000);
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle());
       }
