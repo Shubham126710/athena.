@@ -120,17 +120,19 @@ export default function Landing() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-neutral-900">
         
-        {/* Nav Links on the Left */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400 w-1/3 relative z-10">
+        {/* LEFT: Logo */}
+        <div className="flex min-w-0 items-center gap-5 w-1/4">
+            <div className="flex items-center gap-2 z-10">
+              <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
+              <span className="font-serif font-bold tracking-tight text-xl hidden sm:block text-white">athena.</span>
+            </div>
+        </div>
+
+        {/* CENTER: Nav Links */}
+        <div className="hidden md:flex items-center justify-center gap-8 text-sm font-medium text-neutral-400 w-2/4 relative z-10">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
-        </div>
-
-        {/* Centered Athena Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
-          <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-          <span className="font-serif font-bold tracking-tight text-xl hidden sm:block">athena.</span>
         </div>
 
         <div className="flex items-center justify-end gap-2 md:gap-4 relative z-10 w-2/3 md:w-1/3">
@@ -163,9 +165,14 @@ export default function Landing() {
         )}
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-[5.5rem]">
+        {/* Subject Marquee below navbar */}
+        <div className="w-full z-30 border-b border-neutral-900 bg-neutral-950/50 backdrop-blur-sm">
+            <MarqueeStrip />
+        </div>
+
         {/* Hero Section */}
-        <section className="relative w-full h-[100svh] min-h-[600px] flex flex-col justify-center overflow-hidden">
+        <section className="relative w-full h-[calc(100svh-5.5rem)] min-h-[600px] flex flex-col justify-center overflow-hidden">
           
           {/* Subtle Architectural Grid */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-20" style={{
@@ -203,10 +210,6 @@ export default function Landing() {
             </div>
           </div>
           
-          {/* Logos Strip / Marquee - Placed at the bottom of the hero above the fold */}
-          <div className="absolute bottom-0 left-0 w-full z-30">
-              <MarqueeStrip />
-          </div>
         </section>
 
 

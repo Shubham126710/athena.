@@ -149,12 +149,15 @@ export default function HubNavbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-neutral-900/50 backdrop-blur-md">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-14 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-neutral-900">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
         
         {/* LEFT: Logo */}
-        <div className="flex items-center gap-2 cursor-pointer w-1/4" onClick={() => nav('/')}> 
-            <span className="font-bold text-sm tracking-tight">athena.</span>
+        <div className="flex min-w-0 items-center gap-5 w-1/4">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => nav('/')}> 
+                <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
+                <span className="font-serif font-bold tracking-tight text-xl text-white">athena.</span>
+            </div>
         </div>
         
         {/* CENTER: Navigation */}

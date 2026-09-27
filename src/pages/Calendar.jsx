@@ -110,7 +110,7 @@ export default function CalendarPage() {
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1] mb-2 flex items-center gap-4">
                 {monthNames[date.getMonth()]}
-                <span className="font-serif italic font-normal text-neutral-300 normal-case">{date.getFullYear()}_</span>
+                <span className="font-serif italic font-normal text-neutral-300 normal-case">{date.getFullYear()}</span>
             </h1>
         </div>
 

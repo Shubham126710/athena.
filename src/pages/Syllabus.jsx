@@ -498,7 +498,7 @@ export default function SyllabusPage() {
                     Athena / Syllabus
                 </div>
                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
-                    Curriculum <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive_</span>
+                    Curriculum <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive</span>
                 </h1>
             </div>
             <select 

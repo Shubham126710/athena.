@@ -193,7 +193,7 @@ export default function NotesPage() {
                     Athena / Notes
                 </div>
                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter text-white uppercase max-w-xl leading-[1.1]">
-                    Academic <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive_</span>
+                    Academic <span className="font-serif italic font-normal text-neutral-300 normal-case">Archive</span>
                 </h1>
             </div>
             <div className="flex items-center gap-4">
