@@ -1,29 +1,32 @@
-import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame, extend } from '@react-three/fiber';
+import React, { useRef, Suspense } from 'react';
+import { Canvas, extend, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { shaderMaterial } from '@react-three/drei';
+import { shaderMaterial, useTexture } from '@react-three/drei';
 
 // --- 1. Dither Shader Material ---
+// This shader reads a texture and maps its luminance to a bayer dither matrix.
 const DitherMaterial = shaderMaterial(
   {
-    uLightDir: new THREE.Vector3(0.5, 0.8, 0.5).normalize(),
-    uColor: new THREE.Color('#ffffff'), // White dots
-    uBgColor: new THREE.Color('#0a0a0a'), // Dark background (neutral-950)
+    uColor: new THREE.Color('#f4f3ee'), // Ivory dots
+    uBgColor: new THREE.Color('#0a0a0a'), // Black background
+    uMap: null, // Texture
+    uTime: 0,
   },
   // Vertex Shader
   `
-    varying vec3 vNormal;
+    varying vec2 vUv;
     void main() {
-      vNormal = normalize(normalMatrix * normal);
+      vUv = uv;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `,
   // Fragment Shader
   `
-    uniform vec3 uLightDir;
+    uniform sampler2D uMap;
     uniform vec3 uColor;
     uniform vec3 uBgColor;
-    varying vec3 vNormal;
+    uniform float uTime;
+    varying vec2 vUv;
 
     float bayer4x4(vec2 uv) {
         int x = int(mod(uv.x, 4.0));
@@ -49,18 +52,27 @@ const DitherMaterial = shaderMaterial(
     }
 
     void main() {
-      vec3 normal = normalize(vNormal);
-      float light = dot(normal, uLightDir);
-      light = light * 0.5 + 0.5; 
-      light = pow(light, 1.2);   
+      vec4 texColor = texture2D(uMap, vUv);
       
-      vec2 xy = gl_FragCoord.xy;
+      // Calculate luminance
+      float luminance = dot(texColor.rgb, vec3(0.299, 0.587, 0.114));
+      
+      // Increase contrast so edges dissolve cleanly into black
+      luminance = smoothstep(0.05, 0.8, luminance);
+      
+      // Add very subtle noise/drift
+      float noise = sin(uTime * 0.5 + vUv.x * 20.0 + vUv.y * 20.0) * 0.02;
+      luminance = clamp(luminance + noise, 0.0, 1.0);
+
+      // Bayer dither calculation based on screen coordinates
+      vec2 xy = gl_FragCoord.xy / 2.0; // scale the dots
       float threshold = bayer4x4(xy);
       
-      if (light < threshold) {
+      if (luminance > threshold) {
         gl_FragColor = vec4(uColor, 1.0);
       } else {
-        gl_FragColor = vec4(uBgColor, 1.0);
+        // Discard the background so it blends completely with the HTML element
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
       }
     }
   `
@@ -68,67 +80,47 @@ const DitherMaterial = shaderMaterial(
 
 extend({ DitherMaterial });
 
-// --- 2. Book Stack Structure ---
-
-function BookStack({ color, bgColor }) {
-  const group = useRef();
-  const books = useMemo(() => {
-    const temp = [];
-    const count = 12;
-    let currentHeight = -2.5;
-    
-    for(let i=0; i<count; i++) {
-        const thickness = 0.3 + Math.random() * 0.4;
-        const width = 3.5 + Math.random() * 1.5;
-        const depth = 5 + Math.random() * 1.5;
-        
-        // Randomize position slightly for "messy stack" look
-        const offsetX = (Math.random() - 0.5) * 1.0;
-        const offsetZ = (Math.random() - 0.5) * 1.0;
-        
-        // Randomize rotation
-        const rotY = (Math.random() - 0.5) * Math.PI * 0.6;
-
-        temp.push({
-            position: [offsetX, currentHeight + thickness / 2, offsetZ],
-            rotation: [0, rotY, 0],
-            scale: [width, thickness, depth]
-        });
-        currentHeight += thickness;
-    }
-    return temp;
-  }, []);
+function AthenaBust({ color, bgColor }) {
+  // Load the generated Athena bust image
+  const texture = useTexture('/athena_bust.png');
+  const materialRef = useRef();
 
   useFrame((state) => {
-    if (group.current) {
-        // Continuous clockwise rotation based on system time to ensure persistence
-        // Using Date.now() ensures the rotation doesn't reset on scroll/remount
-        group.current.rotation.y = -(Date.now() * 0.0002);
+    if (materialRef.current) {
+      materialRef.current.uTime = state.clock.elapsedTime;
     }
   });
 
   return (
-    <group ref={group}>
-        {books.map((b, i) => (
-            <mesh key={i} position={b.position} rotation={b.rotation}>
-                <boxGeometry args={b.scale} />
-                <ditherMaterial uColor={new THREE.Color(color)} uBgColor={new THREE.Color(bgColor)} />
-            </mesh>
-        ))}
-    </group>
+    <mesh position={[0, 0, 0]}>
+      <planeGeometry args={[20, 20]} />
+      <ditherMaterial 
+        ref={materialRef} 
+        uMap={texture} 
+        uColor={new THREE.Color(color)} 
+        uBgColor={new THREE.Color(bgColor)} 
+        transparent={true}
+      />
+    </mesh>
   );
 }
 
-// --- 3. Main Component ---
-
-export default function DitherHero({ color = '#ffffff', backgroundColor = '#0a0a0a', position = [0, 0, 0] }) {
+export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#0a0a0a' }) {
   return (
-    <div className="w-full h-full" style={{ backgroundColor }}>
-      <Canvas orthographic camera={{ zoom: 35, position: [20, 20, 20] }}>
-        <group position={position}>
-            <BookStack color={color} bgColor={backgroundColor} />
-        </group>
+    <div className="absolute bottom-0 right-0 w-[50%] h-[80%] md:w-[45%] md:h-[90%] z-0 pointer-events-none overflow-visible">
+      <Canvas 
+        orthographic 
+        camera={{ zoom: 35, position: [0, 0, 100] }}
+        gl={{ alpha: true, antialias: false }}
+        className="w-full h-full translate-x-[10%] translate-y-[10%]"
+      >
+        <Suspense fallback={null}>
+          <AthenaBust color={color} bgColor={backgroundColor} />
+        </Suspense>
       </Canvas>
+      {/* Subtle bottom fade to blend with the background seamlessly */}
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-transparent to-transparent"></div>
     </div>
   );
 }

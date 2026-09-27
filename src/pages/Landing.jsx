@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CrowdCanvas from '../components/CrowdCanvas.jsx';
+import DitherHero from '../components/DitherHero.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import Footer1 from '../components/Footer1.jsx';
@@ -172,25 +172,23 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-center justify-start pt-[12vh] text-center overflow-hidden">
+        <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-start justify-center text-left overflow-hidden">
           
-          {/* Depth Effect Background - Scaled down dynamically inside CrowdCanvas to prevent overlapping */}
-          <div className="absolute inset-x-0 bottom-0 top-auto w-full h-[85%] md:h-full z-20 pointer-events-none">
-             <CrowdCanvas src="/images/peeps/all-peeps.png" rows={15} cols={7} />
-             {/* Gradient overlay to blend the canvas edge with background */}
-             <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent"></div>
-          </div>
+          {/* Athena Dither Statue */}
+          <DitherHero />
           
-          {/* Text content wrapped in container, pushed behind people (z-10) */}
-          <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 flex flex-col items-center">
-            <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold tracking-tight leading-[1.15] mb-6 md:mb-8 text-white min-h-[140px] md:min-h-[160px] drop-shadow-2xl">
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
-              <span className="text-neutral-300 italic pr-2">{text}</span><span className="animate-pulse text-white">_</span>
-            </h1>
-            <p className="text-base md:text-lg text-neutral-400 leading-relaxed font-light mx-auto max-w-xl">
-              Build, connect, and scale intelligent workflows — all from one place.
-            </p>
+          {/* Text content wrapped in container */}
+          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-start pb-20 mt-[-5vh]">
+            <div className="max-w-2xl">
+              <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 text-white min-h-[140px] md:min-h-[180px] drop-shadow-2xl">
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
+                <span className="text-neutral-300 italic pr-2 font-serif">{text}</span><span className="animate-pulse text-white">_</span>
+              </h1>
+              <p className="text-base md:text-xl text-neutral-400 leading-relaxed font-light max-w-md">
+                Build, connect, and scale intelligent workflows — all from one place.
+              </p>
+            </div>
           </div>
           
           {/* Logos Strip / Marquee - Placed at the bottom of the hero above the fold */}
