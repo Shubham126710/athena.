@@ -118,7 +118,7 @@ export default function Landing() {
       {showLoader && <LoadingScreen />}
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-neutral-900">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5">
         
         {/* LEFT: Logo */}
         <div className="flex min-w-0 items-center gap-5 w-1/4">
@@ -129,7 +129,7 @@ export default function Landing() {
         </div>
 
         {/* CENTER: Nav Links */}
-        <div className="hidden md:flex items-center justify-center gap-8 text-xs font-bold tracking-[0.2em] uppercase text-neutral-500 w-2/4 relative z-10">
+        <div className="hidden md:flex items-center justify-center gap-10 text-[11px] font-medium tracking-widest uppercase text-neutral-500 w-2/4 relative z-10">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
