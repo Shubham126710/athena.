@@ -192,24 +192,24 @@ export default function Landing() {
                 <span className="hidden sm:inline">02 — Synthesize</span>
               </div>
 
-              <h1 className="text-[3.5rem] md:text-6xl lg:text-[6.5rem] font-bold tracking-tighter leading-[0.95] text-white uppercase m-0">
+              <h1 className="text-[clamp(2.5rem,11vw,3.5rem)] md:text-6xl lg:text-[6.5rem] font-bold tracking-tighter leading-[0.95] text-white uppercase m-0 break-words">
                 YOUR DIGITAL<br />
                 ACADEMIC<br />
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300 normal-case lowercase pr-2">{text}_</span>
               </h1>
               
               {/* Athena Dither Statue - Mobile Flow */}
-              <div className="w-[120%] h-[350px] relative -ml-[10%] md:hidden my-4">
+              <div className="w-full max-w-[400px] h-[350px] relative mx-auto md:hidden my-6 self-center">
                   <DitherHero className="absolute inset-0 w-full h-full" />
               </div>
               
-              <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light max-w-sm md:mt-8 border-l border-neutral-800 pl-4">
+              <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light max-w-sm border-l border-neutral-800 pl-4 mt-2 md:mt-8">
                 Build, connect, and scale intelligent workflows — all from one place.
               </p>
 
-              <div className="mt-10 flex flex-wrap gap-4">
-                <button onClick={() => nav('/hub')} className="px-6 py-3.5 bg-white text-black text-[10px] font-bold tracking-widest uppercase hover:bg-neutral-200 transition-colors shadow-sm">Enter System</button>
-                <button className="px-6 py-3.5 bg-transparent border border-neutral-800 text-neutral-400 text-[10px] font-bold tracking-widest uppercase hover:text-white transition-colors">View Methodology</button>
+              <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <button onClick={() => nav('/hub')} className="w-full sm:w-auto px-6 py-4 sm:py-3.5 bg-white text-black text-[10px] font-bold tracking-widest uppercase hover:bg-neutral-200 transition-colors shadow-sm text-center">Enter System</button>
+                <button className="w-full sm:w-auto px-6 py-4 sm:py-3.5 bg-transparent border border-neutral-800 text-neutral-400 text-[10px] font-bold tracking-widest uppercase hover:text-white transition-colors text-center">View Methodology</button>
               </div>
             </div>
           </div>
