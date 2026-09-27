@@ -47,6 +47,7 @@ function SpotlightCard({ children, className = "" }) {
 export default function Landing() {
   const [showLoader, setShowLoader] = React.useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [activeSection, setActiveSection] = React.useState('hero');
   const nav = useNavigate();
 
   // Typewriter State
@@ -54,6 +55,21 @@ export default function Landing() {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
   const [views, setViews] = React.useState(1080);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(section => observer.observe(section));
+
+    return () => sections.forEach(section => observer.unobserve(section));
+  }, []);
 
   React.useEffect(() => { 
     const updateViews = async () => {
@@ -130,9 +146,24 @@ export default function Landing() {
 
         {/* CENTER: Nav Links */}
         <div className="hidden md:flex items-center justify-center gap-10 text-[11px] font-medium tracking-widest text-neutral-500 w-2/4 relative z-10">
-          <a href="#about" className="hover:text-white transition-colors">About</a>
-          <a href="#features" className="hover:text-white transition-colors">Features</a>
-          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+          <a href="#about" className={`relative transition-colors ${activeSection === 'about' ? 'text-white' : 'hover:text-white'}`}>
+            About
+            {activeSection === 'about' && (
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
+            )}
+          </a>
+          <a href="#features" className={`relative transition-colors ${activeSection === 'features' ? 'text-white' : 'hover:text-white'}`}>
+            Features
+            {activeSection === 'features' && (
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
+            )}
+          </a>
+          <a href="#contact" className={`relative transition-colors ${activeSection === 'contact' ? 'text-white' : 'hover:text-white'}`}>
+            Contact
+            {activeSection === 'contact' && (
+              <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
+            )}
+          </a>
         </div>
 
         <div className="flex items-center justify-end gap-2 md:gap-4 relative z-10 w-2/3 md:w-1/3">
@@ -167,7 +198,7 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full min-h-[calc(100svh-5rem)] md:h-[calc(100svh-5rem)] flex flex-col justify-center overflow-hidden">
+        <section id="hero" className="relative w-full min-h-[calc(100svh-5rem)] md:h-[calc(100svh-5rem)] flex flex-col justify-center overflow-hidden">
           
           {/* Subtle Background Surface (Radial Glow + Grain + Grid) */}
           <div className="absolute inset-0 z-0 pointer-events-none">
