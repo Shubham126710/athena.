@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, memo } from 'react';
 
 const BASE_SUBJECTS = [
+    "RESEARCH METHODOLOGY",
+    "PRINCIPLES OF HUMAN COMMUNICATION",
     "NATURAL LANGUAGE PROCESSING",
     "COMPUTER VISION",
-    "RESEARCH METHODOLOGY",
-    "PRINCIPLES OF HUMAN COMMUNICATION"
+    "RESEARCH METHODS"
 ];
 
 // Duplicate to ensure the single set is wider than any viewport
@@ -48,13 +49,13 @@ const MarqueeStrip = memo(() => {
     }, []);
 
     return (
-        <section className="relative z-10 bg-black/80 backdrop-blur-md py-4 border-t border-neutral-900/50 overflow-hidden">
+        <section className="relative z-10 bg-black py-4 border-t border-neutral-900 overflow-hidden">
             <div ref={containerRef} className="flex whitespace-nowrap will-change-transform">
                 <div ref={contentRef} className="flex">
                     {[...Array(2)].map((_, i) => (
-                        <div key={i} className="flex gap-16 mx-8 items-center">
+                        <div key={i} className="flex gap-20 mx-10 items-center">
                             {SUBJECTS.map((subject, idx) => (
-                                <span key={idx} className="text-sm font-bold tracking-widest uppercase text-neutral-500 hover:text-white transition-colors cursor-default">
+                                <span key={idx} className="text-[10px] font-mono font-medium tracking-[0.2em] uppercase text-neutral-500 hover:text-white transition-colors cursor-default">
                                     {subject}
                                 </span>
                             ))}

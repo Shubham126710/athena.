@@ -114,18 +114,11 @@ export default function Landing() {
   }
 
   return (
-    <div className="min-h-screen font-sans bg-neutral-950 text-white selection:bg-white selection:text-black relative">
+    <div className="min-h-screen font-sans bg-black text-white selection:bg-white selection:text-black relative">
       {showLoader && <LoadingScreen />}
       
-      {/* Grid Background */}
-      <div className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none animate-grid" style={{
-          backgroundImage: 'linear-gradient(to right, #262626 1px, transparent 1px), linear-gradient(to bottom, #262626 1px, transparent 1px)',
-          backgroundSize: '4rem 4rem',
-          maskImage: 'linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)'
-       }}></div>
-
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between bg-neutral-950 border-b border-neutral-900/80 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-neutral-900">
         
         {/* Nav Links on the Left */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400 w-1/3 relative z-10">
@@ -172,22 +165,41 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full h-[calc(100vh-5rem)] flex flex-col items-start justify-center text-left overflow-hidden">
+        <section className="relative w-full h-[100svh] min-h-[600px] flex flex-col justify-center overflow-hidden">
           
+          {/* Subtle Architectural Grid */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-20" style={{
+              backgroundImage: 'linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)',
+              backgroundSize: '100px 100px',
+              maskImage: 'linear-gradient(to right, black 50%, transparent 80%)'
+          }}></div>
+
           {/* Athena Dither Statue */}
           <DitherHero />
           
           {/* Text content wrapped in container */}
-          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-start pb-20 mt-[-5vh]">
-            <div className="max-w-2xl">
-              <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 text-white min-h-[140px] md:min-h-[180px] drop-shadow-2xl">
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-400">Your digital</span><br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">academic</span> <br className="hidden lg:block"/>
-                <span className="text-neutral-300 italic pr-2 font-serif">{text}</span><span className="animate-pulse text-white">_</span>
+          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24">
+            <div className="max-w-xl flex flex-col items-start text-left">
+              <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase flex gap-4 mb-6 font-mono">
+                <span>Athena / System</span>
+                <span className="hidden sm:inline">01 — Research</span>
+                <span className="hidden sm:inline">02 — Synthesize</span>
+              </div>
+
+              <h1 className="text-[3.5rem] md:text-6xl lg:text-[6.5rem] font-bold tracking-tighter leading-[0.95] text-white uppercase m-0">
+                YOUR DIGITAL<br />
+                ACADEMIC<br />
+                <span className="font-serif italic font-normal tracking-tight text-neutral-300 normal-case lowercase pr-2">{text}_</span>
               </h1>
-              <p className="text-base md:text-xl text-neutral-400 leading-relaxed font-light max-w-md">
+              
+              <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light max-w-sm mt-8 border-l border-neutral-800 pl-4">
                 Build, connect, and scale intelligent workflows — all from one place.
               </p>
+
+              <div className="mt-10 flex flex-wrap gap-4">
+                <button onClick={() => nav('/hub')} className="px-6 py-3.5 bg-white text-black text-[10px] font-bold tracking-widest uppercase hover:bg-neutral-200 transition-colors shadow-sm">Enter System</button>
+                <button className="px-6 py-3.5 bg-transparent border border-neutral-800 text-neutral-400 text-[10px] font-bold tracking-widest uppercase hover:text-white transition-colors">View Methodology</button>
+              </div>
             </div>
           </div>
           
