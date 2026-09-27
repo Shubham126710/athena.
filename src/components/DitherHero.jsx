@@ -105,9 +105,9 @@ function AthenaBust({ color, bgColor }) {
   );
 }
 
-export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000' }) {
+export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000', className = "absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0" }) {
   return (
-    <div className="absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0 pointer-events-none overflow-visible flex items-end">
+    <div className={`pointer-events-none overflow-visible flex items-end ${className}`}>
       <Canvas 
         orthographic 
         camera={{ zoom: 45, position: [0, 0, 100] }}

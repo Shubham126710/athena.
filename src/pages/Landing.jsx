@@ -180,8 +180,8 @@ export default function Landing() {
               WebkitMaskImage: 'radial-gradient(circle at 30% 50%, black 20%, transparent 80%)'
           }}></div>
 
-          {/* Athena Dither Statue */}
-          <DitherHero />
+          {/* Athena Dither Statue - Desktop */}
+          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0" />
           
           {/* Text content wrapped in container */}
           <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24">
@@ -198,7 +198,12 @@ export default function Landing() {
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300 normal-case lowercase pr-2">{text}_</span>
               </h1>
               
-              <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light max-w-sm mt-8 border-l border-neutral-800 pl-4">
+              {/* Athena Dither Statue - Mobile Flow */}
+              <div className="w-[120%] h-[350px] relative -ml-[10%] md:hidden my-4">
+                  <DitherHero className="absolute inset-0 w-full h-full" />
+              </div>
+              
+              <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-light max-w-sm md:mt-8 border-l border-neutral-800 pl-4">
                 Build, connect, and scale intelligent workflows — all from one place.
               </p>
 

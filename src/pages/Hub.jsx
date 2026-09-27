@@ -252,20 +252,20 @@ export default function HubPage() {
                     <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Course Credits</div>
                     <div className="space-y-6 border-t border-neutral-900 pt-6">
                         {subjects.map((sub, idx) => (
-                            <div key={idx} className="flex flex-row items-center justify-between border-b border-neutral-900 pb-6 last:border-0 last:pb-0">
-                                <div className="flex gap-6 items-start">
-                                    <div className="text-lg font-serif italic text-neutral-500 mt-1">{(idx+1).toString().padStart(2, '0')}</div>
+                            <div key={idx} className="flex flex-row items-center justify-between border-b border-neutral-900 pb-6 last:border-0 last:pb-0 gap-2">
+                                <div className="flex gap-4 sm:gap-6 items-start">
+                                    <div className="text-base sm:text-lg font-serif italic text-neutral-500 mt-1 hidden sm:block">{(idx+1).toString().padStart(2, '0')}</div>
                                     <div>
-                                        <div className="text-lg font-bold text-neutral-200 mb-1">{sub.name}</div>
-                                        <div className="flex gap-2 text-sm text-neutral-500">
+                                        <div className="text-sm sm:text-lg font-bold text-neutral-200 mb-1 leading-tight">{sub.name}</div>
+                                        <div className="flex gap-1.5 sm:gap-2 text-[10px] sm:text-sm text-neutral-500">
                                             <span>{sub.code}</span>
                                             <span>·</span>
                                             <span>{sub.type}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-right flex items-center">
-                                    <span className="text-white text-lg font-medium">{sub.credits} CR</span>
+                                <div className="text-right flex items-center shrink-0 pl-2">
+                                    <span className="text-white text-sm sm:text-lg font-medium">{sub.credits} CR</span>
                                 </div>
                             </div>
                         ))}
