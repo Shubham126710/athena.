@@ -118,9 +118,6 @@ export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#0000
           <AthenaBust color={color} bgColor={backgroundColor} />
         </Suspense>
       </Canvas>
-      {/* Subtle bottom fade to blend with the background seamlessly */}
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-transparent to-transparent"></div>
     </div>
   );
 }

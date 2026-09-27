@@ -169,11 +169,15 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="relative w-full h-[calc(100svh-5rem)] min-h-[600px] flex flex-col justify-center overflow-hidden">
           
+          {/* Atmospheric Radial Glow behind the statue */}
+          <div className="absolute top-1/2 right-[5%] -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none z-0"></div>
+
           {/* Subtle Architectural Grid */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-20" style={{
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-10" style={{
               backgroundImage: 'linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)',
               backgroundSize: '100px 100px',
-              maskImage: 'linear-gradient(to right, black 50%, transparent 80%)'
+              maskImage: 'radial-gradient(circle at 30% 50%, black 20%, transparent 80%)',
+              WebkitMaskImage: 'radial-gradient(circle at 30% 50%, black 20%, transparent 80%)'
           }}></div>
 
           {/* Athena Dither Statue */}
