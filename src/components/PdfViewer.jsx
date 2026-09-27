@@ -1,28 +1,61 @@
 import React from 'react';
-import { Download, FileText } from 'lucide-react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import { ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function PdfViewer({ fileUrl, className='' }) {
-  let finalUrl = fileUrl;
-  
-  // Convert standard Google Drive view links to embeddable preview links
-  if (fileUrl?.includes('drive.google.com')) {
-      const match = fileUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (match && match[1]) {
-          finalUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
-      }
-  } else if (fileUrl) {
-      // Use Google Docs Viewer for Cloudinary and other public PDFs for cross-browser support
-      finalUrl = `https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`;
+  const [numPages, setNumPages] = React.useState(null);
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const [pageWidth, setPageWidth] = React.useState(600);
+
+  React.useEffect(() => {
+    function updateWidth() {
+      // Adjust width based on modal container sizing
+      const containerWidth = window.innerWidth < 768 ? window.innerWidth - 64 : Math.min(window.innerWidth * 0.7, 750);
+      setPageWidth(containerWidth);
+    }
+
+    window.addEventListener('resize', updateWidth);
+    updateWidth();
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+    setPageNumber(1);
   }
 
   return (
     <div className={`flex flex-col items-center w-full h-full ${className}`}>
       <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-2 px-4 flex items-center justify-between w-full max-w-[800px] mb-4 shrink-0">
-        <span className="text-sm font-medium font-mono text-neutral-300">
-            PDF Document
-        </span>
+        
+        <div className="flex items-center gap-4">
+            <button
+                disabled={pageNumber <= 1}
+                onClick={() => setPageNumber(prev => prev - 1)}
+                className="p-1 hover:bg-neutral-800 text-white rounded disabled:opacity-30 transition-colors"
+            >
+                <ChevronLeft size={20} />
+            </button>
 
-        <a 
+            <span className="text-sm font-medium font-mono text-white">
+                {pageNumber} / {numPages || '--'}
+            </span>
+
+            <button
+                disabled={pageNumber >= numPages}
+                onClick={() => setPageNumber(prev => prev + 1)}
+                className="p-1 hover:bg-neutral-800 text-white rounded disabled:opacity-30 transition-colors"
+            >
+                <ChevronRight size={20} />
+            </button>
+        </div>
+
+        <a
             href={fileUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -34,14 +67,22 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </a>
       </div>
 
-      <div className="w-full h-full relative bg-neutral-900/50 rounded-xl overflow-hidden mx-auto border border-neutral-800 max-w-[800px] flex-1">
-        <iframe
-            src={finalUrl}
-            title="PDF Viewer"
-            className="w-full h-full border-0 bg-white"
-            loading="lazy"
-            allow="autoplay"
-        />
+      <div className="relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar">
+        <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            loading={<div className="p-10 text-neutral-400 animate-pulse font-mono">Loading PDF...</div>}
+            error={<div className="p-10 text-red-500 font-mono">Failed to load PDF. Cloudinary CORS issue or invalid URL.</div>}
+            className="flex flex-col items-center py-4"
+        >
+            <Page
+                pageNumber={pageNumber}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                width={pageWidth}
+                className="shadow-2xl border border-neutral-800 bg-white"
+            />
+        </Document>
       </div>
     </div>
   );
