@@ -165,14 +165,9 @@ export default function Landing() {
         )}
       </nav>
 
-      <main className="pt-[5.5rem]">
-        {/* Subject Marquee below navbar */}
-        <div className="w-full z-30 border-b border-neutral-900 bg-neutral-950/50 backdrop-blur-sm">
-            <MarqueeStrip />
-        </div>
-
+      <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full h-[calc(100svh-5.5rem)] min-h-[600px] flex flex-col justify-center overflow-hidden">
+        <section className="relative w-full h-[100svh] min-h-[600px] flex flex-col justify-center overflow-hidden">
           
           {/* Subtle Architectural Grid */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-20" style={{
@@ -210,6 +205,10 @@ export default function Landing() {
             </div>
           </div>
           
+          {/* Subject Marquee - Placed at the bottom of the hero above the fold */}
+          <div className="absolute bottom-0 left-0 w-full z-30 border-t border-neutral-900 bg-neutral-950/50 backdrop-blur-sm">
+              <MarqueeStrip />
+          </div>
         </section>
 
 
