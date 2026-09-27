@@ -171,8 +171,8 @@ export default function HubPage() {
       <main className="flex-1 px-6 md:px-12 max-w-[1400px] mx-auto w-full relative z-10 flex flex-col py-8 pt-24">
         {announcement && (
           <div className="mb-12 relative flex flex-col md:flex-row md:items-start gap-4 animate-in fade-in max-w-4xl py-2">
-            <div className="text-sm font-medium text-neutral-500 flex items-center gap-2 mt-0.5 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+            <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 flex items-center gap-3 mt-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
               Announcement
             </div>
             <div className="flex-1">
@@ -202,7 +202,7 @@ export default function HubPage() {
             <div className="col-span-1 lg:col-span-8 flex flex-col">
                 <div className="flex flex-col justify-between h-full group">
                     <div className="mb-12">
-                        <div className="text-sm font-medium text-neutral-500 mb-4">Upcoming Exam</div>
+                        <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Upcoming Exam</div>
                         <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">{upcomingExam.subject}</h2>
                         {upcomingExam.subject !== 'No upcoming exams' && (
                             <div className="text-neutral-500 text-base">
@@ -213,11 +213,11 @@ export default function HubPage() {
                     {upcomingExam.subject !== 'No upcoming exams' && (
                     <div className="flex items-end justify-between border-t border-neutral-900 pt-6">
                         <div>
-                            <div className="text-sm font-medium text-neutral-500 mb-1">Time Remaining</div>
+                            <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-2">Time Remaining</div>
                             <div className="text-2xl md:text-3xl font-serif italic text-white">{upcomingExam.daysLeft} Days</div>
                         </div>
                         <div className="text-right">
-                            <div className="text-sm font-medium text-neutral-500 mb-1">Scheduled</div>
+                            <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-2">Scheduled</div>
                             <div className="text-base font-medium text-white">{upcomingExam.date}</div>
                         </div>
                     </div>
@@ -228,24 +228,28 @@ export default function HubPage() {
             {/* Secondary Module: Academic Quote */}
             <div className="col-span-1 lg:col-span-4 flex flex-col">
                 <div className="flex flex-col justify-center h-full pt-8 lg:pt-0 pl-0 lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
+                    <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Thought</div>
                     <p className="font-serif italic text-xl md:text-2xl text-neutral-300 leading-relaxed mb-6">"{quote.text}"</p>
-                    <span className="text-sm font-medium text-neutral-500">— {quote.author}</span>
+                    <span className="text-[11px] font-medium tracking-widest uppercase text-neutral-500">— {quote.author}</span>
                 </div>
             </div>
             
             {/* Lower Module: Course Credits */}
             <div className="col-span-1 lg:col-span-7 flex flex-col mt-8 lg:mt-12">
                 <div className="flex flex-col h-full">
-                    <div className="text-sm font-medium text-neutral-500 mb-6">Course Credits</div>
-                    <div className="space-y-6">
+                    <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Course Credits</div>
+                    <div className="space-y-6 border-t border-neutral-900 pt-6">
                         {subjects.map((sub, idx) => (
                             <div key={idx} className="flex flex-row items-center justify-between border-b border-neutral-900 pb-6 last:border-0 last:pb-0">
-                                <div>
-                                    <div className="text-lg font-bold text-neutral-200 mb-1">{sub.name}</div>
-                                    <div className="flex gap-2 text-sm text-neutral-500">
-                                        <span>{sub.code}</span>
-                                        <span>·</span>
-                                        <span>{sub.type}</span>
+                                <div className="flex gap-6 items-start">
+                                    <div className="text-lg font-serif italic text-neutral-500 mt-1">{(idx+1).toString().padStart(2, '0')}</div>
+                                    <div>
+                                        <div className="text-lg font-bold text-neutral-200 mb-1">{sub.name}</div>
+                                        <div className="flex gap-2 text-sm text-neutral-500">
+                                            <span>{sub.code}</span>
+                                            <span>·</span>
+                                            <span>{sub.type}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="text-right flex items-center">
@@ -259,16 +263,16 @@ export default function HubPage() {
 
             {/* Lower Secondary: Quick Actions */}
             <div className="col-span-1 lg:col-span-5 flex flex-col mt-8 lg:mt-12">
-                <div className="flex flex-col h-full pl-0 lg:pl-12">
-                    <div className="text-sm font-medium text-neutral-500 mb-6">Quick Actions</div>
-                    <div className="flex-1 flex flex-col gap-4">
-                        <button onClick={() => nav('/notes')} className="flex items-center justify-between p-6 bg-neutral-900/30 hover:bg-neutral-900/60 transition-colors group rounded-sm">
+                <div className="flex flex-col h-full pl-0 lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
+                    <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Quick Actions</div>
+                    <div className="flex-1 flex flex-col pt-6 border-t border-neutral-900">
+                        <button onClick={() => nav('/notes')} className="flex items-center justify-between py-6 border-b border-neutral-900 group">
                             <span className="text-base font-medium text-neutral-300 group-hover:text-white transition-colors">Study Notes</span>
-                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-1">→</span>
+                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-2">→</span>
                         </button>
-                        <button onClick={() => nav('/syllabus')} className="flex items-center justify-between p-6 bg-neutral-900/30 hover:bg-neutral-900/60 transition-colors group rounded-sm">
+                        <button onClick={() => nav('/syllabus')} className="flex items-center justify-between py-6 border-b border-neutral-900 group">
                             <span className="text-base font-medium text-neutral-300 group-hover:text-white transition-colors">Syllabus Prep</span>
-                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-1">→</span>
+                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-2">→</span>
                         </button>
                     </div>
                 </div>
