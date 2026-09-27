@@ -7,6 +7,28 @@ import 'react-pdf/dist/Page/TextLayer.css';
 // Setup PDF worker using unpkg CDN for foolproof cross-browser support
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
+class PdfErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-10 bg-neutral-900 text-red-500 font-mono w-full h-full overflow-auto text-xs">
+          <h2 className="text-lg font-bold mb-4">PDF Viewer Crash</h2>
+          <p>{this.state.error?.toString()}</p>
+          <pre className="mt-4 whitespace-pre-wrap">{this.state.error?.stack}</pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function PdfViewer({ fileUrl, className='' }) {
   const [numPages, setNumPages] = React.useState(null);
   const [pageNumber, setPageNumber] = React.useState(1);
@@ -31,7 +53,8 @@ export default function PdfViewer({ fileUrl, className='' }) {
   }
 
   return (
-    <div className={`flex flex-col items-center w-full h-full ${className}`}>
+    <PdfErrorBoundary>
+      <div className={`flex flex-col items-center w-full h-full ${className}`}>
       <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-2 px-4 flex items-center justify-between w-full max-w-[800px] mb-4 shrink-0">
         
         <div className="flex items-center gap-4">
@@ -86,5 +109,6 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </Document>
       </div>
     </div>
+    </PdfErrorBoundary>
   );
 }
