@@ -170,18 +170,17 @@ export default function HubPage() {
 
       <main className="flex-1 px-6 md:px-12 max-w-[1400px] mx-auto w-full relative z-10 flex flex-col py-8 pt-24">
         {announcement && (
-          <div className="mb-12 relative flex flex-col md:flex-row md:items-start gap-4 animate-in fade-in max-w-4xl py-2">
-            <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 flex items-center gap-3 mt-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-              Announcement
+          <div className="mb-12 relative flex flex-col md:flex-row md:items-center gap-4 animate-in fade-in max-w-4xl p-4 border border-red-900/30 bg-red-950/5 rounded-md shadow-[0_0_15px_rgba(220,38,38,0.03)]">
+            <div className="flex shrink-0 items-center justify-center w-8 h-8 rounded-full bg-red-950/50 border border-red-900/50 text-red-500">
+              <Bell size={14} />
             </div>
-            <div className="flex-1">
-              <h3 className="text-base font-bold text-white mb-1">{announcement.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed">{announcement.message}</p>
+            <div className="flex-1 flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+              <h3 className="text-sm font-bold text-white shrink-0">{announcement.title}</h3>
+              <p className="text-neutral-500 text-sm leading-relaxed truncate">{announcement.message}</p>
             </div>
             <button 
               onClick={handleDismissAnnouncement}
-              className="absolute top-2 right-0 md:static p-1 text-neutral-600 hover:text-white transition-colors"
+              className="absolute top-4 right-4 md:static p-1 text-neutral-600 hover:text-white transition-colors shrink-0"
             >
               <X size={16} />
             </button>
@@ -195,20 +194,28 @@ export default function HubPage() {
             </h1>
             <p className="text-neutral-500 mt-2">Here's what's happening today.</p>
         </div>
+        <hr className="border-neutral-900 my-12" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 content-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 flex-1 content-start">
             
             {/* Primary Module: Upcoming Exam */}
-            <div className="col-span-1 lg:col-span-8 flex flex-col">
+            <div className="flex flex-col">
                 <div className="flex flex-col justify-between h-full group">
                     <div className="mb-12">
                         <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Upcoming Exam</div>
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">{upcomingExam.subject}</h2>
-                        {upcomingExam.subject !== 'No upcoming exams' && (
-                            <div className="text-neutral-500 text-base">
-                                Module — {subjects[0]?.code}
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">{upcomingExam.subject}</h2>
+                                {upcomingExam.subject !== 'No upcoming exams' && (
+                                    <div className="text-neutral-500 text-base">
+                                        Module — {subjects[0]?.code}
+                                    </div>
+                                )}
                             </div>
-                        )}
+                            {upcomingExam.subject === 'No upcoming exams' && (
+                                <Calendar size={48} className="text-neutral-900 shrink-0" strokeWidth={1} />
+                            )}
+                        </div>
                     </div>
                     {upcomingExam.subject !== 'No upcoming exams' && (
                     <div className="flex items-end justify-between border-t border-neutral-900 pt-6">
@@ -226,16 +233,21 @@ export default function HubPage() {
             </div>
 
             {/* Secondary Module: Academic Quote */}
-            <div className="col-span-1 lg:col-span-4 flex flex-col">
-                <div className="flex flex-col justify-center h-full pt-8 lg:pt-0 pl-0 lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
+            <div className="flex flex-col">
+                <div className="flex flex-col justify-center h-full pt-8 lg:pt-0 lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
                     <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Thought</div>
                     <p className="font-serif italic text-xl md:text-2xl text-neutral-300 leading-relaxed mb-6">"{quote.text}"</p>
                     <span className="text-[11px] font-medium tracking-widest uppercase text-neutral-500">— {quote.author}</span>
                 </div>
             </div>
+        </div>
+
+        <hr className="border-neutral-900 my-12" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 flex-1 content-start">
             
             {/* Lower Module: Course Credits */}
-            <div className="col-span-1 lg:col-span-7 flex flex-col mt-8 lg:mt-12">
+            <div className="flex flex-col">
                 <div className="flex flex-col h-full">
                     <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Course Credits</div>
                     <div className="space-y-6 border-t border-neutral-900 pt-6">
@@ -262,17 +274,15 @@ export default function HubPage() {
             </div>
 
             {/* Lower Secondary: Quick Actions */}
-            <div className="col-span-1 lg:col-span-5 flex flex-col mt-8 lg:mt-12">
-                <div className="flex flex-col h-full pl-0 lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
+            <div className="flex flex-col">
+                <div className="flex flex-col h-full lg:pl-12 border-t lg:border-t-0 lg:border-l border-neutral-900">
                     <div className="text-[11px] font-medium tracking-widest uppercase text-neutral-500 mb-6">Quick Actions</div>
-                    <div className="flex-1 flex flex-col pt-6 border-t border-neutral-900">
-                        <button onClick={() => nav('/notes')} className="flex items-center justify-between py-6 border-b border-neutral-900 group">
-                            <span className="text-base font-medium text-neutral-300 group-hover:text-white transition-colors">Study Notes</span>
-                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-2">→</span>
+                    <div className="flex-1 flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onClick={() => nav('/notes')} className="flex-1 flex items-center justify-center gap-3 p-6 bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800/60 transition-colors rounded-sm group">
+                            <span className="text-[11px] font-bold tracking-widest uppercase text-neutral-300 group-hover:text-white transition-colors">Study Notes</span>
                         </button>
-                        <button onClick={() => nav('/syllabus')} className="flex items-center justify-between py-6 border-b border-neutral-900 group">
-                            <span className="text-base font-medium text-neutral-300 group-hover:text-white transition-colors">Syllabus Prep</span>
-                            <span className="text-neutral-600 group-hover:text-white transition-colors transition-transform group-hover:translate-x-2">→</span>
+                        <button onClick={() => nav('/syllabus')} className="flex-1 flex items-center justify-center gap-3 p-6 bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800/60 transition-colors rounded-sm group">
+                            <span className="text-[11px] font-bold tracking-widest uppercase text-neutral-300 group-hover:text-white transition-colors">Syllabus Prep</span>
                         </button>
                     </div>
                 </div>
