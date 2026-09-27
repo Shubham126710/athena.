@@ -524,7 +524,7 @@ export default function SyllabusPage() {
                                 {(idx + 1).toString().padStart(2, '0')}
                             </div>
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tighter text-white mb-2">{subject.subject}</h2>
+                                <h2 className="text-2xl md:text-3xl font-medium text-white mb-2">{subject.subject}</h2>
                                 <div className="flex items-center gap-4 text-[10px] font-mono tracking-widest text-neutral-500 uppercase">
                                     <span>CODE: {subject.code}</span>
                                     <span>ABBR: {subject.abbr}</span>
@@ -547,7 +547,7 @@ export default function SyllabusPage() {
                                     >
                                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
                                             <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-neutral-500">UNIT {(uIdx+1).toString().padStart(2, '0')}</span>
-                                            <span className="font-bold text-sm md:text-base text-neutral-200 uppercase tracking-wide">{unit.title}</span>
+                                            <span className="font-medium text-sm md:text-base text-neutral-200">{unit.title}</span>
                                         </div>
                                         <div className="text-neutral-500">
                                             {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} /> : <ChevronRight size={16} />}

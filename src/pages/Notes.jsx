@@ -226,7 +226,7 @@ export default function NotesPage() {
                             className="w-full flex items-center justify-between py-6 md:py-8 px-4 -mx-4 hover:bg-neutral-900/30 transition-colors text-left"
                         >
                             <div className="flex items-center gap-6">
-                                <span className="text-2xl font-bold uppercase tracking-tighter">{subject}</span>
+                                <span className="text-2xl font-medium text-white">{subject}</span>
                                 <span className="text-[10px] font-mono tracking-widest text-neutral-500 uppercase">Archive</span>
                             </div>
                             <div className="text-neutral-600 group-hover:text-white transition-colors">
@@ -251,7 +251,7 @@ export default function NotesPage() {
                                                                     <FileText size={14} />
                                                                 </div>
                                                                 <div className="truncate">
-                                                                    <h4 className="font-bold text-xs uppercase tracking-wider truncate mb-1" title={note.title}>{note.title}</h4>
+                                                                    <h4 className="font-medium text-sm text-neutral-200 truncate mb-1" title={note.title}>{note.title}</h4>
                                                                     <p className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                 </div>
                                                             </div>
@@ -289,7 +289,7 @@ export default function NotesPage() {
                                                     <div className="text-neutral-600 group-hover/unit:text-white transition-colors">
                                                         {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                                                     </div>
-                                                    <span className="text-xs font-bold uppercase tracking-widest text-neutral-300">{unit}</span>
+                                                    <span className="text-sm font-medium text-neutral-300">{unit}</span>
                                                 </div>
                                                 <div className="text-[10px] font-mono text-neutral-600">
                                                     {unitNotes.length.toString().padStart(2, '0')}
@@ -309,7 +309,7 @@ export default function NotesPage() {
                                                                             <FileText size={14} />
                                                                         </div>
                                                                         <div className="truncate">
-                                                                            <h4 className="font-bold text-xs uppercase tracking-wider truncate mb-1" title={note.title}>{note.title}</h4>
+                                                                            <h4 className="font-medium text-sm text-neutral-200 truncate mb-1" title={note.title}>{note.title}</h4>
                                                                             <p className="text-[9px] font-mono tracking-widest text-neutral-500 uppercase">{new Date(note.created_at).toLocaleDateString()}</p>
                                                                         </div>
                                                                     </div>

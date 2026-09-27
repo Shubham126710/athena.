@@ -144,26 +144,29 @@ export default function HubNavbar() {
   };
   
   const isActive = (path) => location.pathname === path;
-  const activeClass = "text-[10px] font-bold tracking-[0.15em] uppercase text-white transition-colors relative after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-px after:bg-white";
-  const inactiveClass = "text-[10px] font-bold tracking-[0.15em] uppercase text-neutral-500 hover:text-white transition-colors relative";
+  const activeClass = "text-[11px] font-medium tracking-wide text-white transition-colors";
+  const inactiveClass = "text-[11px] font-medium tracking-wide text-neutral-500 hover:text-white transition-colors";
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-neutral-900">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-16 flex items-center justify-between gap-6">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-neutral-900/50 backdrop-blur-md">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 h-14 flex items-center justify-between">
         
         {/* LEFT: Logo */}
         <div className="flex items-center gap-2 cursor-pointer w-1/4" onClick={() => nav('/')}> 
-            <img src="/logo.png" alt="Athena Logo" className="w-6 h-6 rounded-sm grayscale" />
-            <span className="font-serif font-bold tracking-tight text-lg">athena.</span>
+            <span className="font-bold text-sm tracking-tight">athena.</span>
         </div>
         
         {/* CENTER: Navigation */}
-        <div className="hidden md:flex items-center justify-center gap-8 w-2/4">
+        <div className="hidden md:flex items-center justify-center gap-6 w-2/4">
             <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>Hub</button>
+            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>Calendar</button>
+            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>Syllabus</button>
+            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>Notes</button>
+            <span className="text-neutral-800 text-[10px]">·</span>
             <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>SGPA</button>
         </div>
 
@@ -279,14 +282,16 @@ export default function HubNavbar() {
                         setShowProfileMenu(value => !value);
                         setShowNotifications(false);
                     }}
-                    className="flex items-center gap-3 px-2 py-1 hover:bg-neutral-900/50 transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-1 hover:bg-neutral-900/50 transition-colors cursor-pointer"
                     aria-expanded={showProfileMenu}
                     aria-label="Open profile menu"
                 >
-                    <div className="text-right hidden md:block max-w-28 mt-0.5">
-                        <div className="truncate text-[10px] font-bold tracking-widest uppercase">{profile?.first_name || 'Student'}</div>
+                    <div className="text-right hidden md:block max-w-28">
+                        <div className="truncate text-[11px] font-medium tracking-wide text-neutral-300">{profile?.first_name || 'Student'}</div>
                     </div>
-                    <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-8 h-8 shrink-0 rounded-sm border border-neutral-800 grayscale opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <div className="w-6 h-6 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center overflow-hidden">
+                        <Avatar seed={profile?.avatar_seed || user?.email || 'user'} className="w-full h-full grayscale opacity-80 group-hover:opacity-100 transition-opacity" />
+                    </div>
                 </button>
 
                 {/* Profile Dropdown */}
