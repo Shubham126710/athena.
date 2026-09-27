@@ -121,10 +121,10 @@ export default function Landing() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5">
         
         {/* LEFT: Logo */}
-        <div className="flex min-w-0 items-center gap-5 w-1/4">
+        <div className="flex min-w-0 items-center gap-5 w-auto md:w-1/4">
             <div className="flex items-center gap-2 z-10">
               <img src="/logo.png" alt="Athena Logo" className="w-8 h-8 rounded-sm" />
-              <span className="font-serif font-bold tracking-tight text-xl hidden sm:block text-white">athena.</span>
+              <span className="font-serif font-bold tracking-tight text-xl text-white">athena.</span>
             </div>
         </div>
 
@@ -167,7 +167,7 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative w-full h-[calc(100svh-5rem)] min-h-[600px] flex flex-col justify-center overflow-hidden">
+        <section className="relative w-full min-h-[calc(100svh-5rem)] md:h-[calc(100svh-5rem)] flex flex-col justify-center overflow-hidden">
           
           {/* Atmospheric Radial Glow behind the statue */}
           <div className="absolute top-1/2 right-[5%] -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none z-0"></div>
@@ -184,7 +184,7 @@ export default function Landing() {
           <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0" />
           
           {/* Text content wrapped in container */}
-          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24">
+          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24 md:pb-24">
             <div className="max-w-xl flex flex-col items-start text-left">
               <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase flex gap-4 mb-6 font-mono">
                 <span>Athena / System</span>
@@ -214,8 +214,8 @@ export default function Landing() {
             </div>
           </div>
           
-          {/* Subject Marquee - Placed at the bottom of the hero above the fold */}
-          <div className="absolute bottom-0 left-0 w-full z-30 border-t border-neutral-900 bg-neutral-950/50 backdrop-blur-sm">
+          {/* Subject Marquee - Placed at the bottom of the hero above the fold on desktop, inline flow on mobile */}
+          <div className="relative md:absolute bottom-0 left-0 w-full z-30 border-t border-neutral-900 bg-neutral-950/50 backdrop-blur-sm mt-12 md:mt-0">
               <MarqueeStrip />
           </div>
         </section>
