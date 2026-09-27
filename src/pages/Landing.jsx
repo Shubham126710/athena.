@@ -129,7 +129,7 @@ export default function Landing() {
         </div>
 
         {/* CENTER: Nav Links */}
-        <div className="hidden md:flex items-center justify-center gap-10 text-[11px] font-medium tracking-widest uppercase text-neutral-500 w-2/4 relative z-10">
+        <div className="hidden md:flex items-center justify-center gap-10 text-[11px] font-medium tracking-widest text-neutral-500 w-2/4 relative z-10">
           <a href="#about" className="hover:text-white transition-colors">About</a>
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
@@ -169,16 +169,22 @@ export default function Landing() {
         {/* Hero Section */}
         <section className="relative w-full min-h-[calc(100svh-5rem)] md:h-[calc(100svh-5rem)] flex flex-col justify-center overflow-hidden">
           
-          {/* Atmospheric Radial Glow behind the statue */}
-          <div className="absolute top-1/2 right-[5%] -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none z-0"></div>
-
-          {/* Subtle Architectural Grid */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-10" style={{
-              backgroundImage: 'linear-gradient(to right, #333 1px, transparent 1px), linear-gradient(to bottom, #333 1px, transparent 1px)',
-              backgroundSize: '100px 100px',
-              maskImage: 'radial-gradient(circle at 30% 50%, black 20%, transparent 80%)',
-              WebkitMaskImage: 'radial-gradient(circle at 30% 50%, black 20%, transparent 80%)'
-          }}></div>
+          {/* Subtle Background Surface (Radial Glow + Grain + Grid) */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {/* Very faint grid */}
+            <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+                backgroundSize: '100px 100px',
+            }}></div>
+            {/* Broad, extremely soft radial light from center */}
+            <div className="absolute inset-0 opacity-[0.15]" style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
+            }}></div>
+            {/* Barely visible grain texture */}
+            <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+            }}></div>
+          </div>
 
           {/* Athena Dither Statue - Desktop */}
           <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0" />
@@ -192,10 +198,10 @@ export default function Landing() {
                 <span className="hidden sm:inline">02 — Synthesize</span>
               </div>
 
-              <h1 className="text-[clamp(2.5rem,11vw,3.5rem)] md:text-6xl lg:text-[6.5rem] font-bold tracking-tighter leading-[0.95] text-white uppercase m-0 break-words">
-                YOUR DIGITAL<br />
-                ACADEMIC<br />
-                <span className="font-serif italic font-normal tracking-tight text-neutral-300 normal-case lowercase pr-2">{text}_</span>
+              <h1 className="text-[clamp(2.5rem,11vw,3.5rem)] md:text-6xl lg:text-[6.5rem] font-bold tracking-tighter leading-[0.95] text-white m-0 break-words">
+                Your Digital<br />
+                Academic<br />
+                <span className="font-serif italic font-normal tracking-tight text-neutral-300 pr-2">{text}_</span>
               </h1>
               
               {/* Athena Dither Statue - Mobile Flow */}
