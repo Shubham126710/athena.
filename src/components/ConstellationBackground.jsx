@@ -69,21 +69,7 @@ export default function ConstellationBackground() {
         particle.update();
         particle.draw();
 
-        // Draw connections
-        for (let j = index + 1; j < particles.length; j++) {
-          const dx = particle.x - particles[j].x;
-          const dy = particle.y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance / 1000})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
+        // Removed connections to keep it sparse and clean
       });
 
       animationFrameId = requestAnimationFrame(animate);
