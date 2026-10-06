@@ -177,8 +177,13 @@ export default function NotesPage() {
   }
 
   function getNotesFor(subject, unit) {
-    if (subject === 'PHC') return notes.filter(n => n.subject === subject);
-    return notes.filter(n => n.subject === subject && n.unit === unit);
+    let filtered = [];
+    if (subject === 'PHC') {
+        filtered = notes.filter(n => n.subject === subject);
+    } else {
+        filtered = notes.filter(n => n.subject === subject && n.unit === unit);
+    }
+    return filtered.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
   }
 
   return (
