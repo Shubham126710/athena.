@@ -98,10 +98,10 @@ export default function HubPage() {
       
       // --- Upcoming Exam Logic ---
       const events = [
-        { id: 11, title: 'MST-1: Principles of Human Communication', date: new Date(2026, 7, 24), type: 'exam' },
-        { id: 12, title: 'MST-1: Computer Vision', date: new Date(2026, 7, 25), type: 'exam' },
-        { id: 13, title: 'MST-1: Research Methodology', date: new Date(2026, 7, 28), type: 'exam' },
-        { id: 14, title: 'MST-1: Natural Language Processing', date: new Date(2026, 7, 28), type: 'exam' }
+        { id: 71, title: 'MST-2: Principles of Human Comm.', date: new Date(2026, 9, 12), type: 'exam' },
+        { id: 72, title: 'MST-2: Computer Vision', date: new Date(2026, 9, 13), type: 'exam' },
+        { id: 73, title: 'MST-2: Research Methodology', date: new Date(2026, 9, 16), type: 'exam' },
+        { id: 74, title: 'MST-2: Natural Language Proc.', date: new Date(2026, 9, 16), type: 'exam' }
       ];
 
       // Filter for future exams (today or later)
