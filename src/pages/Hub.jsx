@@ -135,16 +135,16 @@ export default function HubPage() {
 
   useEffect(() => {
     const showWelcomeAnnouncement = () => {
-      const welcomeNotif = {
-        id: 'sem7-welcome',
-        title: 'Welcome to 7th Semester! 🚀',
-        message: 'Good luck for the final year! Make it count and finish strong. Wishing everyone the best!',
-        type: 'info'
+      const cvNotesNotif = {
+        id: 'cv-notes-correction',
+        title: 'Correction: CV Unit 1 & 2 Notes 📝',
+        message: 'By mistake, the Unit 1 notes for Computer Vision included some notes from Unit 2. Please don\'t be confused if you see common pages across both PDFs. I apologize for the inconvenience!',
+        type: 'alert'
       };
       
       const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
-      if (!dismissedAnnouncements.includes(welcomeNotif.id)) {
-        setAnnouncement(welcomeNotif);
+      if (!dismissedAnnouncements.includes(cvNotesNotif.id)) {
+        setAnnouncement(cvNotesNotif);
       }
     };
 

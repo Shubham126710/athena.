@@ -186,13 +186,55 @@ export default function NotesPage() {
     return filtered.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
   }
 
+  const [announcement, setAnnouncement] = React.useState(null);
+
+  React.useEffect(() => {
+    const cvNotesNotif = {
+      id: 'cv-notes-correction',
+      title: 'Correction: CV Unit 1 & 2 Notes 📝',
+      message: 'By mistake, the Unit 1 notes for Computer Vision included some notes from Unit 2. Please don\'t be confused if you see common pages across both PDFs. I apologize for the inconvenience!',
+      type: 'alert'
+    };
+    const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+    if (!dismissedAnnouncements.includes(cvNotesNotif.id)) {
+      setAnnouncement(cvNotesNotif);
+    }
+  }, []);
+
+  const handleDismissAnnouncement = () => {
+    if (announcement) {
+      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      dismissedAnnouncements.push(announcement.id);
+      localStorage.setItem('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
+      setAnnouncement(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-4 md:px-12 container mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+      <main className="pt-32 pb-12 px-4 md:px-12 container mx-auto relative z-10">
+        {announcement && (
+          <div className="mb-6 bg-neutral-950/60 backdrop-blur-md border border-neutral-800/80 p-5 rounded-xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4 max-w-4xl mx-auto">
+            <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-lg shrink-0 mt-0.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </div>
+            <div className="flex-1 pr-8 pt-1">
+              <h3 className="font-bold text-base text-white mb-1.5 tracking-tight">{announcement.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">{announcement.message}</p>
+            </div>
+            <button 
+              onClick={handleDismissAnnouncement}
+              className="absolute top-4 right-4 p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded transition-colors"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        )}
+
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight mb-2">My Notes</h1>
                 <p className="text-neutral-400">Organize what you <span className="font-serif italic font-normal text-neutral-300">learn.</span></p>

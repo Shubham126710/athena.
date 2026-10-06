@@ -69,7 +69,23 @@ export default function HubNavbar() {
                     time: getTimeAgo(new Date(updatedNotif.created_at))
                 };
             });
-            setNotifications(formattedData);
+
+        const cvNotesNotif = {
+            id: 'cv-notes-correction-navbar',
+            title: 'Correction: CV Unit 1 & 2 Notes 📝',
+            message: 'By mistake, the Unit 1 notes for Computer Vision included some notes from Unit 2. Please don\'t be confused if you see common pages across both PDFs. I apologize for the inconvenience!',
+            type: 'alert',
+            created_at: '2026-10-07T00:00:00.000Z'
+        };
+
+        if (!clearedIds.includes(cvNotesNotif.id)) {
+            formattedData.unshift({
+                ...cvNotesNotif,
+                time: getTimeAgo(new Date(cvNotesNotif.created_at))
+            });
+        }
+
+        setNotifications(formattedData);
         }
     } catch (err) {
         console.error("Error fetching notifications", err);
