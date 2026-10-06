@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, RotateCw } from 'lucide-react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
@@ -11,6 +11,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
   const [numPages, setNumPages] = React.useState(null);
   const [pageNumber, setPageNumber] = React.useState(1);
   const [pageWidth, setPageWidth] = React.useState(600);
+  const [rotation, setRotation] = React.useState(0);
 
   React.useEffect(() => {
     function updateWidth() {
@@ -56,16 +57,26 @@ export default function PdfViewer({ fileUrl, className='' }) {
             </button>
         </div>
 
-        <a
-            href={fileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm"
-            title="Download PDF"
-        >
-            <Download size={16} />
-            <span className="hidden sm:inline">Save</span>
-        </a>
+        <div className="flex items-center gap-2">
+            <button
+                onClick={() => setRotation(prev => (prev + 90) % 360)}
+                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm"
+                title="Rotate PDF"
+            >
+                <RotateCw size={16} />
+                <span className="hidden sm:inline">Rotate</span>
+            </button>
+            <a
+                href={fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm"
+                title="Download PDF"
+            >
+                <Download size={16} />
+                <span className="hidden sm:inline">Save</span>
+            </a>
+        </div>
       </div>
 
       <div className="relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar">
@@ -81,6 +92,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
                 width={pageWidth}
+                rotate={rotation}
                 className="shadow-2xl border border-neutral-800 bg-white"
             />
         </Document>
