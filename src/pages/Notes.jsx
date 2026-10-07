@@ -56,7 +56,9 @@ export default function NotesPage() {
     try {
       const q = query(collection(db, 'notes'), orderBy('created_at', 'desc'));
       const querySnapshot = await getDocs(q);
-      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = querySnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter(n => n.type !== 'analytics_counter');
       setNotes(data);
     } catch (e) {
       console.error('Error loading notes:', e);

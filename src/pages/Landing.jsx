@@ -7,7 +7,7 @@ import Footer1 from '../components/Footer1.jsx';
 import Features from '../components/Features.jsx';
 import { RandomLetterSwap } from '../components/ui/random-letter-swap.jsx';
 import { db } from '../lib/firebase';
-import { collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
 import Avatar from '../components/Avatar.jsx';
 
@@ -78,20 +78,27 @@ export default function Landing() {
         let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
         if (isNaN(localHits)) localHits = 1080;
         
-        // Ensure firebase works, update and fetch count
-        const coll = collection(db, 'analytics');
-        await addDoc(coll, { type: 'pageview', timestamp: Date.now() });
-
-        const q = query(coll, where('type', '==', 'pageview'));
-        const snapshot = await getCountFromServer(q);
+        const viewsRef = doc(db, 'notes', 'site_views_counter');
+        const viewDoc = await getDoc(viewsRef);
         
-        const trueCount = snapshot.data().count + 1080; // base offset
+        let newCount = 1080;
+        if (!viewDoc.exists()) {
+           await setDoc(viewsRef, { count: 1081, type: 'analytics_counter', created_at: Date.now() });
+           newCount = 1081;
+        } else {
+           await setDoc(viewsRef, { count: increment(1) }, { merge: true });
+           newCount = viewDoc.data().count + 1;
+        }
         
-        setViews(trueCount);
-        localStorage.setItem('athena_view_count', trueCount.toString());
+        setViews(newCount);
+        localStorage.setItem('athena_view_count', newCount.toString());
       } catch (err) {
         console.error("Analytics sync failed", err);
-        setViews(prev => prev + 1);
+        let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
+        if (isNaN(localHits)) localHits = 1080;
+        const fallbackCount = localHits + 1;
+        setViews(fallbackCount);
+        localStorage.setItem('athena_view_count', fallbackCount.toString());
       }
     };
     
