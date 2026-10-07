@@ -159,67 +159,52 @@ export default function HubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black relative">
-      
-      {/* Sleek Grid & Grain Background (Matches Landing Hero) */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-            backgroundSize: '100px 100px',
-        }}></div>
-        <div className="absolute inset-0 opacity-[0.15]" style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
-        }}></div>
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
-        }}></div>
-      </div>
-
+    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black relative">
+      <ConstellationBackground />
       {/* Navigation */}
       <HubNavbar />
 
       <main className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         {announcement && (
-          <div className="mb-8 bg-black border border-neutral-800 p-5 shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
-            <div className="bg-neutral-900/50 border border-neutral-800 text-neutral-300 p-2.5 shrink-0 mt-0.5">
+          <div className="mb-6 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 p-5 rounded-2xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
+            <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-xl shrink-0 mt-0.5">
               <Bell size={18} strokeWidth={1.5} />
             </div>
             <div className="flex-1 pr-8 pt-1">
-              <h3 className="font-bold text-sm uppercase tracking-widest text-white mb-2 font-mono">{announcement.title}</h3>
+              <h3 className="font-bold text-base text-white mb-1.5 tracking-tight">{announcement.title}</h3>
               <p className="text-neutral-400 text-sm leading-relaxed max-w-3xl font-light">{announcement.message}</p>
             </div>
             <button 
               onClick={handleDismissAnnouncement}
-              className="absolute top-4 right-4 p-1.5 text-neutral-600 hover:text-white transition-colors"
+              className="absolute top-4 right-4 p-1.5 text-neutral-500 hover:text-white transition-colors"
             >
               <X size={18} />
             </button>
           </div>
         )}
 
-        <div className="mb-12 border-l border-neutral-800 pl-6">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter leading-[1] text-white mb-4">
+        <div className="mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                 {greeting}, <br className="hidden" />
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300">{profile?.first_name || 'Student'}.</span>
             </h1>
-            <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">System Overview / Today</p>
+            <p className="text-neutral-400 font-light">Here's what's happening today.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 mb-8 border border-neutral-800 bg-neutral-800 gap-[1px] p-[1px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {/* Upcoming Exam Card */}
-            <div className="bg-black p-8 relative overflow-hidden group col-span-1 md:col-span-2 hover:bg-neutral-950 transition-colors duration-300">
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-700 transition-colors duration-300 col-span-1 md:col-span-2">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <Calendar size={120} strokeWidth={0.5} />
+                    <Calendar size={100} strokeWidth={0.5} />
                 </div>
                 <div className="relative z-10 flex flex-col h-full justify-between">
-                    <div className="text-[10px] font-mono tracking-widest uppercase text-neutral-500 mb-8 flex items-center gap-2">
-                        <span className="w-2 h-2 bg-neutral-600 rounded-full animate-pulse"></span>
-                        Upcoming Assessment
+                    <div className="mb-4">
+                        <h3 className="font-serif italic text-2xl text-neutral-400">Upcoming Assessment</h3>
                     </div>
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white tracking-tighter">{upcomingExam.subject}</h2>
-                        <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-widest">
-                            <span className="border border-neutral-800 text-neutral-300 px-3 py-1.5">{upcomingExam.date}</span>
+                        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white tracking-tight">{upcomingExam.subject}</h2>
+                        <div className="flex items-center gap-4 text-sm font-medium">
+                            <span className="bg-neutral-900 border border-neutral-700 text-neutral-200 px-3 py-1 rounded-full">{upcomingExam.date}</span>
                             <span className="text-neutral-500">{upcomingExam.daysLeft} days left</span>
                         </div>
                     </div>
@@ -227,42 +212,42 @@ export default function HubPage() {
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="bg-black p-8 flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:bg-neutral-950 transition-colors duration-300">
-                <p className="font-serif italic font-normal tracking-tight text-2xl text-neutral-400 mb-6 leading-relaxed max-w-sm group-hover:text-neutral-300 transition-colors duration-300">"{quote.text}"</p>
-                <span className="text-[10px] font-mono text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-colors duration-300">
+                <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm group-hover:text-white transition-colors duration-300">"{quote.text}"</p>
+                <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
             
             {/* Course Credits Widget */}
-            <div className="bg-black p-8 relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:bg-neutral-950 transition-colors duration-300">
-                 <div className="flex items-center gap-2 mb-8 border-b border-neutral-900 pb-4">
-                    <h3 className="font-mono text-[10px] tracking-widest uppercase text-neutral-500">Course Credits</h3>
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-colors duration-300">
+                 <div className="mb-4">
+                    <h3 className="font-serif italic text-2xl text-neutral-400">Course Credits</h3>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3">
                     {subjects.map((sub, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm group/row">
+                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-900 pb-2 last:border-0 last:pb-0 group/row">
                             <div className="flex items-center gap-3">
-                                <span className="font-medium text-neutral-300 group-hover/row:text-white transition-colors tracking-tight">{sub.name}</span>
-                                <span className="text-[9px] font-mono text-neutral-500 border border-neutral-800 px-1.5 py-0.5">{sub.code}</span>
+                                <span className="font-medium text-neutral-300 group-hover/row:text-white transition-colors">{sub.name}</span>
+                                <span className="text-[10px] text-neutral-500 bg-neutral-900 px-2 py-0.5 rounded-md border border-neutral-800">{sub.code}</span>
                             </div>
-                            <span className="text-neutral-400 font-mono text-xs">{sub.credits} <span className="text-[10px] text-neutral-600">CR</span></span>
+                            <span className="text-neutral-400 font-bold">{sub.credits} <span className="text-[10px] uppercase font-normal text-neutral-600">CR</span></span>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Quick Actions / Important Links */}
-            <div className="bg-black p-8 col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:bg-neutral-950 transition-colors duration-300">
-                 <div className="flex items-center gap-2 mb-8 border-b border-neutral-900 pb-4">
-                    <h3 className="font-mono text-[10px] tracking-widest uppercase text-neutral-500">Quick Actions</h3>
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:border-neutral-700 transition-colors duration-300">
+                 <div className="mb-4">
+                    <h3 className="font-serif italic text-2xl text-neutral-400">Quick Actions</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4 flex-1">
-                    <button onClick={() => nav('/notes')} className="flex flex-col items-start justify-between bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:bg-neutral-900 transition-all duration-300 p-6 group">
-                        <BookOpen size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-4" />
-                        <span className="font-mono text-[10px] tracking-widest uppercase text-neutral-400 group-hover:text-white transition-colors">Study Notes</span>
+                    <button onClick={() => nav('/notes')} className="flex flex-col items-start justify-between bg-neutral-900/50 border border-neutral-800 hover:border-neutral-600 hover:bg-neutral-800 transition-all duration-300 p-5 rounded-xl group">
+                        <BookOpen size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-2" />
+                        <span className="font-medium text-sm text-neutral-400 group-hover:text-white transition-colors">Study Notes</span>
                     </button>
-                    <button onClick={() => nav('/syllabus')} className="flex flex-col items-start justify-between bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:bg-neutral-900 transition-all duration-300 p-6 group">
-                        <Calendar size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-4" />
-                        <span className="font-mono text-[10px] tracking-widest uppercase text-neutral-400 group-hover:text-white transition-colors">Syllabus Prep</span>
+                    <button onClick={() => nav('/syllabus')} className="flex flex-col items-start justify-between bg-neutral-900/50 border border-neutral-800 hover:border-neutral-600 hover:bg-neutral-800 transition-all duration-300 p-5 rounded-xl group">
+                        <Calendar size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-2" />
+                        <span className="font-medium text-sm text-neutral-400 group-hover:text-white transition-colors">Syllabus Prep</span>
                     </button>
                 </div>
             </div>
