@@ -200,20 +200,12 @@ export default function Landing() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-            <div className="fixed inset-0 top-[88px] bg-neutral-950 p-6 md:hidden animate-in fade-in duration-200 z-40 overflow-y-auto">
-                <div className="flex flex-col gap-6 items-center justify-center min-h-[60vh]">
-                    <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
-                        <RandomLetterSwap label="About" />
-                    </a>
-                    <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
-                        <RandomLetterSwap label="Features" />
-                    </a>
-                    <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
-                        <RandomLetterSwap label="Contact" />
-                    </a>
-                    <div className="h-px bg-neutral-800 my-2 w-32"></div>
-                    <button onClick={() => nav('/hub')} className="px-8 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
-                </div>
+            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
+                <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
+                <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
+                <div className="h-px bg-neutral-800 my-2"></div>
+                <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
             </div>
         )}
       </nav>
