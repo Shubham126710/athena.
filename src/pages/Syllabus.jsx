@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
+import ConstellationBackground from '../components/ConstellationBackground.jsx';
 
 export default function SyllabusPage() {
   const nav = useNavigate();
@@ -487,64 +488,82 @@ export default function SyllabusPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black relative">
+      
+      {/* Sleek Grid & Grain Background (Matches Landing Hero) */}
+      <div className="absolute inset-0 z-0 pointer-events-none fixed">
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '100px 100px',
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+        }}></div>
+      </div>
+
+      <ConstellationBackground />
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-32 pb-12 px-6 md:px-12 container mx-auto">
-                <div className="mb-12 flex justify-between items-end">
+      <main className="pt-24 pb-12 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+        <div className="mb-12 border-l border-neutral-800 pl-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight mb-2">Syllabus</h1>
-              <p className="text-neutral-400">Track your curriculum, <span className="font-serif italic font-normal text-neutral-300">your way.</span></p>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
+                  Syllabus<span className="font-serif italic font-normal tracking-tight text-neutral-300">.</span>
+              </h1>
+              <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Track your curriculum</p>
             </div>
-            <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-neutral-900 text-white rounded">
+            <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-[#0a0a0a]/80 backdrop-blur-xl text-neutral-300 rounded-xl outline-none font-medium text-sm hover:border-neutral-700 transition-colors cursor-pointer appearance-none shadow-sm min-w-[150px]">
               <option value="5th">5th Semester</option>
               <option value="6th">6th Semester</option>
               <option value="7th">7th Semester</option>
             </select>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
             {(semester === '7th' ? syllabi7th : semester === '6th' ? syllabi6th : syllabi5th).map((subject, idx) => (
-                <div key={idx} className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden shadow-sm">
+                <div key={idx} className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:border-neutral-700">
                     <div 
-                        className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
+                        className="p-6 flex items-center justify-between cursor-pointer hover:bg-neutral-900/50 transition-colors"
                         onClick={() => setExpandedSubject(expandedSubject === idx ? null : idx)}
                     >
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-black text-white rounded-lg grid place-items-center font-bold text-lg">
+                        <div className="flex items-center gap-5">
+                            <div className="w-14 h-14 bg-black border border-neutral-800 text-neutral-300 rounded-xl flex items-center justify-center font-serif italic text-2xl shadow-sm">
                                 {subject.abbr}
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold">{subject.subject}</h2>
-                                <p className="text-sm text-neutral-500 font-mono">{subject.code}</p>
+                                <h2 className="text-xl font-bold tracking-tight text-white mb-1">{subject.subject}</h2>
+                                <p className="text-[10px] text-neutral-500 font-mono bg-neutral-900 border border-neutral-800 px-2 py-0.5 rounded-md inline-block">{subject.code}</p>
                             </div>
                         </div>
-                        {expandedSubject === idx ? <ChevronDown /> : <ChevronRight />}
+                        {expandedSubject === idx ? <ChevronDown className="text-neutral-500" /> : <ChevronRight className="text-neutral-500" />}
                     </div>
 
                     {expandedSubject === idx && (
-                        <div className="border-t border-neutral-800 bg-neutral-950/30">
+                        <div className="border-t border-neutral-800 bg-neutral-950/50">
                             {subject.units.map((unit, uIdx) => (
-                                <div key={uIdx} className="border-b border-neutral-800 last:border-0">
+                                <div key={uIdx} className="border-b border-neutral-800/50 last:border-0">
                                     <div 
-                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-800 transition-colors"
+                                        className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-900/50 transition-colors"
                                         onClick={() => setExpandedUnit(expandedUnit === `${idx}-${uIdx}` ? null : `${idx}-${uIdx}`)}
                                     >
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-xs font-bold bg-neutral-800 px-2 py-1 rounded text-neutral-300">UNIT {unit.id}</span>
-                                            <span className="font-medium text-neutral-200">{unit.title}</span>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-[10px] font-mono font-bold bg-neutral-900 border border-neutral-800 px-2 py-1 rounded-md text-neutral-400">UNIT {unit.id}</span>
+                                            <span className="font-medium text-neutral-300">{unit.title}</span>
                                         </div>
-                                        {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} className="text-neutral-400" /> : <ChevronRight size={16} className="text-neutral-400" />}
+                                        {expandedUnit === `${idx}-${uIdx}` ? <ChevronDown size={16} className="text-neutral-500" /> : <ChevronRight size={16} className="text-neutral-500" />}
                                     </div>
                                     
                                     {expandedUnit === `${idx}-${uIdx}` && (
-                                        <div className="px-6 pb-6 pt-2 pl-14">
-                                            <ul className="space-y-2">
+                                        <div className="px-6 pb-6 pt-2 pl-16">
+                                            <ul className="space-y-3">
                                                 {unit.topics.map((topic, tIdx) => (
-                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-2">
-                                                        <div className="w-1.5 h-1.5 bg-neutral-700 rounded-full mt-1.5 flex-shrink-0"></div>
-                                                        {topic}
+                                                    <li key={tIdx} className="text-sm text-neutral-400 flex items-start gap-3">
+                                                        <div className="w-1.5 h-1.5 bg-neutral-600 rounded-full mt-1.5 flex-shrink-0"></div>
+                                                        <span className="leading-relaxed font-light">{topic}</span>
                                                     </li>
                                                 ))}
                                             </ul>

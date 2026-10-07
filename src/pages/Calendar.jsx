@@ -2,6 +2,7 @@ import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalIcon, Clock, MapPin, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import HubNavbar from '../components/HubNavbar.jsx';
+import ConstellationBackground from '../components/ConstellationBackground.jsx';
 
 import { academicEvents } from '../data/events.js';
 
@@ -70,12 +71,28 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black relative">
+      
+      {/* Sleek Grid & Grain Background (Matches Landing Hero) */}
+      <div className="absolute inset-0 z-0 pointer-events-none fixed">
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '100px 100px',
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+        }}></div>
+      </div>
+
+      <ConstellationBackground />
       {/* Header */}
       <HubNavbar />
 
-      <main className="pt-24 pb-8 px-6 md:px-12 container mx-auto">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <main className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 flex flex-col gap-6">
                 {/* Calendar Header & Controls */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -185,23 +202,22 @@ export default function CalendarPage() {
 
             {/* Sidebar: Upcoming */}
             <div className="space-y-8">
-                <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-xl p-6 shadow-sm sticky top-32">
-                    <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-white tracking-tight">
-                        <Clock size={18} className="text-indigo-400" />
-                        Upcoming <span className="font-serif italic font-normal text-neutral-300">Events.</span>
-                    </h2>
+                <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 rounded-2xl p-6 shadow-sm sticky top-32">
+                    <h3 className="font-serif italic text-2xl text-neutral-400 mb-6 flex items-center gap-2">
+                        Upcoming Events
+                    </h3>
                     <div className="space-y-1 relative">
                         {/* Timeline line */}
                         <div className="absolute left-[1.65rem] top-2 bottom-2 w-px bg-neutral-800"></div>
 
                         {events.filter(e => e.date >= new Date()).sort((a,b) => a.date - b.date).slice(0, 5).map((ev, idx) => (
-                            <div key={ev.id} className="relative flex gap-4 items-start py-3 group cursor-pointer hover:bg-neutral-800/50 rounded-lg px-2 -mx-2 transition-colors">
-                                <div className="flex-shrink-0 w-14 text-center z-10 bg-neutral-900 group-hover:bg-neutral-800 transition-colors rounded-lg border border-neutral-800 py-1">
+                            <div key={ev.id} className="relative flex gap-4 items-start py-3 group cursor-pointer hover:bg-neutral-800/30 rounded-lg px-2 -mx-2 transition-colors">
+                                <div className="flex-shrink-0 w-14 text-center z-10 bg-black group-hover:bg-neutral-900 transition-colors rounded-xl border border-neutral-800 py-1 shadow-sm">
                                     <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{monthNames[ev.date.getMonth()].substring(0,3)}</div>
                                     <div className="text-lg font-bold text-white">{ev.date.getDate()}</div>
                                 </div>
                                 <div className="pt-1">
-                                    <div className="font-medium text-sm text-neutral-200 group-hover:text-white transition-colors">{ev.title}</div>
+                                    <div className="font-medium text-sm text-neutral-300 group-hover:text-white transition-colors">{ev.title}</div>
                                     <div className="text-xs text-neutral-500 mt-1.5 flex items-center gap-3">
                                         <span className="flex items-center gap-1"><Clock size={10} /> {ev.time}</span>
                                         {ev.location && (
