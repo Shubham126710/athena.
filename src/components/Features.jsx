@@ -61,7 +61,7 @@ export default function Features() {
       <div className="mx-auto max-w-full relative z-10">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-center space-y-6 px-5 text-center md:px-10 mb-16">
           <h2 className="max-w-3xl font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
-            Removing the roadblocks to your <span className="text-transparent bg-clip-text bg-gradient-to-br from-white to-neutral-500">success</span>
+            Removing the roadblocks to your <span className="font-serif italic font-normal text-neutral-300">success.</span>
           </h2>
           <p className="max-w-2xl text-base md:text-lg text-neutral-400">
             It's easy to get lost in a sea of advice, conflicting opinions, and
