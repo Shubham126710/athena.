@@ -14,16 +14,33 @@ const QUOTES = [
   "Learning never exhausts the mind."
 ];
 
-export default function LoadingScreen() {
+export default function LoadingScreen({ onComplete }) {
   const [quote, setQuote] = useState("");
+  const [isExiting, setIsExiting] = useState(false);
   
   // Random quote selection
   useEffect(() => {
     setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   }, []);
 
+  // Auto-hide logic for standalone usage
+  useEffect(() => {
+    const t1 = setTimeout(() => {
+      setIsExiting(true);
+    }, 2000); // Show for 2 seconds
+
+    const t2 = setTimeout(() => {
+      if (onComplete) onComplete();
+    }, 2800); // 2s + 800ms fade out
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [onComplete]);
+
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait">
+    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
       {/* Animated Light Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-20" style={{
@@ -35,15 +52,17 @@ export default function LoadingScreen() {
       {/* Subtle Glow Center */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-white opacity-[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-8 animate-in fade-in zoom-in-95 duration-1000">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-6 animate-in fade-in zoom-in-95 duration-1000">
+        
+        <img src="/logo.png" alt="Athena Logo" className="w-16 h-16 opacity-90" />
         
         {/* Accordion Loader */}
-        <div className="text-4xl text-neutral-300 drop-shadow-2xl mb-4">
+        <div className="text-4xl text-neutral-300 drop-shadow-2xl">
           <AccordionLoader />
         </div>
         
         {/* Dynamic Subtitle / Quote */}
-        <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-sm text-center line-clamp-2 px-6 drop-shadow-md">
+        <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-sm text-center line-clamp-2 px-6 drop-shadow-md mt-4">
             "{quote}"
         </p>
       </div>

@@ -132,7 +132,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen font-sans bg-black text-white selection:bg-white selection:text-black relative">
-      {showLoader && <LoadingScreen />}
+      {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
       
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5">
