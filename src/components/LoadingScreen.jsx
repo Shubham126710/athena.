@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
+import { AccordionLoader } from './ui/accordion-loader.jsx';
 
 const QUOTES = [
   "Knowledge is power.",
@@ -13,9 +14,7 @@ const QUOTES = [
   "Learning never exhausts the mind."
 ];
 
-export default function LoadingScreen({ onComplete }) {
-  const [progress, setProgress] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
+export default function LoadingScreen() {
   const [quote, setQuote] = useState("");
   
   // Random quote selection
@@ -23,44 +22,8 @@ export default function LoadingScreen({ onComplete }) {
     setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   }, []);
 
-  // Progress simulation
-  useEffect(() => {
-    if (progress >= 100) return;
-    
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        const remaining = 100 - prev;
-        const jump = Math.random() * (remaining * 0.1) + 0.5;
-        const next = prev + jump;
-        return next >= 99.5 ? 100 : next;
-      });
-    }, 50);
-    
-    return () => clearInterval(interval);
-  }, [progress]);
-
-  // Handle exit
-  useEffect(() => {
-    if (progress >= 100) {
-      // Wait a bit before starting exit animation
-      const t1 = setTimeout(() => {
-        setIsExiting(true);
-      }, 800);
-
-      // Wait for animation to finish before unmounting
-      const t2 = setTimeout(() => {
-        if (onComplete) onComplete();
-      }, 1600); // 800ms delay + 800ms transition
-
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
-    }
-  }, [progress, onComplete]);
-
   return (
-    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait">
       
       {/* Animated Light Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-20" style={{
@@ -72,39 +35,17 @@ export default function LoadingScreen({ onComplete }) {
       {/* Subtle Glow Center */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-white opacity-[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
-      {/* Main Content (Massive Typography) */}
-      <div className="relative z-10 w-full px-6 flex flex-col items-center justify-center h-full">
-        <div className="relative overflow-hidden w-full text-center">
-          {/* Background Outline Text */}
-          <h1 className="text-[14vw] md:text-[12vw] font-serif font-extrabold tracking-tighter leading-none text-transparent mix-blend-plus-lighter" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.1)' }}>
-            athena.
-          </h1>
-          
-          {/* Filled Text that reveals with progress */}
-          <div 
-            className="absolute top-0 left-0 w-full h-full overflow-hidden transition-all duration-300 ease-out"
-            style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
-          >
-            <h1 className="text-[14vw] md:text-[12vw] font-serif font-extrabold tracking-tighter leading-none text-white drop-shadow-2xl">
-              athena.
-            </h1>
-          </div>
+      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-8 animate-in fade-in zoom-in-95 duration-1000">
+        
+        {/* Accordion Loader */}
+        <div className="text-4xl text-neutral-300 drop-shadow-2xl mb-4">
+          <AccordionLoader />
         </div>
-
+        
         {/* Dynamic Subtitle / Quote */}
-        <div className="mt-8 flex items-center justify-between w-full max-w-4xl px-4 md:px-12 border-t border-neutral-900 pt-6">
-            <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-md line-clamp-2 pr-8 animate-in fade-in slide-in-from-bottom-2 duration-1000">
-                "{quote}"
-            </p>
-            <div className="text-right">
-                <span className="block text-[2.5rem] md:text-[4rem] font-bold font-mono tracking-tighter leading-none text-white mix-blend-difference">
-                    {Math.floor(progress)}<span className="text-2xl text-neutral-600">%</span>
-                </span>
-                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest mt-1 block">
-                    Loading Assets...
-                </span>
-            </div>
-        </div>
+        <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-sm text-center line-clamp-2 px-6 drop-shadow-md">
+            "{quote}"
+        </p>
       </div>
     </div>
   );
