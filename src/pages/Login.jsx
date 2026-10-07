@@ -25,10 +25,10 @@ export default function Login() {
 
   const guestAvatars = [
     'Jack&top=shortFlat&accessories=prescription02&accessoriesProbability=100&clothing=blazerAndSweater&mouth=smile&eyes=happy&eyebrows=defaultNatural',
-    'Leo&top=shortCurly&clothing=hoodie&mouth=smile&eyes=happy&eyebrows=defaultNatural',
-    'Sophia&top=longHairStraight&clothing=blazerAndShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0',
+    'Leo&top=shortCurly&clothing=hoodie&mouth=default&eyes=default&eyebrows=defaultNatural',
     'Max&top=shaggyMullet&clothing=graphicShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural',
-    'Jane&top=longHairCurly&clothing=overall&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0'
+    'Mia&top=straight01&clothing=overall&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0',
+    'Zoe&top=bob&clothing=blazerAndShirt&mouth=smile&eyes=happy&eyebrows=defaultNatural&facialHairProbability=0'
   ];
 
   async function handleGuestSubmit(e) {
