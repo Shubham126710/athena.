@@ -159,99 +159,110 @@ export default function HubPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black relative">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black relative">
       
-      {/* Ambient Background Glows */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/10 rounded-full blur-[120px]"></div>
-        <div className="absolute top-[40%] right-[-5%] w-[30%] h-[50%] bg-indigo-900/10 rounded-full blur-[120px]"></div>
+      {/* Sleek Grid & Grain Background (Matches Landing Hero) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '100px 100px',
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.15]" style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
+        }}></div>
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+        }}></div>
       </div>
 
-      <ConstellationBackground />
       {/* Navigation */}
       <HubNavbar />
 
       <main className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         {announcement && (
-          <div className="mb-6 bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-5 rounded-xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
-            <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-lg shrink-0 mt-0.5">
+          <div className="mb-8 bg-black border border-neutral-800 p-5 shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
+            <div className="bg-neutral-900/50 border border-neutral-800 text-neutral-300 p-2.5 shrink-0 mt-0.5">
               <Bell size={18} strokeWidth={1.5} />
             </div>
             <div className="flex-1 pr-8 pt-1">
-              <h3 className="font-bold text-base text-white mb-1.5 tracking-tight">{announcement.title}</h3>
-              <p className="text-neutral-400 text-sm leading-relaxed max-w-3xl">{announcement.message}</p>
+              <h3 className="font-bold text-sm uppercase tracking-widest text-white mb-2 font-mono">{announcement.title}</h3>
+              <p className="text-neutral-400 text-sm leading-relaxed max-w-3xl font-light">{announcement.message}</p>
             </div>
             <button 
               onClick={handleDismissAnnouncement}
-              className="absolute top-4 right-4 p-1.5 text-neutral-500 hover:text-white hover:bg-neutral-800 rounded transition-colors"
+              className="absolute top-4 right-4 p-1.5 text-neutral-600 hover:text-white transition-colors"
             >
               <X size={18} />
             </button>
           </div>
         )}
 
-        <div className="mb-8">
-            <h1 className="text-4xl font-bold tracking-tight mb-2 text-white">
+        <div className="mb-12 border-l border-neutral-800 pl-6">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter leading-[1] text-white mb-4">
                 {greeting}, <br className="hidden" />
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300">{profile?.first_name || 'Student'}.</span>
             </h1>
-            <p className="text-neutral-400 font-light">Here's what's happening today.</p>
+            <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">System Overview / Today</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 mb-8 border border-neutral-800 bg-neutral-800 gap-[1px] p-[1px]">
             {/* Upcoming Exam Card */}
-            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700/80 transition-all duration-300 col-span-1 md:col-span-2 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+            <div className="bg-black p-8 relative overflow-hidden group col-span-1 md:col-span-2 hover:bg-neutral-950 transition-colors duration-300">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <Calendar size={100} strokeWidth={0.5} />
+                    <Calendar size={120} strokeWidth={0.5} />
                 </div>
-                <div className="relative z-10">
-                    <div className="text-[10px] font-bold tracking-widest uppercase text-neutral-500 mb-2">Upcoming Exam</div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-6 text-white tracking-tight">{upcomingExam.subject}</h2>
-                    <div className="flex items-center gap-4 text-sm">
-                        <span className="bg-red-900/30 text-red-400 px-3 py-1.5 rounded-full font-medium tracking-wide">{upcomingExam.date}</span>
-                        <span className="text-neutral-500 font-medium">{upcomingExam.daysLeft} days left</span>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div className="text-[10px] font-mono tracking-widest uppercase text-neutral-500 mb-8 flex items-center gap-2">
+                        <span className="w-2 h-2 bg-neutral-600 rounded-full animate-pulse"></span>
+                        Upcoming Assessment
+                    </div>
+                    <div>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white tracking-tighter">{upcomingExam.subject}</h2>
+                        <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-widest">
+                            <span className="border border-neutral-800 text-neutral-300 px-3 py-1.5">{upcomingExam.date}</span>
+                            <span className="text-neutral-500">{upcomingExam.daysLeft} days left</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-                <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm group-hover:text-white transition-colors duration-300">"{quote.text}"</p>
-                <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
+            <div className="bg-black p-8 flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:bg-neutral-950 transition-colors duration-300">
+                <p className="font-serif italic font-normal tracking-tight text-2xl text-neutral-400 mb-6 leading-relaxed max-w-sm group-hover:text-neutral-300 transition-colors duration-300">"{quote.text}"</p>
+                <span className="text-[10px] font-mono text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
             
             {/* Course Credits Widget */}
-            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-                 <div className="flex items-center gap-2 mb-4 mt-2">
-                    <h3 className="font-bold text-lg text-white">Course Credits</h3>
+            <div className="bg-black p-8 relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:bg-neutral-950 transition-colors duration-300">
+                 <div className="flex items-center gap-2 mb-8 border-b border-neutral-900 pb-4">
+                    <h3 className="font-mono text-[10px] tracking-widest uppercase text-neutral-500">Course Credits</h3>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                     {subjects.map((sub, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800/50 pb-2 last:border-0 last:pb-0 group/row hover:bg-white/[0.02] -mx-2 px-2 py-1 rounded transition-colors">
-                            <div>
-                                <span className="font-medium text-neutral-200 group-hover/row:text-white transition-colors">{sub.name}</span>
-                                <span className="ml-2 text-[10px] text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-sm">{sub.code}</span>
-                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800/30 px-2 py-0.5 rounded-sm">{sub.type}</span>
+                        <div key={idx} className="flex justify-between items-center text-sm group/row">
+                            <div className="flex items-center gap-3">
+                                <span className="font-medium text-neutral-300 group-hover/row:text-white transition-colors tracking-tight">{sub.name}</span>
+                                <span className="text-[9px] font-mono text-neutral-500 border border-neutral-800 px-1.5 py-0.5">{sub.code}</span>
                             </div>
-                            <span className="text-neutral-400 font-bold">{sub.credits} <span className="font-normal text-xs uppercase">Cr</span></span>
+                            <span className="text-neutral-400 font-mono text-xs">{sub.credits} <span className="text-[10px] text-neutral-600">CR</span></span>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Quick Actions / Important Links */}
-            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-                 <div className="flex items-center gap-2 mb-4 mt-2">
-                    <h3 className="font-bold text-lg text-white">Quick Hub Actions</h3>
+            <div className="bg-black p-8 col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:bg-neutral-950 transition-colors duration-300">
+                 <div className="flex items-center gap-2 mb-8 border-b border-neutral-900 pb-4">
+                    <h3 className="font-mono text-[10px] tracking-widest uppercase text-neutral-500">Quick Actions</h3>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <button onClick={() => nav('/notes')} className="flex flex-col items-center justify-center gap-3 bg-neutral-900/50 border border-neutral-800/60 hover:border-neutral-600 hover:bg-neutral-800/80 transition-all duration-300 px-4 py-8 rounded-lg group hover:-translate-y-1 shadow-sm hover:shadow-md">
-                        <BookOpen size={24} className="text-neutral-400 group-hover:text-indigo-400 transition-colors" />
-                        <span className="font-medium text-sm text-neutral-300 group-hover:text-white transition-colors">Study Notes</span>
+                <div className="grid grid-cols-2 gap-4 flex-1">
+                    <button onClick={() => nav('/notes')} className="flex flex-col items-start justify-between bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:bg-neutral-900 transition-all duration-300 p-6 group">
+                        <BookOpen size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-4" />
+                        <span className="font-mono text-[10px] tracking-widest uppercase text-neutral-400 group-hover:text-white transition-colors">Study Notes</span>
                     </button>
-                    <button onClick={() => nav('/syllabus')} className="flex flex-col items-center justify-center gap-3 bg-neutral-900/50 border border-neutral-800/60 hover:border-neutral-600 hover:bg-neutral-800/80 transition-all duration-300 px-4 py-8 rounded-lg group hover:-translate-y-1 shadow-sm hover:shadow-md">
-                        <Calendar size={24} className="text-neutral-400 group-hover:text-red-400 transition-colors" />
-                        <span className="font-medium text-sm text-neutral-300 group-hover:text-white transition-colors">Syllabus Prep</span>
+                    <button onClick={() => nav('/syllabus')} className="flex flex-col items-start justify-between bg-neutral-950 border border-neutral-900 hover:border-neutral-700 hover:bg-neutral-900 transition-all duration-300 p-6 group">
+                        <Calendar size={20} strokeWidth={1.5} className="text-neutral-500 group-hover:text-white transition-colors mb-4" />
+                        <span className="font-mono text-[10px] tracking-widest uppercase text-neutral-400 group-hover:text-white transition-colors">Syllabus Prep</span>
                     </button>
                 </div>
             </div>
