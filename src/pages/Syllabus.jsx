@@ -509,7 +509,7 @@ export default function SyllabusPage() {
       <HubNavbar />
 
       <main className="pt-24 pb-12 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
-        <div className="mb-12 border-l border-neutral-800 pl-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+        <div className="mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                   Course <span className="font-serif italic font-normal tracking-tight text-neutral-300">Syllabus.</span>

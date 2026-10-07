@@ -253,7 +253,7 @@ export default function NotesPage() {
           </div>
         )}
 
-        <div className="mb-12 border-l border-neutral-800 pl-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                     My <span className="font-serif italic font-normal tracking-tight text-neutral-300">Notes.</span>

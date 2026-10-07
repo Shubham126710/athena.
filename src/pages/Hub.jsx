@@ -199,7 +199,7 @@ export default function HubPage() {
                 </div>
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div className="mb-4">
-                        <h3 className="font-serif italic text-2xl text-neutral-400">Upcoming Assessment</h3>
+                        <h3 className="font-serif italic text-2xl text-neutral-400">Upcoming Exam</h3>
                     </div>
                     <div>
                         <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white tracking-tight">{upcomingExam.subject}</h2>
