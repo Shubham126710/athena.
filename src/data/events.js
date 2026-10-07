@@ -1,0 +1,35 @@
+export const academicEvents = [
+    // Academic Calendar: ODD SEMESTER JUL-DEC 2026
+    { id: 1, title: 'Registration 2nd Year onwards', date: new Date(2026, 6, 1), type: 'academic', time: 'All Day', location: 'Online' },
+    { id: 2, title: 'Start of Sem (2nd & 4th Yr)', date: new Date(2026, 6, 14), type: 'academic', time: '09:30', location: 'Campus' },
+    { id: 3, title: 'Start of Sem (3rd & 5th Yr)', date: new Date(2026, 6, 15), type: 'academic', time: '09:30', location: 'Campus' },
+    { id: 4, title: 'Orientation 1st Year Batch I', date: new Date(2026, 6, 20), type: 'event', time: '09:00', location: 'Campus' },
+    { id: 5, title: 'Start of Sem (1st Yr Batch I)', date: new Date(2026, 6, 21), type: 'academic', time: '09:30', location: 'Campus' },
+    { id: 61, title: 'MST-1: Principles of Human Comm.', date: new Date(2026, 7, 24), type: 'mst', time: '12:30', location: 'C1 (Online-CBT)' },
+    { id: 62, title: 'MST-1: Computer Vision', date: new Date(2026, 7, 25), type: 'mst', time: '15:00', location: 'D7 (Offline)' },
+    { id: 7, title: 'Start of Sem (1st Yr Batch II)', date: new Date(2026, 7, 25), type: 'academic', time: '09:30', location: 'Campus' },
+    { id: 63, title: 'MST-1: Research Methodology', date: new Date(2026, 7, 28), type: 'mst', time: '12:30', location: 'B3 (Online-CBT)' },
+    { id: 64, title: 'MST-1: Natural Language Proc.', date: new Date(2026, 7, 28), type: 'mst', time: '15:00', location: 'D7 (Offline)' },
+    { id: 8, title: 'Fresher\'s Party 2026', date: new Date(2026, 8, 18), type: 'event', time: '17:00', location: 'Campus' },
+    { id: 9, title: 'Practical IST', date: new Date(2026, 8, 28), type: 'mst', time: '09:30', location: 'Labs' },
+    { id: 71, title: 'MST-2: Principles of Human Comm.', date: new Date(2026, 9, 12), type: 'mst', time: '12:30', location: 'C1 (Online-CBT)' },
+    { id: 72, title: 'MST-2: Computer Vision', date: new Date(2026, 9, 13), type: 'mst', time: '15:00', location: 'D7 (Offline)' },
+    { id: 73, title: 'MST-2: Research Methodology', date: new Date(2026, 9, 16), type: 'mst', time: '12:30', location: 'C1 (Online-CBT)' },
+    { id: 74, title: 'MST-2: Natural Language Proc.', date: new Date(2026, 9, 16), type: 'mst', time: '15:00', location: 'D7 (Offline)' },
+    { id: 11, title: 'Diwali Break Starts', date: new Date(2026, 10, 9), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 12, title: 'Last Teaching Day', date: new Date(2026, 10, 13), type: 'academic', time: '17:00', location: 'Campus' },
+    { id: 13, title: 'End Sem Practical Exams', date: new Date(2026, 10, 16), type: 'est', time: '09:30', location: 'Labs' },
+    { id: 14, title: 'End Sem Theory Exams', date: new Date(2026, 10, 23), type: 'est', time: '09:30', location: 'Offline' },
+    { id: 15, title: 'Winter Term Starts', date: new Date(2026, 11, 15), type: 'academic', time: '09:00', location: 'Campus' },
+    { id: 16, title: 'End of Semester', date: new Date(2026, 11, 19), type: 'academic', time: '17:00', location: 'Campus' },
+
+    // Major Indian Festivals & Holidays 2026 (Aug - Dec)
+    { id: 208, title: 'Independence Day', date: new Date(2026, 7, 15), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 209, title: 'Raksha Bandhan', date: new Date(2026, 7, 28), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 210, title: 'Janmashtami', date: new Date(2026, 8, 3), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 211, title: 'Gandhi Jayanti', date: new Date(2026, 9, 2), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 212, title: 'Dussehra', date: new Date(2026, 9, 18), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 213, title: 'Diwali', date: new Date(2026, 10, 8), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 214, title: 'Guru Nanak Jayanti', date: new Date(2026, 10, 24), type: 'holiday', time: 'All Day', location: 'India' },
+    { id: 215, title: 'Christmas Day', date: new Date(2026, 11, 25), type: 'holiday', time: 'All Day', location: 'India' }
+];

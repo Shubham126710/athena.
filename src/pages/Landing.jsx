@@ -78,10 +78,10 @@ export default function Landing() {
         if (isNaN(localHits)) localHits = 1080;
         
         // Ensure firebase works, update and fetch count
-        const coll = collection(db, 'notes');
-        await addDoc(coll, { title: 'session_hit', subject: 'site_analytics', unit: 'pageview', file_url: 'none', file_path: 'hit' });
+        const coll = collection(db, 'analytics');
+        await addDoc(coll, { type: 'pageview', timestamp: Date.now() });
 
-        const q = query(coll, where('subject', '==', 'site_analytics'));
+        const q = query(coll, where('type', '==', 'pageview'));
         const snapshot = await getCountFromServer(q);
         
         const trueCount = snapshot.data().count + 1080; // base offset

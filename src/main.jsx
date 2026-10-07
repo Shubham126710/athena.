@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './global.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Landing from './pages/Landing.jsx';
-import Login from './pages/Login.jsx';
-import SyllabusPage from './pages/Syllabus.jsx';
-import NotesPage from './pages/Notes.jsx';
-import HubPage from './pages/Hub.jsx';
-import CalendarPage from './pages/Calendar.jsx';
+import LoadingScreen from './components/LoadingScreen.jsx';
+
+// Lazy loaded routes
+const Landing = React.lazy(() => import('./pages/Landing.jsx'));
+const Login = React.lazy(() => import('./pages/Login.jsx'));
+const SyllabusPage = React.lazy(() => import('./pages/Syllabus.jsx'));
+const NotesPage = React.lazy(() => import('./pages/Notes.jsx'));
+const HubPage = React.lazy(() => import('./pages/Hub.jsx'));
+const CalendarPage = React.lazy(() => import('./pages/Calendar.jsx'));
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/hub" element={<HubPage />} />
-        <Route path="/syllabus" element={<SyllabusPage />} />
-        <Route path="/notes" element={<NotesPage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
-      </Routes>
+      <Suspense fallback={<LoadingScreen />}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/hub" element={<HubPage />} />
+          <Route path="/syllabus" element={<SyllabusPage />} />
+          <Route path="/notes" element={<NotesPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+        </Routes>
+      </Suspense>
     </AuthProvider>
   </BrowserRouter>
 );

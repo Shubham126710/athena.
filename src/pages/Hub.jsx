@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, BookOpen, Star, Zap, X, Bell } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
+import { academicEvents } from '../data/events.js';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 import { useAuth } from '../context/AuthContext';
 
@@ -97,12 +98,7 @@ export default function HubPage() {
       const now = new Date();
       
       // --- Upcoming Exam Logic ---
-      const events = [
-        { id: 71, title: 'MST-2: Principles of Human Comm.', date: new Date(2026, 9, 12), type: 'exam' },
-        { id: 72, title: 'MST-2: Computer Vision', date: new Date(2026, 9, 13), type: 'exam' },
-        { id: 73, title: 'MST-2: Research Methodology', date: new Date(2026, 9, 16), type: 'exam' },
-        { id: 74, title: 'MST-2: Natural Language Proc.', date: new Date(2026, 9, 16), type: 'exam' }
-      ];
+      const events = academicEvents.filter(e => e.type === 'mst' || e.type === 'est');
 
       // Filter for future exams (today or later)
       // Reset time to 00:00:00 for accurate date comparison
