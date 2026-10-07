@@ -16,7 +16,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
   React.useEffect(() => {
     function updateWidth() {
       // Adjust width based on modal container sizing
-      const containerWidth = window.innerWidth < 768 ? window.innerWidth - 64 : Math.min(window.innerWidth * 0.7, 750);
+      const containerWidth = window.innerWidth < 768 ? window.innerWidth - 32 : Math.min(window.innerWidth * 0.7, 750);
       setPageWidth(containerWidth);
     }
 

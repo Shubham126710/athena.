@@ -378,15 +378,15 @@ export default function NotesPage() {
 
       {/* PDF Viewer Modal */}
       {selectedNote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div className="px-6 py-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-900">
-                    <h3 className="font-bold text-lg truncate text-white">{selectedNote.title}</h3>
-                    <button onClick={() => setSelectedNote(null)} className="text-neutral-400 hover:text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[85vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+                <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-950">
+                    <h3 className="font-bold text-base sm:text-lg truncate text-white mr-4">{selectedNote.title}</h3>
+                    <button onClick={() => setSelectedNote(null)} className="text-neutral-400 hover:text-white shrink-0 p-1">
                         <X size={20} />
                     </button>
                 </div>
-                <div className="flex-1 overflow-auto bg-neutral-950 p-4 flex justify-center">
+                <div className="flex-1 overflow-auto bg-neutral-950 p-2 sm:p-4 flex justify-center">
                      <PdfViewer fileUrl={selectedNote.file_url || selectedNote.fileUrl} />
                 </div>
             </div>
@@ -397,13 +397,13 @@ export default function NotesPage() {
       {showUploadModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div className="px-6 py-4 border-b border-neutral-800 flex justify-between items-center">
+                <div className="px-4 sm:px-6 py-4 border-b border-neutral-800 flex justify-between items-center">
                     <h3 className="font-bold text-lg text-white">Upload Note</h3>
                     <button onClick={() => setShowUploadModal(false)} className="text-neutral-400 hover:text-white">
                         <X size={20} />
                     </button>
                 </div>
-                <div className="p-6 space-y-4">
+                <div className="p-4 sm:p-6 space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1 text-neutral-300">Subject</label>
                         <select 
@@ -484,7 +484,7 @@ export default function NotesPage() {
                     )}
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
-                <div className="px-6 py-4 bg-neutral-900 border-t border-neutral-800 flex justify-end gap-3">
+                <div className="px-4 sm:px-6 py-4 bg-neutral-900 border-t border-neutral-800 flex justify-end gap-3">
                     <button onClick={() => setShowUploadModal(false)} className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-white">Cancel</button>
                     <button 
                         onClick={addNote} 
