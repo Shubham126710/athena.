@@ -512,7 +512,7 @@ export default function SyllabusPage() {
         <div className="mb-12 border-l border-neutral-800 pl-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
-                  Syllabus<span className="font-serif italic font-normal tracking-tight text-neutral-300">.</span>
+                  Course <span className="font-serif italic font-normal tracking-tight text-neutral-300">Syllabus.</span>
               </h1>
               <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Track your curriculum</p>
             </div>
@@ -531,7 +531,7 @@ export default function SyllabusPage() {
                         onClick={() => setExpandedSubject(expandedSubject === idx ? null : idx)}
                     >
                         <div className="flex items-center gap-5">
-                            <div className="w-14 h-14 bg-black border border-neutral-800 text-neutral-300 rounded-xl flex items-center justify-center font-serif italic text-2xl shadow-sm">
+                            <div className="w-14 h-14 bg-black border border-neutral-800 text-neutral-300 rounded-xl flex items-center justify-center font-bold text-xl tracking-tight shadow-sm">
                                 {subject.abbr}
                             </div>
                             <div>

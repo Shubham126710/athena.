@@ -256,7 +256,7 @@ export default function NotesPage() {
         <div className="mb-12 border-l border-neutral-800 pl-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
-                    My Notes<span className="font-serif italic font-normal tracking-tight text-neutral-300">.</span>
+                    My <span className="font-serif italic font-normal tracking-tight text-neutral-300">Notes.</span>
                 </h1>
                 <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Organize what you learn</p>
             </div>
@@ -285,7 +285,7 @@ export default function NotesPage() {
                             onClick={() => toggleSubject(subject)}
                             className="w-full flex items-center justify-between p-6 hover:bg-neutral-900/50 transition-colors text-left"
                         >
-                            <span className="font-serif italic text-2xl text-white">{subject}</span>
+                            <span className="font-bold text-2xl tracking-tight text-white">{subject}</span>
                             {expandedSubjects.includes(subject) ? <ChevronDown size={24} className="text-neutral-500" /> : <ChevronRight size={24} className="text-neutral-500" />}
                         </button>
                         
