@@ -160,13 +160,20 @@ export default function HubPage() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white font-sans selection:bg-white selection:text-black relative">
+      
+      {/* Ambient Background Glows */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/10 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[40%] right-[-5%] w-[30%] h-[50%] bg-indigo-900/10 rounded-full blur-[120px]"></div>
+      </div>
+
       <ConstellationBackground />
       {/* Navigation */}
       <HubNavbar />
 
       <main className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         {announcement && (
-          <div className="mb-6 bg-neutral-950/60 backdrop-blur-md border border-neutral-800/80 p-5 rounded-xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
+          <div className="mb-6 bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-5 rounded-xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
             <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-lg shrink-0 mt-0.5">
               <Bell size={18} strokeWidth={1.5} />
             </div>
@@ -193,7 +200,7 @@ export default function HubPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {/* Upcoming Exam Card */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700 transition-all duration-300 col-span-1 md:col-span-2">
+            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl shadow-sm relative overflow-hidden group hover:border-neutral-700/80 transition-all duration-300 col-span-1 md:col-span-2 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <Calendar size={100} strokeWidth={0.5} />
                 </div>
@@ -208,23 +215,23 @@ export default function HubPage() {
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-all duration-300">
-                <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm">"{quote.text}"</p>
+            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm group-hover:text-white transition-colors duration-300">"{quote.text}"</p>
                 <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
             
             {/* Course Credits Widget */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-all duration-300">
+            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                  <div className="flex items-center gap-2 mb-4 mt-2">
                     <h3 className="font-bold text-lg text-white">Course Credits</h3>
                 </div>
                 <div className="space-y-3">
                     {subjects.map((sub, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800 pb-2 last:border-0 last:pb-0">
+                        <div key={idx} className="flex justify-between items-center text-sm border-b border-neutral-800/50 pb-2 last:border-0 last:pb-0 group/row hover:bg-white/[0.02] -mx-2 px-2 py-1 rounded transition-colors">
                             <div>
-                                <span className="font-medium text-neutral-200">{sub.name}</span>
-                                <span className="ml-2 text-[10px] text-neutral-500 bg-neutral-800 px-2 py-0.5 rounded-sm">{sub.code}</span>
-                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-sm">{sub.type}</span>
+                                <span className="font-medium text-neutral-200 group-hover/row:text-white transition-colors">{sub.name}</span>
+                                <span className="ml-2 text-[10px] text-neutral-500 bg-neutral-800/50 px-2 py-0.5 rounded-sm">{sub.code}</span>
+                                <span className="ml-2 text-xs text-neutral-500 bg-neutral-800/30 px-2 py-0.5 rounded-sm">{sub.type}</span>
                             </div>
                             <span className="text-neutral-400 font-bold">{sub.credits} <span className="font-normal text-xs uppercase">Cr</span></span>
                         </div>
@@ -233,17 +240,17 @@ export default function HubPage() {
             </div>
 
             {/* Quick Actions / Important Links */}
-            <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center hover:border-neutral-700 transition-all duration-300">
+            <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800/60 p-6 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col justify-center hover:border-neutral-700/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
                  <div className="flex items-center gap-2 mb-4 mt-2">
                     <h3 className="font-bold text-lg text-white">Quick Hub Actions</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <button onClick={() => nav('/notes')} className="flex items-center justify-center gap-2 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800 transition-all duration-300 px-4 py-6 rounded-lg group hover:-translate-y-0.5">
-                        <BookOpen size={20} className="text-neutral-400 group-hover:text-white transition-colors" />
+                    <button onClick={() => nav('/notes')} className="flex flex-col items-center justify-center gap-3 bg-neutral-900/50 border border-neutral-800/60 hover:border-neutral-600 hover:bg-neutral-800/80 transition-all duration-300 px-4 py-8 rounded-lg group hover:-translate-y-1 shadow-sm hover:shadow-md">
+                        <BookOpen size={24} className="text-neutral-400 group-hover:text-indigo-400 transition-colors" />
                         <span className="font-medium text-sm text-neutral-300 group-hover:text-white transition-colors">Study Notes</span>
                     </button>
-                    <button onClick={() => nav('/syllabus')} className="flex items-center justify-center gap-2 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800 transition-all duration-300 px-4 py-6 rounded-lg group hover:-translate-y-0.5">
-                        <Calendar size={20} className="text-neutral-400 group-hover:text-white transition-colors" />
+                    <button onClick={() => nav('/syllabus')} className="flex flex-col items-center justify-center gap-3 bg-neutral-900/50 border border-neutral-800/60 hover:border-neutral-600 hover:bg-neutral-800/80 transition-all duration-300 px-4 py-8 rounded-lg group hover:-translate-y-1 shadow-sm hover:shadow-md">
+                        <Calendar size={24} className="text-neutral-400 group-hover:text-red-400 transition-colors" />
                         <span className="font-medium text-sm text-neutral-300 group-hover:text-white transition-colors">Syllabus Prep</span>
                     </button>
                 </div>
