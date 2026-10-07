@@ -258,7 +258,7 @@ export default function NotesPage() {
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                     My <span className="font-serif italic font-normal tracking-tight text-neutral-300">Notes.</span>
                 </h1>
-                <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Organize what you learn</p>
+                <p className="text-neutral-400 font-light">Organize what you learn.</p>
             </div>
             <div className="flex items-center gap-4">
                 <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-[#0a0a0a]/80 backdrop-blur-xl text-neutral-300 rounded-xl outline-none font-medium text-sm hover:border-neutral-700 transition-colors cursor-pointer appearance-none shadow-sm min-w-[150px]">
@@ -399,15 +399,15 @@ export default function NotesPage() {
 
       {/* PDF Viewer Modal */}
       {selectedNote && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-2 sm:p-4">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[85vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-950">
-                    <h3 className="font-bold text-base sm:text-lg truncate text-white mr-4">{selectedNote.title}</h3>
-                    <button onClick={() => setSelectedNote(null)} className="text-neutral-400 hover:text-white shrink-0 p-1">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4">
+            <div className="bg-[#0a0a0a] border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[85vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+                <div className="px-5 py-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-950/50">
+                    <h3 className="font-serif italic text-xl truncate text-white mr-4">{selectedNote.title}</h3>
+                    <button onClick={() => setSelectedNote(null)} className="text-neutral-500 hover:text-white shrink-0 p-1.5 rounded-full hover:bg-neutral-800 transition-colors">
                         <X size={20} />
                     </button>
                 </div>
-                <div className="flex-1 overflow-auto bg-neutral-950 p-2 sm:p-4 flex justify-center">
+                <div className="flex-1 overflow-auto bg-black p-2 sm:p-4 flex justify-center">
                      <PdfViewer fileUrl={selectedNote.file_url || selectedNote.fileUrl} />
                 </div>
             </div>
@@ -416,57 +416,57 @@ export default function NotesPage() {
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div className="px-4 sm:px-6 py-4 border-b border-neutral-800 flex justify-between items-center">
-                    <h3 className="font-bold text-lg text-white">Upload Note</h3>
-                    <button onClick={() => setShowUploadModal(false)} className="text-neutral-400 hover:text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <div className="bg-[#0a0a0a]/95 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">
+                <div className="px-6 py-5 border-b border-neutral-800 flex justify-between items-center bg-neutral-950/50">
+                    <h3 className="font-serif italic text-2xl text-white">Upload Note</h3>
+                    <button onClick={() => setShowUploadModal(false)} className="text-neutral-500 hover:text-white p-1.5 rounded-full hover:bg-neutral-800 transition-colors">
                         <X size={20} />
                     </button>
                 </div>
-                <div className="p-4 sm:p-6 space-y-4">
+                <div className="p-6 space-y-5">
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-neutral-300">Subject</label>
+                        <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Subject</label>
                         <select 
                             value={uploadSubject} 
                             onChange={e => setUploadSubject(e.target.value)}
-                            className="w-full px-3 py-2 border border-neutral-700 rounded focus:outline-none focus:border-white transition-colors bg-neutral-800 text-white"
+                            className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white appearance-none"
                         >
                             {subjects.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                     </div>
                     {uploadSubject !== 'PHC' && (
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-neutral-300">Unit</label>
+                        <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Unit</label>
                         <select 
                             value={uploadUnit} 
                             onChange={e => setUploadUnit(e.target.value)}
-                            className="w-full px-3 py-2 border border-neutral-700 rounded focus:outline-none focus:border-white transition-colors bg-neutral-800 text-white"
+                            className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white appearance-none"
                         >
                             {units.map(u => <option key={u} value={u}>{u}</option>)}
                         </select>
                     </div>
                     )}
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-neutral-300">Title</label>
+                        <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Title</label>
                         <input 
                             type="text" 
                             value={title} 
                             onChange={e => setTitle(e.target.value)} 
                             placeholder="e.g. Chapter 1 Summary" 
-                            className="w-full px-3 py-2 border border-neutral-700 rounded focus:outline-none focus:border-white transition-colors bg-neutral-800 text-white placeholder:text-neutral-600"
+                            className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                         />
                     </div>
                     
-                    <div className="flex border-b border-neutral-800 mb-4">
+                    <div className="flex border-b border-neutral-800 mb-2">
                         <button 
-                            className={`flex-1 py-2 text-sm font-medium ${uploadType === 'file' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                            className={`flex-1 py-3 text-sm font-medium transition-colors ${uploadType === 'file' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
                             onClick={() => setUploadType('file')}
                         >
                             Upload File
                         </button>
                         <button 
-                            className={`flex-1 py-2 text-sm font-medium ${uploadType === 'link' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                            className={`flex-1 py-3 text-sm font-medium transition-colors ${uploadType === 'link' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
                             onClick={() => setUploadType('link')}
                         >
                             External Link
@@ -475,8 +475,8 @@ export default function NotesPage() {
 
                     {uploadType === 'file' ? (
                         <div>
-                            <label className="block text-sm font-medium mb-1 text-neutral-300">File (PDF)</label>
-                            <div className="border-2 border-dashed border-neutral-700 rounded-lg p-8 text-center hover:bg-neutral-800 transition-colors cursor-pointer relative">
+                            <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">File (PDF)</label>
+                            <div className="border border-dashed border-neutral-700 rounded-xl p-8 text-center hover:bg-neutral-900/50 hover:border-neutral-500 transition-all cursor-pointer relative group">
                                 <input 
                                     type="file" 
                                     ref={fileInputRef} 
@@ -484,33 +484,33 @@ export default function NotesPage() {
                                     accept="application/pdf" 
                                     className="absolute inset-0 opacity-0 cursor-pointer"
                                 />
-                                <Upload className="mx-auto text-neutral-400 mb-2" size={24} />
-                                <p className="text-sm text-neutral-500">
+                                <Upload className="mx-auto text-neutral-500 mb-3 group-hover:text-white transition-colors" size={24} />
+                                <p className="text-sm text-neutral-400 group-hover:text-neutral-300 transition-colors">
                                     {fileInputRef.current?.files?.[0]?.name || "Click to browse or drag file"}
                                 </p>
                             </div>
                         </div>
                     ) : (
                         <div>
-                            <label className="block text-sm font-medium mb-1 text-neutral-300">Drive Link (URL)</label>
+                            <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Drive Link (URL)</label>
                             <input 
                                 type="url" 
                                 value={link} 
                                 onChange={e => setLink(e.target.value)} 
                                 placeholder="https://drive.google.com/..." 
-                                className="w-full px-3 py-2 border border-neutral-700 rounded focus:outline-none focus:border-white transition-colors bg-neutral-800 text-white placeholder:text-neutral-600"
+                                className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                             />
-                            <p className="text-xs text-neutral-500 mt-1">Recommended for older semesters to save space.</p>
+                            <p className="text-xs text-neutral-500 mt-2 font-light">Recommended for older semesters to save space.</p>
                         </div>
                     )}
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    {error && <p className="text-red-400 text-sm">{error}</p>}
                 </div>
-                <div className="px-4 sm:px-6 py-4 bg-neutral-900 border-t border-neutral-800 flex justify-end gap-3">
-                    <button onClick={() => setShowUploadModal(false)} className="px-4 py-2 text-sm font-medium text-neutral-400 hover:text-white">Cancel</button>
+                <div className="px-6 py-5 bg-neutral-950/50 border-t border-neutral-800 flex justify-end gap-3">
+                    <button onClick={() => setShowUploadModal(false)} className="px-5 py-2.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors">Cancel</button>
                     <button 
                         onClick={addNote} 
                         disabled={uploading || !title || (uploadType === 'file' && !file) || (uploadType === 'link' && !link)}
-                        className="px-4 py-2 bg-white text-black text-sm font-medium rounded hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="px-6 py-2.5 bg-white text-black text-sm font-bold rounded-xl hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                     >
                         {uploading ? 'Uploading...' : 'Upload Note'}
                     </button>

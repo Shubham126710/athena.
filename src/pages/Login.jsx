@@ -82,29 +82,41 @@ export default function Login() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative bg-neutral-950">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative bg-black">
+        {/* Sleek Grid & Grain Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="absolute inset-0 opacity-[0.03]" style={{
+                backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+                backgroundSize: '100px 100px',
+            }}></div>
+            <div className="absolute inset-0 opacity-[0.15]" style={{
+                background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 70%)'
+            }}></div>
+            <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")',
+            }}></div>
+        </div>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
             <ConstellationBackground />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
-        <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 relative z-10">
+        <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 relative z-10 p-8 sm:p-10 bg-[#0a0a0a]/80 backdrop-blur-2xl border border-neutral-800 rounded-3xl shadow-2xl">
             <div className="text-center lg:text-left">
-                <h1 className="text-3xl font-bold tracking-tight">Sign in to your account</h1>
-                <p className="mt-2 text-neutral-400">
+                <h1 className="text-3xl font-bold tracking-tight mb-2">Sign in to <span className="font-serif italic font-normal text-neutral-300">Athena.</span></h1>
+                <p className="mt-2 text-neutral-400 font-light">
                     Choose your login method below.
                 </p>
             </div>
 
-            <div className="flex gap-4 border-b border-neutral-800 pb-2">
+            <div className="flex gap-4 border-b border-neutral-800/50 pb-2">
               <button
-                className={`pb-2 font-bold ${activeTab === 'guest' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                className={`pb-2 text-sm font-medium transition-colors ${activeTab === 'guest' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
                 onClick={() => setActiveTab('guest')}
               >
                 Guest Login
               </button>
               <button
-                className={`pb-2 font-bold ${activeTab === 'admin' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
+                className={`pb-2 text-sm font-medium transition-colors ${activeTab === 'admin' ? 'text-white border-b-2 border-white' : 'text-neutral-500 hover:text-neutral-300'}`}
                 onClick={() => setActiveTab('admin')}
               >
                 Admin Login
@@ -112,7 +124,7 @@ export default function Login() {
             </div>
 
             {error && (
-                <div className="bg-red-900/20 border border-red-900/50 text-red-200 p-4 rounded text-sm">
+                <div className="bg-red-900/20 border border-red-900/50 text-red-200 p-4 rounded-xl text-sm">
                     {error}
                 </div>
             )}
@@ -121,7 +133,7 @@ export default function Login() {
               <form onSubmit={handleGuestSubmit} className="space-y-6">
                   {/* Select Avatar UI */}
                   <div>
-                      <label className="block text-sm font-medium text-neutral-300 mb-4">Choose Your Avatar</label>
+                      <label className="block text-[10px] font-bold tracking-widest uppercase mb-4 text-neutral-500">Choose Your Avatar</label>
                       <div className="flex gap-4 overflow-x-auto pb-2 mb-2 scrollbar-hide">
                           {guestAvatars.map(seed => (
                               <div 
@@ -136,11 +148,11 @@ export default function Login() {
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-neutral-300 mb-2">First Name</label>
+                      <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">First Name</label>
                       <input 
                           type="text" 
                           required 
-                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                           placeholder="John"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -148,11 +160,11 @@ export default function Login() {
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-neutral-300 mb-2">UID</label>
+                      <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">UID</label>
                       <input 
                           type="text" 
                           required 
-                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                           placeholder="e.g. 21BCS123"
                           value={uid}
                           onChange={(e) => setUid(e.target.value)}
@@ -162,7 +174,7 @@ export default function Login() {
                   <button 
                       type="submit" 
                       disabled={loading}
-                      className="w-full bg-white text-black font-bold py-3 rounded hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-white text-black text-sm font-bold py-3.5 rounded-xl hover:bg-neutral-200 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                   >
                       {loading ? 'Signing in...' : 'Sign in as Guest'}
                   </button>
@@ -170,11 +182,11 @@ export default function Login() {
             ) : (
               <form onSubmit={handleAdminSubmit} className="space-y-6">
                   <div>
-                      <label className="block text-sm font-medium text-neutral-300 mb-2">Admin Email</label>
+                      <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Admin Email</label>
                       <input 
                           type="email" 
                           required 
-                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                           placeholder="admin@athena.edu"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -182,11 +194,11 @@ export default function Login() {
                   </div>
 
                   <div>
-                      <label className="block text-sm font-medium text-neutral-300 mb-2">Password</label>
+                      <label className="block text-[10px] font-bold tracking-widest uppercase mb-2 text-neutral-500">Password</label>
                       <input 
                           type="password" 
                           required 
-                          className="w-full bg-neutral-900 border border-neutral-800 rounded p-3 text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 border border-neutral-800 rounded-xl focus:outline-none focus:border-neutral-600 transition-colors bg-neutral-900/50 text-white placeholder:text-neutral-600"
                           placeholder="••••••••"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -196,7 +208,7 @@ export default function Login() {
                   <button 
                       type="submit" 
                       disabled={loading}
-                      className="w-full bg-white text-black font-bold py-3 rounded hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-white text-black text-sm font-bold py-3.5 rounded-xl hover:bg-neutral-200 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                   >
                       {loading ? 'Signing in...' : 'Sign in as Admin'}
                   </button>

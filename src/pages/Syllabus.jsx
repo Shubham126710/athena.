@@ -514,7 +514,7 @@ export default function SyllabusPage() {
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                   Course <span className="font-serif italic font-normal tracking-tight text-neutral-300">Syllabus.</span>
               </h1>
-              <p className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Track your curriculum</p>
+              <p className="text-neutral-400 font-light">Track your curriculum.</p>
             </div>
             <select value={semester} onChange={e => setSemester(e.target.value)} className="px-4 py-2 border border-neutral-800 bg-[#0a0a0a]/80 backdrop-blur-xl text-neutral-300 rounded-xl outline-none font-medium text-sm hover:border-neutral-700 transition-colors cursor-pointer appearance-none shadow-sm min-w-[150px]">
               <option value="5th">5th Semester</option>

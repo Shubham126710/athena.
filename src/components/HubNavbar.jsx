@@ -207,9 +207,9 @@ export default function HubNavbar() {
             </button>
 
             {showNotifications && (
-                <div className="fixed inset-x-4 top-20 md:absolute md:inset-auto md:right-0 md:top-full md:mt-2 md:w-80 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
-                    <div className="p-4 border-b border-neutral-800 flex justify-between items-center">
-                        <h3 className="font-bold text-white">Notifications</h3>
+                <div className="fixed inset-x-4 top-20 md:absolute md:inset-auto md:right-0 md:top-full md:mt-2 md:w-80 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
+                    <div className="p-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-950/50">
+                        <h3 className="font-serif italic text-white text-lg">Notifications</h3>
                         <div className="flex items-center gap-2">
                             {profile?.role === 'admin' && (
                                 <button 
@@ -320,12 +320,12 @@ export default function HubNavbar() {
 
                 {/* Profile Dropdown */}
                 {showProfileMenu && (
-                <div className="absolute right-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl animate-in fade-in slide-in-from-top-2 duration-150 origin-top-right z-50 overflow-hidden">
-                    <div className="p-4 border-b border-neutral-800">
-                        <p className="text-sm font-bold text-white">{profile?.first_name || 'Student'} {profile?.last_name}</p>
-                        {user?.email && <p className="text-xs text-neutral-400 mt-1 break-all">{user.email}</p>}
+                <div className="absolute right-0 top-full mt-2 w-64 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 origin-top-right z-50 overflow-hidden">
+                    <div className="p-4 border-b border-neutral-800 bg-neutral-950/50">
+                        <p className="text-lg font-serif italic text-white">{profile?.first_name || 'Student'} {profile?.last_name}</p>
+                        {user?.email && <p className="text-[10px] text-neutral-400 mt-1 break-all uppercase tracking-wider">{user.email}</p>}
                         {profile?.uid && (
-                            <div className="mt-3 inline-block px-2 py-1 bg-neutral-800 rounded text-xs font-mono text-neutral-300">
+                            <div className="mt-3 inline-block px-2 py-1 bg-neutral-900 border border-neutral-800 rounded-md text-xs font-mono font-bold text-neutral-300">
                                 UID: {profile.uid}
                             </div>
                         )}
@@ -368,13 +368,13 @@ export default function HubNavbar() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-4 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl z-40">
-                <div className="flex flex-col gap-2">
-                    <button onClick={() => { nav('/hub'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/hub') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Hub</button>
-                    <button onClick={() => { nav('/calendar'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/calendar') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Calendar</button>
-                    <button onClick={() => { nav('/syllabus'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/syllabus') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Syllabus</button>
-                    <button onClick={() => { nav('/notes'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/notes') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Notes</button>
-                    <button onClick={() => { setIsCalculatorOpen(true); setIsMobileMenuOpen(false); }} className="p-3 rounded-lg text-left font-medium text-neutral-400 hover:bg-neutral-900 hover:text-white">SGPA</button>
+            <div className="absolute top-full left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur-2xl border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl z-40 rounded-b-3xl">
+                <div className="flex flex-col gap-3">
+                    <button onClick={() => { nav('/hub'); setIsMobileMenuOpen(false); }} className={`p-4 rounded-xl text-left font-medium transition-colors ${isActive('/hub') ? 'bg-white text-black' : 'text-neutral-400 hover:bg-neutral-900/50 hover:text-white'}`}>Hub</button>
+                    <button onClick={() => { nav('/calendar'); setIsMobileMenuOpen(false); }} className={`p-4 rounded-xl text-left font-medium transition-colors ${isActive('/calendar') ? 'bg-white text-black' : 'text-neutral-400 hover:bg-neutral-900/50 hover:text-white'}`}>Calendar</button>
+                    <button onClick={() => { nav('/syllabus'); setIsMobileMenuOpen(false); }} className={`p-4 rounded-xl text-left font-medium transition-colors ${isActive('/syllabus') ? 'bg-white text-black' : 'text-neutral-400 hover:bg-neutral-900/50 hover:text-white'}`}>Syllabus</button>
+                    <button onClick={() => { nav('/notes'); setIsMobileMenuOpen(false); }} className={`p-4 rounded-xl text-left font-medium transition-colors ${isActive('/notes') ? 'bg-white text-black' : 'text-neutral-400 hover:bg-neutral-900/50 hover:text-white'}`}>Notes</button>
+                    <button onClick={() => { setIsCalculatorOpen(true); setIsMobileMenuOpen(false); }} className="p-4 rounded-xl text-left font-medium text-neutral-400 hover:bg-neutral-900/50 hover:text-white transition-colors">SGPA Calculator</button>
                 </div>
             </div>
         )}
