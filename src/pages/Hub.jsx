@@ -106,7 +106,7 @@ export default function HubPage() {
       today.setHours(0, 0, 0, 0);
 
       const futureExams = events
-        .filter(e => e.type === 'exam' && e.date >= today)
+        .filter(e => e.date >= today)
         .sort((a, b) => a.date - b.date);
 
       if (futureExams.length > 0) {

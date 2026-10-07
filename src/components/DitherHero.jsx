@@ -84,14 +84,23 @@ function AthenaBust({ color, bgColor }) {
   const texture = useTexture('/athena_bust.png');
   const materialRef = useRef();
 
+  const meshRef = useRef();
+
   useFrame((state) => {
     if (materialRef.current) {
       materialRef.current.uTime = state.clock.elapsedTime;
     }
+    if (meshRef.current) {
+      // Gentle vertical floating
+      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+      // Subtle rotation following the mouse
+      meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, (state.pointer.x * Math.PI) / 30, 0.05);
+      meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, -(state.pointer.y * Math.PI) / 30, 0.05);
+    }
   });
 
   return (
-    <mesh position={[0, 0, 0]}>
+    <mesh ref={meshRef} position={[0, 0, 0]}>
       <planeGeometry args={[20, 20]} />
       <ditherMaterial 
         ref={materialRef} 
@@ -112,6 +121,8 @@ export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#0000
         camera={{ zoom: 45, position: [0, 0, 100] }}
         gl={{ alpha: true, antialias: false }}
         className="w-full h-full"
+        eventSource={document.getElementById('root')}
+        eventPrefix="client"
       >
         <Suspense fallback={null}>
           <AthenaBust color={color} bgColor={backgroundColor} />
