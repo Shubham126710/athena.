@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, Calendar as CalIcon, Clock, MapPin, X, MoreHorizontal } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalIcon, Clock, MapPin, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import HubNavbar from '../components/HubNavbar.jsx';
 

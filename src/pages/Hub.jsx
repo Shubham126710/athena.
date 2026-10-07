@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, BookOpen, Star, Zap, X, Bell } from 'lucide-react';
+import { Calendar, BookOpen, X, Bell } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 import { academicEvents } from '../data/events.js';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';

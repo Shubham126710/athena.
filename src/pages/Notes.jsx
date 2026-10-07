@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Upload, FileText, X, Trash2, Search, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
+import { Upload, FileText, X, Trash2, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
 import PdfViewer from '../components/PdfViewer.jsx';
 import { db } from '../lib/firebase';
 import { collection, getDocs, addDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';

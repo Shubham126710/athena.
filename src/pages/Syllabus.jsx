@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, BookOpen, Search } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
 
 export default function SyllabusPage() {
