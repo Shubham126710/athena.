@@ -5,6 +5,7 @@ import LoadingScreen from '../components/LoadingScreen.jsx';
 import MarqueeStrip from '../components/MarqueeStrip.jsx';
 import Footer1 from '../components/Footer1.jsx';
 import Features from '../components/Features.jsx';
+import { RandomLetterSwap } from '../components/ui/random-letter-swap.jsx';
 import { db } from '../lib/firebase';
 import { collection, query, where, getCountFromServer, addDoc } from 'firebase/firestore';
 import { ArrowRight, Box, Database, Layers, Zap, Shield, Cpu, Instagram, Twitter, Linkedin, Mail, Phone, AtSign, Github, Book, Calendar, Search, Users, Lock, Brain, Clock, Menu, X } from 'lucide-react';
@@ -147,19 +148,19 @@ export default function Landing() {
         {/* CENTER: Nav Links */}
         <div className="hidden md:flex items-center justify-center gap-10 text-[11px] font-medium tracking-widest text-neutral-500 w-2/4 relative z-10">
           <a href="#about" className={`relative transition-colors ${activeSection === 'about' ? 'text-white' : 'hover:text-white'}`}>
-            About
+            <RandomLetterSwap label="About" />
             {activeSection === 'about' && (
               <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
             )}
           </a>
           <a href="#features" className={`relative transition-colors ${activeSection === 'features' ? 'text-white' : 'hover:text-white'}`}>
-            Features
+            <RandomLetterSwap label="Features" />
             {activeSection === 'features' && (
               <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
             )}
           </a>
           <a href="#contact" className={`relative transition-colors ${activeSection === 'contact' ? 'text-white' : 'hover:text-white'}`}>
-            Contact
+            <RandomLetterSwap label="Contact" />
             {activeSection === 'contact' && (
               <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[3px] h-[3px] bg-white rounded-full"></span>
             )}
@@ -186,12 +187,20 @@ export default function Landing() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-6 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl flex flex-col gap-4">
-                <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">About</a>
-                <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Features</a>
-                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium text-neutral-400 hover:text-white transition-colors">Contact</a>
-                <div className="h-px bg-neutral-800 my-2"></div>
-                <button onClick={() => nav('/hub')} className="w-full px-5 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+            <div className="fixed inset-0 top-[88px] bg-neutral-950 p-6 md:hidden animate-in fade-in duration-200 z-40 overflow-y-auto">
+                <div className="flex flex-col gap-6 items-center justify-center min-h-[60vh]">
+                    <a href="#about" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
+                        <RandomLetterSwap label="About" />
+                    </a>
+                    <a href="#features" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
+                        <RandomLetterSwap label="Features" />
+                    </a>
+                    <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-bold tracking-tight text-neutral-400 hover:text-white transition-colors">
+                        <RandomLetterSwap label="Contact" />
+                    </a>
+                    <div className="h-px bg-neutral-800 my-2 w-32"></div>
+                    <button onClick={() => nav('/hub')} className="px-8 py-3 bg-white text-black text-center font-bold rounded-sm hover:bg-neutral-200 transition-all shadow-sm">Enter App</button>
+                </div>
             </div>
         )}
       </nav>

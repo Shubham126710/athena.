@@ -6,6 +6,7 @@ import { db } from '../lib/firebase';
 import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
 import SGPACalculator from './SGPACalculator';
 import Avatar from './Avatar';
+import { RandomLetterSwap } from './ui/random-letter-swap.jsx';
 
 export default function HubNavbar() {
   const nav = useNavigate();
@@ -178,19 +179,19 @@ export default function HubNavbar() {
             {/* Dashboard Navigation */}
             <div className="hidden md:flex items-center gap-2 bg-neutral-900/50 backdrop-blur-sm p-1.5 rounded-lg border border-neutral-800/80">
                 <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>
-                    Hub{renderActiveDot('/hub')}
+                    <RandomLetterSwap label="Hub" />{renderActiveDot('/hub')}
                 </button>
                 <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>
-                    Calendar{renderActiveDot('/calendar')}
+                    <RandomLetterSwap label="Calendar" />{renderActiveDot('/calendar')}
                 </button>
                 <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>
-                    Syllabus{renderActiveDot('/syllabus')}
+                    <RandomLetterSwap label="Syllabus" />{renderActiveDot('/syllabus')}
                 </button>
                 <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>
-                    Notes{renderActiveDot('/notes')}
+                    <RandomLetterSwap label="Notes" />{renderActiveDot('/notes')}
                 </button>
                 <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>
-                    SGPA
+                    <RandomLetterSwap label="SGPA" />
                 </button>
             </div>
         </div>
@@ -367,13 +368,23 @@ export default function HubNavbar() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-neutral-950 border-b border-neutral-800 p-4 md:hidden animate-in slide-in-from-top-5 fade-in duration-200 shadow-2xl">
-                <div className="flex flex-col gap-2">
-                    <button onClick={() => { nav('/hub'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/hub') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Hub</button>
-                    <button onClick={() => { nav('/calendar'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/calendar') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Calendar</button>
-                    <button onClick={() => { nav('/syllabus'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/syllabus') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Syllabus</button>
-                    <button onClick={() => { nav('/notes'); setIsMobileMenuOpen(false); }} className={`p-3 rounded-lg text-left font-medium ${isActive('/notes') ? 'bg-neutral-800 text-white' : 'text-neutral-400 hover:bg-neutral-900 hover:text-white'}`}>Notes</button>
-                    <button onClick={() => { setIsCalculatorOpen(true); setIsMobileMenuOpen(false); }} className="p-3 rounded-lg text-left font-medium text-neutral-400 hover:bg-neutral-900 hover:text-white">SGPA</button>
+            <div className="fixed inset-0 top-[73px] bg-neutral-950 p-6 md:hidden animate-in fade-in duration-200 z-40 overflow-y-auto">
+                <div className="flex flex-col gap-6 items-center justify-center min-h-[60vh]">
+                    <button onClick={() => { nav('/hub'); setIsMobileMenuOpen(false); }} className={`text-2xl font-bold tracking-tight transition-colors ${isActive('/hub') ? 'text-white' : 'text-neutral-500 hover:text-white'}`}>
+                        <RandomLetterSwap label="Hub" />
+                    </button>
+                    <button onClick={() => { nav('/calendar'); setIsMobileMenuOpen(false); }} className={`text-2xl font-bold tracking-tight transition-colors ${isActive('/calendar') ? 'text-white' : 'text-neutral-500 hover:text-white'}`}>
+                        <RandomLetterSwap label="Calendar" />
+                    </button>
+                    <button onClick={() => { nav('/syllabus'); setIsMobileMenuOpen(false); }} className={`text-2xl font-bold tracking-tight transition-colors ${isActive('/syllabus') ? 'text-white' : 'text-neutral-500 hover:text-white'}`}>
+                        <RandomLetterSwap label="Syllabus" />
+                    </button>
+                    <button onClick={() => { nav('/notes'); setIsMobileMenuOpen(false); }} className={`text-2xl font-bold tracking-tight transition-colors ${isActive('/notes') ? 'text-white' : 'text-neutral-500 hover:text-white'}`}>
+                        <RandomLetterSwap label="Notes" />
+                    </button>
+                    <button onClick={() => { setIsCalculatorOpen(true); setIsMobileMenuOpen(false); }} className="text-2xl font-bold tracking-tight text-neutral-500 hover:text-white transition-colors">
+                        <RandomLetterSwap label="SGPA" />
+                    </button>
                 </div>
             </div>
         )}
