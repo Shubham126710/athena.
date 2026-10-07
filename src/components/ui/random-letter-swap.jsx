@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|:<>?-=[];',./~";
 
-export function RandomLetterSwap({ label, className, staggerDuration = 0.15, isHovered = false }) {
+export function RandomLetterSwap({ label, className, isHovered = false }) {
   const [displayText, setDisplayText] = useState(label);
   const [localHover, setLocalHover] = useState(false);
 
@@ -30,13 +30,14 @@ export function RandomLetterSwap({ label, className, staggerDuration = 0.15, isH
           clearInterval(interval);
         }
 
-        iteration += 1 / (50 * staggerDuration); 
-      }, 50);
+        // 0.3 letters per 100ms tick. About 300ms per letter to lock in.
+        iteration += 0.3; 
+      }, 100);
     } else {
       setDisplayText(label);
     }
     return () => clearInterval(interval);
-  }, [active, label, staggerDuration]);
+  }, [active, label]);
 
   return (
     <span
