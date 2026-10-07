@@ -317,6 +317,29 @@ export default function SGPACalculator({ isOpen, onClose }) {
                   Calculate
                 </button>
               </div>
+              
+              {/* Quick Reference for Credits */}
+              <div className="mt-8 pt-6 border-t border-neutral-800 animate-in fade-in slide-in-from-bottom-2">
+                <h4 className="text-xs font-bold text-neutral-500 uppercase tracking-wider mb-3">7th Sem Credits Reference</h4>
+                <div className="grid gap-2">
+                  <div className="flex justify-between items-center text-xs text-neutral-400 bg-neutral-900/50 p-2 rounded">
+                    <span>Computer Vision (23CSH-437)</span>
+                    <span className="font-bold text-white bg-neutral-800 px-2 py-0.5 rounded">4 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-neutral-400 bg-neutral-900/50 p-2 rounded">
+                    <span>Natural Language Processing (23CSH-438)</span>
+                    <span className="font-bold text-white bg-neutral-800 px-2 py-0.5 rounded">4 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-neutral-400 bg-neutral-900/50 p-2 rounded">
+                    <span>Research Methodology (23CST-432)</span>
+                    <span className="font-bold text-white bg-neutral-800 px-2 py-0.5 rounded">3 Cr</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs text-neutral-400 bg-neutral-900/50 p-2 rounded">
+                    <span>Principles of Human Communication (JMO-354)</span>
+                    <span className="font-bold text-white bg-neutral-800 px-2 py-0.5 rounded">1 Cr</span>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
