@@ -12,6 +12,7 @@ const SyllabusPage = React.lazy(() => import('./pages/Syllabus.jsx'));
 const NotesPage = React.lazy(() => import('./pages/Notes.jsx'));
 const HubPage = React.lazy(() => import('./pages/Hub.jsx'));
 const CalendarPage = React.lazy(() => import('./pages/Calendar.jsx'));
+const NotFound = React.lazy(() => import('./pages/NotFound.jsx'));
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/syllabus" element={<SyllabusPage />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </AuthProvider>
