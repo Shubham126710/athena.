@@ -55,7 +55,7 @@ export default function Landing() {
   const [text, setText] = React.useState('');
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [loopNum, setLoopNum] = React.useState(0);
-  const [views, setViews] = React.useState(1080);
+  const [views, setViews] = React.useState(1161);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -76,18 +76,24 @@ export default function Landing() {
     const updateViews = async () => {
       try {
         let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
-        if (isNaN(localHits)) localHits = 1080;
+        if (isNaN(localHits)) localHits = 1161;
         
         const viewsRef = doc(db, 'notes', 'site_views_counter');
         const viewDoc = await getDoc(viewsRef);
         
-        let newCount = 1080;
+        let newCount = 1161;
         if (!viewDoc.exists()) {
-           await setDoc(viewsRef, { count: 1081, type: 'analytics_counter', created_at: Date.now() });
-           newCount = 1081;
+           await setDoc(viewsRef, { count: 1161, type: 'analytics_counter', created_at: Date.now() });
+           newCount = 1161;
         } else {
-           await setDoc(viewsRef, { count: increment(1) }, { merge: true });
-           newCount = viewDoc.data().count + 1;
+           const currentDbCount = viewDoc.data().count;
+           if (currentDbCount < 1161) {
+              await setDoc(viewsRef, { count: 1161 }, { merge: true });
+              newCount = 1161;
+           } else {
+              await setDoc(viewsRef, { count: increment(1) }, { merge: true });
+              newCount = currentDbCount + 1;
+           }
         }
         
         setViews(newCount);
@@ -95,7 +101,7 @@ export default function Landing() {
       } catch (err) {
         console.error("Analytics sync failed", err);
         let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
-        if (isNaN(localHits)) localHits = 1080;
+        if (isNaN(localHits)) localHits = 1161;
         const fallbackCount = localHits + 1;
         setViews(fallbackCount);
         localStorage.setItem('athena_view_count', fallbackCount.toString());
