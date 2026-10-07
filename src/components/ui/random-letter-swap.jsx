@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}|:<>?-=[];',./~";
 
-export function RandomLetterSwap({ label, className, staggerDuration = 0.05, isHovered = false }) {
+export function RandomLetterSwap({ label, className, staggerDuration = 0.15, isHovered = false }) {
   const [displayText, setDisplayText] = useState(label);
   const [localHover, setLocalHover] = useState(false);
 
@@ -30,8 +30,8 @@ export function RandomLetterSwap({ label, className, staggerDuration = 0.05, isH
           clearInterval(interval);
         }
 
-        iteration += 1 / (30 * staggerDuration); 
-      }, 30);
+        iteration += 1 / (50 * staggerDuration); 
+      }, 50);
     } else {
       setDisplayText(label);
     }
