@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Compass, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import ConstellationBackground from '../components/ConstellationBackground.jsx';
 
 export default function NotFound() {
@@ -18,10 +18,7 @@ export default function NotFound() {
       <div className="absolute inset-0 bg-neutral-950/40 z-0 pointer-events-none" style={{ background: 'radial-gradient(circle at center, transparent 0%, #0a0a0a 70%)' }}></div>
 
       <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
-        <div className="w-20 h-20 mb-8 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center shadow-2xl relative">
-          <div className="absolute inset-0 bg-white/5 rounded-2xl animate-pulse"></div>
-          <Compass size={32} className="text-neutral-400" />
-        </div>
+        <img src="/logo.png" alt="Athena Logo" className="w-16 h-16 mb-8 opacity-80" />
         
         <h1 className="text-7xl md:text-9xl font-bold tracking-tighter mb-4 text-white">
           404<span className="text-neutral-600">.</span>
