@@ -1,168 +1,225 @@
-import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { useEffect, useState } from 'react';
-import { driver } from 'driver.js';
-import 'driver.js/dist/driver.css';
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { X, ChevronRight, Check } from 'lucide-react';
 
-// Safe localStorage access
-
-
-
-const waitForElement = (selector, callback) => {
-    const el = document.querySelector(selector);
-    if (el && el.offsetHeight > 0) {
-        callback();
-    } else {
-        setTimeout(() => waitForElement(selector, callback), 500);
+const steps = [
+    {
+        id: 'welcome',
+        target: 'body',
+        title: 'Welcome to Athena.',
+        description: 'Let us take you on a quick tour of your new academic workspace.',
+        align: 'center'
+    },
+    {
+        id: 'hub',
+        target: '.nav-hub-link',
+        title: 'The Hub',
+        description: 'Your dashboard for upcoming exams, events, and quick actions.',
+        align: 'bottom'
+    },
+    {
+        id: 'calendar',
+        target: '.nav-calendar-link',
+        title: 'Academic Calendar',
+        description: 'Track MSTs, ESTs, and holidays seamlessly.',
+        align: 'bottom'
+    },
+    {
+        id: 'sgpa',
+        target: '.nav-sgpa-btn',
+        title: 'SGPA Calculator',
+        description: 'Predict your SGPA instantly using this handy tool.',
+        align: 'bottom'
+    },
+    {
+        id: 'notes-link',
+        target: '.nav-notes-link',
+        title: 'Notes Repository',
+        description: 'Access the vault of academic notes. Let\'s head there now!',
+        align: 'bottom',
+        action: (navigate) => {
+            safeSetStorage('athena_tour_in_progress', 'true');
+            navigate('/notes?tour=true');
+        }
+    },
+    {
+        id: 'notes-grid',
+        target: '.notes-grid',
+        title: 'Note Repository',
+        description: 'All your course notes are beautifully organized here by semester and unit.',
+        align: 'top'
+    },
+    {
+        id: 'pdf-btn',
+        target: '.pdf-rotate-btn',
+        title: 'Sleek PDF Viewer',
+        description: 'Check out the PDF controls, including rotation for awkwardly scanned pages.',
+        align: 'bottom'
+    },
+    {
+        id: 'done',
+        target: 'body',
+        title: 'Tour Complete',
+        description: 'You\'re all set to conquer your curriculum. Enjoy exploring Athena!',
+        align: 'center',
+        action: (navigate) => {
+            safeSetStorage('athena_tour_completed', 'true');
+            safeRemoveStorage('athena_tour_in_progress');
+            navigate('/notes', { replace: true });
+        }
     }
-};
+];
 
 export default function OnboardingTour() {
     const { profile } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [hasSeenTour, setHasSeenTour] = useState(() => safeGetStorage('athena_tour_completed'));
-    const [tourStarted, setTourStarted] = useState(false);
+    
+    const [hasSeenTour] = useState(() => safeGetStorage('athena_tour_completed'));
+    const [currentStepIndex, setCurrentStepIndex] = useState(-1);
+    const [targetRect, setTargetRect] = useState(null);
 
+    // Initial trigger
     useEffect(() => {
-        // Run Part 1 of the tour on the Hub page
-        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour && location.pathname === '/hub' && !safeGetStorage('athena_tour_in_progress') && !tourStarted) {
-            
-            waitForElement('.nav-hub-link', () => {
-                try {
-                    setTourStarted(true);
-                    const driverObj = driver({
-                        showProgress: true,
-                        animate: true,
-                        smoothScroll: true,
-                        allowClose: false,
-                        steps: [
-                            {
-                                element: 'body',
-                                popover: {
-                                    title: 'Welcome to <span class="font-serif italic">Athena.</span>',
-                                    description: 'Let us take you on a quick tour of your new academic workspace.',
-                                    side: 'center',
-                                    align: 'center'
-                                }
-                            },
-                            {
-                                element: '.nav-hub-link',
-                                popover: {
-                                    title: 'The Hub',
-                                    description: 'Your dashboard for upcoming exams, events, and quick actions.',
-                                    side: 'bottom',
-                                }
-                            },
-                            {
-                                element: '.nav-calendar-link',
-                                popover: {
-                                    title: 'Academic Calendar',
-                                    description: 'Track MSTs, ESTs, and holidays seamlessly.',
-                                    side: 'bottom',
-                                }
-                            },
-                            {
-                                element: '.nav-sgpa-btn',
-                                popover: {
-                                    title: 'SGPA Calculator',
-                                    description: 'Predict your SGPA instantly using this handy tool.',
-                                    side: 'bottom',
-                                }
-                            },
-                            {
-                                element: '.nav-notes-link',
-                                popover: {
-                                    title: 'Notes Repository',
-                                    description: 'Access the vault of academic notes. Let\'s head there now to see the PDF Viewer!',
-                                    side: 'bottom',
-                                    onNextClick: () => {
-                                        safeSetStorage('athena_tour_in_progress', 'true');
-                                        driverObj.destroy();
-                                        navigate('/notes?tour=true');
-                                    }
-                                }
-                            }
-                        ],
-                        onDestroyStarted: () => {
-                            if (driverObj.hasNextStep() || driverObj.isLastStep()) {
-                                driverObj.destroy();
-                            }
-                        }
-                    });
-                    
-                    driverObj.drive();
-                } catch (e) {
-                    console.error("Tour error:", e);
-                }
-            });
+        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour) {
+            if (location.pathname === '/hub' && !safeGetStorage('athena_tour_in_progress') && currentStepIndex === -1) {
+                setCurrentStepIndex(0);
+            }
+            if (location.pathname === '/notes' && location.search.includes('tour=true') && currentStepIndex === -1) {
+                setCurrentStepIndex(5);
+            }
         }
-    }, [profile, hasSeenTour, location.pathname, navigate, tourStarted]);
+    }, [profile, hasSeenTour, location.pathname, currentStepIndex]);
 
-    // Handle Part 2 of the tour on Notes page
+    // Position tracking
     useEffect(() => {
-        if (location.pathname === '/notes' && location.search.includes('tour=true') && !hasSeenTour && !tourStarted) {
-            
-            const runNotesTour = () => {
-                waitForElement('.notes-grid', () => {
-                    waitForElement('.pdf-rotate-btn', () => {
-                        try {
-                            setTourStarted(true);
-                            const driverObj = driver({
-                                showProgress: true,
-                                animate: true,
-                                smoothScroll: true,
-                                allowClose: false,
-                                steps: [
-                                    {
-                                        element: '.notes-grid',
-                                        popover: {
-                                            title: 'Note Repository',
-                                            description: 'All your course notes are beautifully organized here by semester and unit.',
-                                            side: 'top',
-                                            align: 'start'
-                                        }
-                                    },
-                                    {
-                                        element: '.pdf-rotate-btn',
-                                        popover: {
-                                            title: 'Sleek PDF Viewer',
-                                            description: 'We automatically opened a note for you! Check out the PDF controls, including the rotation feature for those awkwardly scanned pages.',
-                                            side: 'bottom',
-                                            align: 'center'
-                                        }
-                                    },
-                                    {
-                                        element: 'body',
-                                        popover: {
-                                            title: 'Tour Complete',
-                                            description: 'You\'re all set to conquer your curriculum. Enjoy exploring Athena!',
-                                            side: 'center',
-                                            align: 'center'
-                                        }
-                                    }
-                                ],
-                                onDestroyStarted: () => {
-                                    safeSetStorage('athena_tour_completed', 'true');
-                                    safeRemoveStorage('athena_tour_in_progress');
-                                    setHasSeenTour(true);
-                                    driverObj.destroy();
-                                    navigate('/notes', { replace: true });
-                                }
-                            });
-                            
-                            driverObj.drive();
-                        } catch (e) {
-                            console.error("Notes Tour error:", e);
-                        }
-                    });
+        if (currentStepIndex === -1) return;
+        
+        const step = steps[currentStepIndex];
+        
+        const updatePosition = () => {
+            if (step.target === 'body') {
+                setTargetRect({ top: window.innerHeight / 2, left: window.innerWidth / 2, width: 0, height: 0, isBody: true });
+                return;
+            }
+
+            const el = document.querySelector(step.target);
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                setTargetRect({
+                    top: rect.top,
+                    left: rect.left,
+                    width: rect.width,
+                    height: rect.height,
+                    isBody: false
                 });
-            };
+            } else {
+                // Element not found yet, try again in a bit
+                setTimeout(updatePosition, 500);
+            }
+        };
 
-            runNotesTour();
+        updatePosition();
+        window.addEventListener('resize', updatePosition);
+        window.addEventListener('scroll', updatePosition);
+        return () => {
+            window.removeEventListener('resize', updatePosition);
+            window.removeEventListener('scroll', updatePosition);
+        };
+    }, [currentStepIndex, location.pathname]);
+
+    if (currentStepIndex === -1 || !targetRect) return null;
+
+    const step = steps[currentStepIndex];
+    
+    const handleNext = () => {
+        if (step.action) {
+            step.action(navigate);
+            if (step.id === 'done') {
+                setCurrentStepIndex(-1);
+            } else if (step.id === 'notes-link') {
+                // Router navigation will trigger the second useEffect, wait for it
+                setTargetRect(null);
+            }
+        } else {
+            setCurrentStepIndex(prev => prev + 1);
         }
-    }, [location, hasSeenTour, navigate, tourStarted]);
+    };
 
-    return null;
+    const handleSkip = () => {
+        safeSetStorage('athena_tour_completed', 'true');
+        safeRemoveStorage('athena_tour_in_progress');
+        setCurrentStepIndex(-1);
+        if (location.search.includes('tour=true')) {
+            navigate('/notes', { replace: true });
+        }
+    };
+
+    // Calculate Popover Position
+    let popoverStyle = {};
+    if (step.align === 'center') {
+        popoverStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
+    } else if (step.align === 'bottom') {
+        popoverStyle = { top: targetRect.top + targetRect.height + 20, left: targetRect.left + (targetRect.width / 2), transform: 'translateX(-50%)' };
+    } else if (step.align === 'top') {
+        popoverStyle = { top: targetRect.top - 20, left: targetRect.left + (targetRect.width / 2), transform: 'translate(-50%, -100%)' };
+    }
+    
+    // Bounds check
+    if (popoverStyle.left && typeof popoverStyle.left === 'number') {
+        popoverStyle.left = Math.max(160, Math.min(window.innerWidth - 160, popoverStyle.left));
+    }
+
+    return (
+        <div className="fixed inset-0 z-[9999] pointer-events-none">
+            {/* Full Screen Overlay for Body Steps */}
+            {targetRect.isBody && (
+                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-auto transition-opacity duration-500" />
+            )}
+
+            {/* Spotlight and Ring for Target Steps */}
+            {!targetRect.isBody && (
+                <div className="absolute border-2 border-white/40 rounded-xl pointer-events-auto transition-all duration-500 shadow-[0_0_0_9999px_rgba(0,0,0,0.7),0_0_20px_rgba(255,255,255,0.3)] z-0"
+                     style={{
+                         top: targetRect.top - 8,
+                         left: targetRect.left - 8,
+                         width: targetRect.width + 16,
+                         height: targetRect.height + 16
+                     }}
+                />
+            )}
+
+            {/* Popover */}
+            <div className="absolute w-[320px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-neutral-800 rounded-2xl shadow-2xl p-5 pointer-events-auto transition-all duration-500 animate-in fade-in zoom-in-95"
+                 style={popoverStyle}
+            >
+                <div className="flex justify-between items-start mb-3">
+                    <h3 className="font-serif italic text-xl text-white font-bold">{step.title}</h3>
+                    <button onClick={handleSkip} className="text-neutral-500 hover:text-white transition-colors p-1 bg-neutral-900 rounded-full">
+                        <X size={14} />
+                    </button>
+                </div>
+                <p className="text-sm text-neutral-400 mb-6 leading-relaxed">
+                    {step.description}
+                </p>
+                <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-neutral-600 tracking-widest uppercase">
+                        {currentStepIndex + 1} / {steps.length}
+                    </span>
+                    <button 
+                        onClick={handleNext}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-white text-black text-sm font-bold rounded-lg hover:bg-neutral-200 transition-colors shadow-sm"
+                    >
+                        {step.id === 'done' ? (
+                            <>Done <Check size={16} /></>
+                        ) : (
+                            <>Next <ChevronRight size={16} /></>
+                        )}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
