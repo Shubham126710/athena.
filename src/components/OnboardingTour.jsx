@@ -4,6 +4,27 @@ import 'driver.js/dist/driver.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+// Safe localStorage access
+const safeGetItem = (key) => {
+    try {
+        return localStorage.getItem(key);
+    } catch (e) {
+        return null;
+    }
+};
+
+const safeSetItem = (key, value) => {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {}
+};
+
+const safeRemoveItem = (key) => {
+    try {
+        localStorage.removeItem(key);
+    } catch (e) {}
+};
+
 const waitForElement = (selector, callback) => {
     const el = document.querySelector(selector);
     if (el && el.offsetHeight > 0) {
@@ -17,12 +38,12 @@ export default function OnboardingTour() {
     const { profile } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [hasSeenTour, setHasSeenTour] = useState(localStorage.getItem('athena_tour_completed'));
+    const [hasSeenTour, setHasSeenTour] = useState(() => safeGetItem('athena_tour_completed'));
     const [tourStarted, setTourStarted] = useState(false);
 
     useEffect(() => {
         // Run Part 1 of the tour on the Hub page
-        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour && location.pathname === '/hub' && !localStorage.getItem('athena_tour_in_progress') && !tourStarted) {
+        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour && location.pathname === '/hub' && !safeGetItem('athena_tour_in_progress') && !tourStarted) {
             
             waitForElement('.nav-hub-link', () => {
                 try {
@@ -73,7 +94,7 @@ export default function OnboardingTour() {
                                     description: 'Access the vault of academic notes. Let\'s head there now to see the PDF Viewer!',
                                     side: 'bottom',
                                     onNextClick: () => {
-                                        localStorage.setItem('athena_tour_in_progress', 'true');
+                                        safeSetItem('athena_tour_in_progress', 'true');
                                         driverObj.destroy();
                                         navigate('/notes?tour=true');
                                     }
@@ -139,8 +160,8 @@ export default function OnboardingTour() {
                                     }
                                 ],
                                 onDestroyStarted: () => {
-                                    localStorage.setItem('athena_tour_completed', 'true');
-                                    localStorage.removeItem('athena_tour_in_progress');
+                                    safeSetItem('athena_tour_completed', 'true');
+                                    safeRemoveItem('athena_tour_in_progress');
                                     setHasSeenTour(true);
                                     driverObj.destroy();
                                     navigate('/notes', { replace: true });
