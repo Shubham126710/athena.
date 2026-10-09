@@ -38,13 +38,7 @@ export default function Login() {
     try {
       if (!firstName || !uid) throw new Error("Please fill in all fields.");
       
-      const userData = {
-        first_name: firstName,
-        uid: uid,
-        role: 'student',
-        avatar_seed: avatarSeed
-      };
-      await signInGuest(userData);
+      await signInGuest(firstName, uid, avatarSeed);
       nav('/hub');
     } catch (err) {
       setError('Failed to sign in as guest: ' + err.message);
