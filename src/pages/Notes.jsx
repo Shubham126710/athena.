@@ -27,6 +27,18 @@ export default function NotesPage() {
 
   const [selectedNote, setSelectedNote] = React.useState(null);
   const [showUploadModal, setShowUploadModal] = React.useState(false);
+
+  const location = useLocation();
+  const tourAutoOpened = React.useRef(false);
+  React.useEffect(() => {
+    if (location.search.includes('tour=true') && notes.length > 0 && !selectedNote && !tourAutoOpened.current) {
+        tourAutoOpened.current = true;
+        setTimeout(() => {
+            setSelectedNote(notes[0]);
+        }, 1500);
+    }
+  }, [location.search, notes, selectedNote]);
+
   
   // Accordion State
   const [expandedSubjects, setExpandedSubjects] = React.useState(['CV', 'NLP', 'RM', 'PHC']);
@@ -278,7 +290,7 @@ export default function NotesPage() {
         {loading ? (
             <div className="text-center py-20 text-neutral-400">Loading notes...</div>
         ) : (
-            <div className="space-y-5">
+            <div className="space-y-5 notes-grid">
                 {subjects.map(subject => (
                     <div key={subject} className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:border-neutral-700">
                         <button 

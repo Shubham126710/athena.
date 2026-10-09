@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './global.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import OnboardingTour from "./components/OnboardingTour.jsx";
 import LoadingScreen from './components/LoadingScreen.jsx';
 
 // Lazy loaded routes
@@ -17,6 +18,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound.jsx'));
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
+      <OnboardingTour />
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<Landing />} />

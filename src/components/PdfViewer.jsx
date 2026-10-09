@@ -60,7 +60,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
         <div className="flex items-center gap-2">
             <button
                 onClick={() => setRotation(prev => (prev + 90) % 360)}
-                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm"
+                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm pdf-rotate-btn"
                 title="Rotate PDF"
             >
                 <RotateCw size={16} />

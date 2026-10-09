@@ -178,19 +178,19 @@ export default function HubNavbar() {
             
             {/* Dashboard Navigation */}
             <div className="hidden md:flex items-center gap-2 bg-neutral-900/50 backdrop-blur-sm p-1.5 rounded-lg border border-neutral-800/80">
-                <button onClick={() => nav('/hub')} className={isActive('/hub') ? activeClass : inactiveClass}>
+                <button onClick={() => nav('/hub')} className={`${isActive('/hub') ? activeClass : inactiveClass} nav-hub-link`}>
                     <RandomLetterSwap label="Hub" />{renderActiveDot('/hub')}
                 </button>
-                <button onClick={() => nav('/calendar')} className={isActive('/calendar') ? activeClass : inactiveClass}>
+                <button onClick={() => nav('/calendar')} className={`${isActive('/calendar') ? activeClass : inactiveClass} nav-calendar-link`}>
                     <RandomLetterSwap label="Calendar" />{renderActiveDot('/calendar')}
                 </button>
-                <button onClick={() => nav('/syllabus')} className={isActive('/syllabus') ? activeClass : inactiveClass}>
+                <button onClick={() => nav('/syllabus')} className={`${isActive('/syllabus') ? activeClass : inactiveClass} nav-syllabus-link`}>
                     <RandomLetterSwap label="Syllabus" />{renderActiveDot('/syllabus')}
                 </button>
-                <button onClick={() => nav('/notes')} className={isActive('/notes') ? activeClass : inactiveClass}>
+                <button onClick={() => nav('/notes')} className={`${isActive('/notes') ? activeClass : inactiveClass} nav-notes-link`}>
                     <RandomLetterSwap label="Notes" />{renderActiveDot('/notes')}
                 </button>
-                <button onClick={() => setIsCalculatorOpen(true)} className={inactiveClass}>
+                <button onClick={() => setIsCalculatorOpen(true)} className={`${inactiveClass} nav-sgpa-btn`}>
                     <RandomLetterSwap label="SGPA" />
                 </button>
             </div>
