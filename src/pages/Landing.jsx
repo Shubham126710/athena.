@@ -56,27 +56,30 @@ export default function Landing() {
   const [activeSection, setActiveSection] = React.useState('hero');
   const nav = useNavigate();
 
+  const containerRef = React.useRef();
+  
   useGSAP(() => {
-      // Prevent flashing by setting initial states
       gsap.set('.nav-anim', { y: -20, opacity: 0 });
       gsap.set('.hero-anim', { y: 30, opacity: 0 });
       
-      const tl = gsap.timeline();
-      
-      tl.to('.nav-anim', {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out"
-      })
-      .to('.hero-anim', {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out"
-      }, "-=0.4");
-  }, []);
+      if (!showLoader) {
+          const tl = gsap.timeline();
+          
+          tl.to('.nav-anim', {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              ease: "power3.out"
+          })
+          .to('.hero-anim', {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              stagger: 0.2,
+              ease: "power3.out"
+          }, "-=0.4");
+      }
+  }, { scope: containerRef, dependencies: [showLoader] });
 
   // Typewriter State
   const [text, setText] = React.useState('');
@@ -171,7 +174,7 @@ export default function Landing() {
   }
 
   return (
-    <div className="min-h-screen font-sans bg-black text-white selection:bg-white selection:text-black relative">
+    <div ref={containerRef} className="min-h-screen font-sans bg-black text-white selection:bg-white selection:text-black relative">
       {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
       
       {/* Navigation */}
