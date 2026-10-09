@@ -18,28 +18,16 @@ const MarqueeStrip = memo(() => {
     const contentRef = useRef(null);
     
     useGSAP(() => {
-        // Continuous scrolling loop
+        // Continuous scrolling loop, no ScrollTrigger to avoid blanking bugs
         gsap.to(containerRef.current, {
-            xPercent: -50, // Move left by 50% (exactly one full set width)
+            xPercent: -50,
             ease: "none",
-            duration: 20, // 20 seconds per cycle
+            duration: 20,
             repeat: -1
         });
         
-        // Premium scroll-triggered fade in
-        gsap.fromTo('.marquee-item', 
-            { y: 20, opacity: 0 },
-            { 
-                y: 0, opacity: 1, 
-                duration: 0.8, 
-                stagger: 0.05, 
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 95%"
-                }
-            }
-        );
+        // Remove scrolltrigger fade, just ensure they are visible
+        gsap.set('.marquee-item', { opacity: 1, y: 0 });
     }, { scope: containerRef });
 
     return (
