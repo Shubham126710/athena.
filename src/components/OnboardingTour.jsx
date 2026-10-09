@@ -93,7 +93,7 @@ export default function OnboardingTour() {
     // Initial trigger
     useEffect(() => {
         const forceStart = location.search.includes('tour=start');
-        const canShowTour = (profile?.role === 'guest' || profile?.role === 'student');
+        const canShowTour = (profile?.role === 'guest' || profile?.role === 'student' || forceStart);
         
         if (canShowTour && (!hasSeenTour || forceStart)) {
             if (location.pathname === '/hub' && currentStepIndex === -1 && (!safeGetStorage('athena_tour_in_progress') || forceStart)) {

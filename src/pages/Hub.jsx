@@ -29,6 +29,23 @@ export default function HubPage() {
     }
   }, [user, loading, nav]);
 
+
+  const containerRef = useRef();
+  
+  useGSAP(() => {
+      gsap.set('.dashboard-card, .dashboard-greeting', { opacity: 0 });
+      
+      gsap.fromTo('.dashboard-card', 
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', delay: 0.2, clearProps: 'all' }
+      );
+      
+      gsap.fromTo('.dashboard-greeting', 
+          { x: -30, opacity: 0 },
+          { x: 0, opacity: 1, duration: 1, ease: 'power3.out', clearProps: 'all' }
+      );
+  }, { scope: containerRef });
+
   const [greeting, setGreeting] = useState('Welcome back');
 
   useEffect(() => {
@@ -167,7 +184,7 @@ export default function HubPage() {
       {/* Navigation */}
       <HubNavbar />
 
-      <main className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+      <main ref={containerRef} className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
         {announcement && (
           <div className="mb-6 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 p-5 rounded-2xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
             <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-xl shrink-0 mt-0.5">
@@ -187,7 +204,7 @@ export default function HubPage() {
         )}
 
         <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
+            <h1 className="dashboard-greeting text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
                 {greeting}, <br className="hidden" />
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300">{profile?.first_name || 'Student'}.</span>
             </h1>
