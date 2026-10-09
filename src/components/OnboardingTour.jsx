@@ -152,7 +152,6 @@ export default function OnboardingTour() {
 
     const handleNext = React.useCallback(() => {
         if (!step) return;
-        setTargetRect(null);
         if (step.action) {
             step.action(navigate, setCurrentStepIndex);
         } else {
@@ -212,23 +211,76 @@ export default function OnboardingTour() {
 
 
 
-    // Calculate Popover Position
-    let popoverStyle = {};
-    if (step.align === 'center') {
-        popoverStyle = { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' };
-    } else if (step.align === 'bottom') {
-        popoverStyle = { top: targetRect.top + targetRect.height + 20, left: targetRect.left + (targetRect.width / 2), transform: 'translateX(-50%)' };
-    } else if (step.align === 'top') {
-        popoverStyle = { top: targetRect.top - 20, left: targetRect.left + (targetRect.width / 2), transform: 'translate(-50%, -100%)' };
-    }
-    
-    // Bounds check
-    if (popoverStyle.left && typeof popoverStyle.left === 'number') {
-        popoverStyle.left = Math.max(160, Math.min(window.innerWidth - 160, popoverStyle.left));
-    }
-    if (popoverStyle.top && typeof popoverStyle.top === 'number' && step.align !== 'center') {
-        popoverStyle.top = Math.max(20, Math.min(window.innerHeight - 200, popoverStyle.top));
-    }
+
+    const spotlightRef = useRef();
+    const popoverRef = useRef();
+
+    useGSAP(() => {
+        if (!targetRect || !step) return;
+
+        // Animate Spotlight
+        if (spotlightRef.current && !targetRect.isBody) {
+            const tTop = targetRect.top - 8;
+            const tLeft = targetRect.left - 8;
+            const tWidth = targetRect.width + 16;
+            const tHeight = targetRect.height + 16;
+            
+            if (!spotlightRef.current.dataset.initialized) {
+                gsap.set(spotlightRef.current, { top: tTop, left: tLeft, width: tWidth, height: tHeight, opacity: 0 });
+                gsap.to(spotlightRef.current, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                spotlightRef.current.dataset.initialized = 'true';
+            } else {
+                gsap.to(spotlightRef.current, {
+                    top: tTop,
+                    left: tLeft,
+                    width: tWidth,
+                    height: tHeight,
+                    duration: 0.8,
+                    ease: "expo.out",
+                    overwrite: "auto"
+                });
+            }
+        }
+
+        // Animate Popover
+        if (popoverRef.current) {
+            let pTop, pLeft, xPercent, yPercent;
+            if (step.align === 'center') {
+                pTop = '50%'; pLeft = '50%'; xPercent = -50; yPercent = -50;
+            } else if (step.align === 'bottom') {
+                pTop = targetRect.top + targetRect.height + 20; 
+                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
+                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
+                xPercent = -50; yPercent = 0;
+            } else if (step.align === 'top') {
+                pTop = targetRect.top - 20;
+                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
+                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
+                xPercent = -50; yPercent = -100;
+            }
+
+            // If it's the very first render of the popover, just set it, else animate
+            if (currentStepIndex === 0 && !popoverRef.current.dataset.initialized) {
+                gsap.set(popoverRef.current, { top: pTop, left: pLeft, xPercent, yPercent, opacity: 0, scale: 0.9 });
+                gsap.to(popoverRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)", delay: 0.2 });
+                popoverRef.current.dataset.initialized = 'true';
+            } else {
+                gsap.to(popoverRef.current, {
+                    top: pTop,
+                    left: pLeft,
+                    xPercent,
+                    yPercent,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "expo.out",
+                    overwrite: "auto"
+                });
+            }
+        }
+    }, [targetRect, currentStepIndex]);
+
+
 
     return (
         <div className="fixed inset-0 z-[9999] pointer-events-none">
@@ -239,20 +291,11 @@ export default function OnboardingTour() {
 
             {/* Spotlight and Ring for Target Steps */}
             {!targetRect.isBody && (
-                <div className="absolute border-2 border-white/40 rounded-xl pointer-events-auto transition-all duration-500 shadow-[0_0_0_9999px_rgba(0,0,0,0.7),0_0_20px_rgba(255,255,255,0.3)] z-0"
-                     style={{
-                         top: targetRect.top - 8,
-                         left: targetRect.left - 8,
-                         width: targetRect.width + 16,
-                         height: targetRect.height + 16
-                     }}
-                />
+                <div ref={spotlightRef} className="absolute border-2 border-white/40 rounded-xl pointer-events-auto shadow-[0_0_0_9999px_rgba(0,0,0,0.7),0_0_20px_rgba(255,255,255,0.3)] z-0" style={{top: -9999, left: -9999}} />
             )}
 
             {/* Popover */}
-            <div className="absolute w-[320px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-neutral-800 rounded-2xl shadow-2xl p-5 pointer-events-auto transition-all duration-500 animate-in fade-in zoom-in-95"
-                 style={popoverStyle}
-            >
+            <div ref={popoverRef} className="absolute w-[320px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-neutral-800 rounded-2xl shadow-2xl p-5 pointer-events-auto" style={{top: -9999, left: -9999}}>
                 <div className="flex justify-between items-start mb-3">
                     <h3 className="font-serif italic text-xl text-white font-bold">{step.title}</h3>
                     <button onClick={handleSkip} className="text-neutral-500 hover:text-white transition-colors p-1 bg-neutral-900 rounded-full">
