@@ -88,7 +88,7 @@ const DitherMaterial = shaderMaterial(
 
 extend({ DitherMaterial });
 
-function AthenaBust({ color, bgColor, playAnimation }) {
+function AthenaBust({ color, bgColor }) {
   // Load the generated Athena bust image
   const texture = useTexture('/athena_bust.png');
   const materialRef = useRef();
@@ -97,14 +97,14 @@ function AthenaBust({ color, bgColor, playAnimation }) {
 
 
   useEffect(() => {
-    if (materialRef.current && playAnimation) {
+    if (materialRef.current) {
         materialRef.current.uReveal = -0.2;
         const proxy = { val: -0.2 };
         gsap.to(proxy, {
             val: 1.2,
             duration: 2.5,
             ease: "power2.inOut",
-            delay: 0.2,
+            delay: 2.2, // 2s loading screen + 0.2s stagger
             onUpdate: () => {
                 if (materialRef.current) {
                     materialRef.current.uReveal = proxy.val;
@@ -112,7 +112,7 @@ function AthenaBust({ color, bgColor, playAnimation }) {
             }
         });
     }
-  }, [playAnimation]);
+  }, []);
 
   useFrame((state) => {
     if (materialRef.current) {
@@ -141,7 +141,7 @@ function AthenaBust({ color, bgColor, playAnimation }) {
   );
 }
 
-export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000', playAnimation = true, className = "absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0" }) {
+export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000', className = "absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0" }) {
   return (
     <div className={`pointer-events-none overflow-visible flex items-end ${className}`}>
       <Canvas 
@@ -153,7 +153,7 @@ export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#0000
         eventPrefix="client"
       >
         <Suspense fallback={null}>
-          <AthenaBust color={color} bgColor={backgroundColor} playAnimation={playAnimation} />
+          <AthenaBust color={color} bgColor={backgroundColor} />
         </Suspense>
       </Canvas>
     </div>
