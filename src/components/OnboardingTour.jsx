@@ -22,7 +22,7 @@ export default function OnboardingTour() {
 
     useEffect(() => {
         // Run Part 1 of the tour on the Hub page
-        if (profile?.role === 'student' && !hasSeenTour && location.pathname === '/hub' && !localStorage.getItem('athena_tour_in_progress') && !tourStarted) {
+        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour && location.pathname === '/hub' && !localStorage.getItem('athena_tour_in_progress') && !tourStarted) {
             
             waitForElement('.nav-hub-link', () => {
                 try {
