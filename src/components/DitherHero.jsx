@@ -64,7 +64,9 @@ const DitherMaterial = shaderMaterial(
       luminance = smoothstep(0.05, 0.8, luminance);
       
       // Reveal animation wipe from bottom to top with some noise
-      float wipe = smoothstep(uReveal - 0.2, uReveal + 0.2, vUv.y + (bayer4x4(gl_FragCoord.xy / 2.0) * 0.1));
+      // Digital matrix-style wipe with noise
+      float noise = fract(sin(dot(vUv, vec2(12.9898, 78.233))) * 43758.5453);
+      float wipe = smoothstep(uReveal - 0.3, uReveal + 0.3, vUv.y + (noise * 0.2));
       luminance *= (1.0 - wipe);
       
       // Ensure transparent areas in the texture do not produce dots
@@ -96,13 +98,18 @@ function AthenaBust({ color, bgColor }) {
 
   useEffect(() => {
     if (materialRef.current) {
-        // Start fully hidden (uReveal = 1.2 to cover the +0.2 smoothstep)
         materialRef.current.uReveal = -0.2;
-        gsap.to(materialRef.current, {
-            uReveal: 1.2,
+        const proxy = { val: -0.2 };
+        gsap.to(proxy, {
+            val: 1.2,
             duration: 2.5,
             ease: "power2.inOut",
-            delay: 0.2
+            delay: 0.2,
+            onUpdate: () => {
+                if (materialRef.current) {
+                    materialRef.current.uReveal = proxy.val;
+                }
+            }
         });
     }
   }, []);

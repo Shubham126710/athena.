@@ -1,5 +1,7 @@
 import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Bell, HelpCircle, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -22,6 +24,32 @@ export default function HubNavbar() {
   const [newNotification, setNewNotification] = useState({ title: '', message: '', type: 'info' });
   const [isPosting, setIsPosting] = useState(false);
   const profileMenuRef = useRef(null);
+
+  const notificationsRef = useRef();
+  const profileMenuDropdownRef = useRef();
+  
+  useGSAP(() => {
+     if (showNotifications && notificationsRef.current) {
+         gsap.fromTo(notificationsRef.current, { y: -10, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)", clearProps: "all" });
+     }
+  }, [showNotifications]);
+
+  useGSAP(() => {
+     if (showProfileMenu && profileMenuDropdownRef.current) {
+         gsap.fromTo(profileMenuDropdownRef.current, { y: -10, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)", clearProps: "all" });
+     }
+  }, [showProfileMenu]);
+
+  // Notifications cascading animation
+  useGSAP(() => {
+      if (showNotifications) {
+          gsap.fromTo('.notif-item', 
+              { x: 20, opacity: 0 }, 
+              { x: 0, opacity: 1, stagger: 0.05, duration: 0.4, ease: "power2.out", delay: 0.1 }
+          );
+      }
+  }, [showNotifications, notifications]);
+
 
   useEffect(() => {
     fetchNotifications();
@@ -221,7 +249,7 @@ export default function HubNavbar() {
             </button>
 
             {showNotifications && (
-                <div className="fixed inset-x-4 top-20 md:absolute md:inset-auto md:right-0 md:top-full md:mt-2 md:w-80 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 origin-top-right">
+                <div ref={notificationsRef} className="fixed inset-x-4 top-20 md:absolute md:inset-auto md:right-0 md:top-full md:mt-2 md:w-80 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl z-50 overflow-hidden origin-top-right opacity-0">
                     <div className="p-4 border-b border-neutral-800 flex justify-between items-center bg-neutral-950/50">
                         <h3 className="font-serif italic text-white text-lg">Notifications</h3>
                         <div className="flex items-center gap-2">
@@ -286,7 +314,7 @@ export default function HubNavbar() {
                             </div>
                         ) : (
                             notifications.map(notif => (
-                                <div key={notif.id} className="p-4 border-b border-neutral-800 hover:bg-neutral-800/50 transition-colors cursor-pointer last:border-0">
+                                <div key={notif.id} className="notif-item p-4 border-b border-neutral-800 hover:bg-neutral-800/50 transition-colors cursor-pointer last:border-0 opacity-0">
                                     <div className="flex justify-between items-start mb-1">
                                         <h4 className={`text-sm font-bold ${notif.type === 'alert' ? 'text-red-400' : notif.type === 'warning' ? 'text-amber-400' : 'text-white'}`}>
                                             {notif.title}
@@ -334,7 +362,7 @@ export default function HubNavbar() {
 
                 {/* Profile Dropdown */}
                 {showProfileMenu && (
-                <div className="absolute right-0 top-full mt-2 w-64 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150 origin-top-right z-50 overflow-hidden">
+                <div ref={profileMenuDropdownRef} className="absolute right-0 top-full mt-2 w-64 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-neutral-800 rounded-2xl shadow-2xl origin-top-right z-50 overflow-hidden opacity-0">
                     <div className="p-4 border-b border-neutral-800 bg-neutral-950/50">
                         <p className="text-lg font-serif italic text-white">{profile?.first_name || 'Student'} {profile?.last_name}</p>
                         {user?.email && <p className="text-[10px] text-neutral-400 mt-1 break-all uppercase tracking-wider">{user.email}</p>}
