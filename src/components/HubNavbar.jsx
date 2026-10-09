@@ -203,7 +203,7 @@ export default function HubNavbar() {
                 onClick={() => {
                     safeRemoveStorage('athena_tour_completed');
                     safeRemoveStorage('athena_tour_in_progress');
-                    window.location.href = '/hub';
+                    nav('/hub?tour=start');
                 }}
                 className="relative p-2 hover:bg-neutral-900 rounded-full transition-colors text-neutral-400 hover:text-white"
                 title="Replay Tour"

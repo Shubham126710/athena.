@@ -92,12 +92,15 @@ export default function OnboardingTour() {
 
     // Initial trigger
     useEffect(() => {
-        if ((profile?.role === 'guest' || profile?.role === 'student') && !hasSeenTour) {
-            if (location.pathname === '/hub' && !safeGetStorage('athena_tour_in_progress') && currentStepIndex === -1) {
+        const forceStart = location.search.includes('tour=start');
+        const canShowTour = (profile?.role === 'guest' || profile?.role === 'student');
+        
+        if (canShowTour && (!hasSeenTour || forceStart)) {
+            if (location.pathname === '/hub' && currentStepIndex === -1 && (!safeGetStorage('athena_tour_in_progress') || forceStart)) {
                 setCurrentStepIndex(0);
             }
             if (location.pathname === '/notes' && location.search.includes('tour=true') && currentStepIndex === -1) {
-                setCurrentStepIndex(5); // Start at notes grid if they somehow landed here fresh
+                setCurrentStepIndex(5);
             }
         }
     }, [profile, hasSeenTour, location.pathname, currentStepIndex, location.search]);
@@ -175,8 +178,8 @@ export default function OnboardingTour() {
         safeSetStorage('athena_tour_completed', 'true');
         safeRemoveStorage('athena_tour_in_progress');
         setCurrentStepIndex(-1);
-        if (location.search.includes('tour=true')) {
-            navigate('/notes', { replace: true });
+        if (location.search.includes('tour=true') || location.search.includes('tour=start')) {
+            navigate(location.pathname, { replace: true });
         }
     };
 
