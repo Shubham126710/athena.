@@ -88,7 +88,7 @@ const DitherMaterial = shaderMaterial(
 
 extend({ DitherMaterial });
 
-function AthenaBust({ color, bgColor }) {
+function AthenaBust({ color, bgColor, playAnimation }) {
   // Load the generated Athena bust image
   const texture = useTexture('/athena_bust.png');
   const materialRef = useRef();
@@ -97,7 +97,7 @@ function AthenaBust({ color, bgColor }) {
 
 
   useEffect(() => {
-    if (materialRef.current) {
+    if (materialRef.current && playAnimation) {
         materialRef.current.uReveal = -0.2;
         const proxy = { val: -0.2 };
         gsap.to(proxy, {
@@ -112,7 +112,7 @@ function AthenaBust({ color, bgColor }) {
             }
         });
     }
-  }, []);
+  }, [playAnimation]);
 
   useFrame((state) => {
     if (materialRef.current) {
@@ -141,7 +141,7 @@ function AthenaBust({ color, bgColor }) {
   );
 }
 
-export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000', className = "absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0" }) {
+export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#000000', playAnimation = true, className = "absolute bottom-0 right-[-10%] w-[70%] h-[90%] md:w-[55%] md:h-[100%] md:right-[-5%] z-0" }) {
   return (
     <div className={`pointer-events-none overflow-visible flex items-end ${className}`}>
       <Canvas 
@@ -153,7 +153,7 @@ export default function DitherHero({ color = '#f4f3ee', backgroundColor = '#0000
         eventPrefix="client"
       >
         <Suspense fallback={null}>
-          <AthenaBust color={color} bgColor={backgroundColor} />
+          <AthenaBust color={color} bgColor={backgroundColor} playAnimation={playAnimation} />
         </Suspense>
       </Canvas>
     </div>

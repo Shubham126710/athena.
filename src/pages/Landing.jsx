@@ -58,28 +58,37 @@ export default function Landing() {
 
   const containerRef = React.useRef();
   
+  const tl = React.useRef(null);
+  
   useGSAP(() => {
+      // Prevent flashing
       gsap.set('.nav-anim', { y: -20, opacity: 0 });
       gsap.set('.hero-anim', { y: 30, opacity: 0 });
       
-      if (!showLoader) {
-          const tl = gsap.timeline();
-          
-          tl.to('.nav-anim', {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power3.out"
-          })
-          .to('.hero-anim', {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              stagger: 0.2,
-              ease: "power3.out"
-          }, "-=0.4");
+      tl.current = gsap.timeline({ paused: true });
+      
+      tl.current.to('.nav-anim', {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          clearProps: "all"
+      })
+      .to('.hero-anim', {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          clearProps: "all"
+      }, "-=0.4");
+  }, { scope: containerRef });
+
+  React.useEffect(() => {
+      if (!showLoader && tl.current) {
+          tl.current.play();
       }
-  }, { scope: containerRef, dependencies: [showLoader] });
+  }, [showLoader]);
 
   // Typewriter State
   const [text, setText] = React.useState('');
@@ -262,7 +271,7 @@ export default function Landing() {
           </div>
 
           {/* Athena Dither Statue - Desktop */}
-          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim" />
+          <DitherHero playAnimation={!showLoader} className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim" />
           
           {/* Text content wrapped in container */}
           <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24 md:pb-24">
