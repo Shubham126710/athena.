@@ -1,5 +1,7 @@
 import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, BookOpen, X, Bell } from 'lucide-react';
 import HubNavbar from '../components/HubNavbar.jsx';
@@ -194,7 +196,7 @@ export default function HubPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {/* Upcoming Exam Card */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-700 transition-colors duration-300 col-span-1 md:col-span-2">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-700 transition-colors duration-300 col-span-1 md:col-span-2">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <Calendar size={100} strokeWidth={0.5} />
                 </div>
@@ -213,13 +215,13 @@ export default function HubPage() {
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-colors duration-300">
                 <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm group-hover:text-white transition-colors duration-300">"{quote.text}"</p>
                 <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
             
             {/* Course Credits Widget */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-colors duration-300">
                  <div className="mb-4">
                     <h3 className="font-serif italic text-2xl text-neutral-400">Course Credits</h3>
                 </div>
@@ -237,7 +239,7 @@ export default function HubPage() {
             </div>
 
             {/* Quick Actions / Important Links */}
-            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:border-neutral-700 transition-colors duration-300">
                  <div className="mb-4">
                     <h3 className="font-serif italic text-2xl text-neutral-400">Quick Actions</h3>
                 </div>
