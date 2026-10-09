@@ -58,37 +58,24 @@ export default function Landing() {
 
   const containerRef = React.useRef();
   
-  const tl = React.useRef(null);
-  
   useGSAP(() => {
-      // Prevent flashing
-      gsap.set('.nav-anim', { y: -20, opacity: 0 });
-      gsap.set('.hero-anim', { y: 30, opacity: 0 });
-      
-      tl.current = gsap.timeline({ paused: true });
-      
-      tl.current.to('.nav-anim', {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "all"
-      })
-      .to('.hero-anim', {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-          clearProps: "all"
-      }, "-=0.4");
-  }, { scope: containerRef });
-
-  React.useEffect(() => {
-      if (!showLoader && tl.current) {
-          tl.current.play();
+      if (!showLoader) {
+          const tl = gsap.timeline();
+          
+          tl.fromTo('.nav-anim', 
+              { y: -20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+          )
+          .fromTo('.hero-anim', 
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, 
+              "-=0.4"
+          );
+      } else {
+          // Keep them hidden while loading just in case loading screen isn't perfectly opaque
+          gsap.set('.nav-anim, .hero-anim', { opacity: 0 });
       }
-  }, [showLoader]);
+  }, { scope: containerRef, dependencies: [showLoader] });
 
   // Typewriter State
   const [text, setText] = React.useState('');
