@@ -1,6 +1,6 @@
 import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Upload, FileText, X, Trash2, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
 import PdfViewer from '../components/PdfViewer.jsx';
 import { db } from '../lib/firebase';
