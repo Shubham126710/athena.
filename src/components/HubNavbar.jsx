@@ -1,7 +1,7 @@
 import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
+import { Bell, HelpCircle, LogOut, Menu, X, Plus, Send } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
@@ -198,6 +198,19 @@ export default function HubNavbar() {
         </div>
 
         <div className="flex shrink-0 items-center gap-4">
+          
+            <button 
+                onClick={() => {
+                    safeRemoveStorage('athena_tour_completed');
+                    safeRemoveStorage('athena_tour_in_progress');
+                    window.location.href = '/hub';
+                }}
+                className="relative p-2 hover:bg-neutral-900 rounded-full transition-colors text-neutral-400 hover:text-white"
+                title="Replay Tour"
+            >
+                <HelpCircle size={20} />
+            </button>
+
           <div className="relative">
             <button 
                 onClick={() => setShowNotifications(!showNotifications)}

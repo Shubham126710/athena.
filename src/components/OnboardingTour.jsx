@@ -143,18 +143,33 @@ export default function OnboardingTour() {
         };
     }, [currentStepIndex, location.pathname]);
 
-    if (currentStepIndex === -1 || !targetRect) return null;
-
-    const step = steps[currentStepIndex];
     
-    const handleNext = () => {
-        setTargetRect(null); // Clear rect to show smooth transition wait
+
+    const step = currentStepIndex !== -1 ? steps[currentStepIndex] : null;
+
+    const handleNext = React.useCallback(() => {
+        if (!step) return;
+        setTargetRect(null);
         if (step.action) {
             step.action(navigate, setCurrentStepIndex);
         } else {
             setCurrentStepIndex(prev => prev + 1);
         }
-    };
+    }, [step, navigate]);
+
+    useEffect(() => {
+        if (currentStepIndex === -1 || !targetRect) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleNext();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [currentStepIndex, targetRect, handleNext]);
+
+
 
     const handleSkip = () => {
         safeSetStorage('athena_tour_completed', 'true');
@@ -164,6 +179,35 @@ export default function OnboardingTour() {
             navigate('/notes', { replace: true });
         }
     };
+
+    const isMobile = window.innerWidth < 768;
+
+
+    if (currentStepIndex === -1 || (!targetRect && !isMobile) || !step) return null;
+
+    if (isMobile) {
+        return (
+            <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-500">
+                <div className="w-full max-w-sm bg-[#0a0a0a] border border-neutral-800 rounded-2xl p-6 shadow-2xl relative">
+                    <h3 className="font-serif italic text-2xl text-white font-bold mb-3">Welcome to Athena.</h3>
+                    <p className="text-sm text-neutral-400 mb-6 leading-relaxed">
+                        We're thrilled to have you here. Athena is fully responsive, but our interactive guided tour is optimized for Desktop screens. 
+                        <br/><br/>
+                        Feel free to explore the menus to discover your dashboard, syllabus, notes, and SGPA calculator!
+                    </p>
+                    <button 
+                        onClick={handleSkip}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-black font-bold rounded-xl hover:bg-neutral-200 transition-colors"
+                    >
+                        Start Exploring <ChevronRight size={18} />
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+
+
 
     // Calculate Popover Position
     let popoverStyle = {};
