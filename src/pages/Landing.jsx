@@ -1,5 +1,9 @@
 import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+import { useGSAP } from '@gsap/react';
 import { useNavigate } from 'react-router-dom';
 import DitherHero from '../components/DitherHero.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
@@ -149,7 +153,7 @@ export default function Landing() {
       {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5 nav-anim">
         
         {/* LEFT: Logo */}
         <div className="flex min-w-0 items-center gap-5 w-auto md:w-1/4">
@@ -233,11 +237,11 @@ export default function Landing() {
           </div>
 
           {/* Athena Dither Statue - Desktop */}
-          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0" />
+          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim" />
           
           {/* Text content wrapped in container */}
           <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24 md:pb-24">
-            <div className="max-w-xl flex flex-col items-start text-left">
+            <div className="max-w-xl flex flex-col items-start text-left hero-anim">
               <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase flex gap-4 mb-6 font-mono">
                 <span>Athena / System</span>
                 <span className="hidden sm:inline">01 — Research</span>

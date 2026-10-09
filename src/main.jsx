@@ -1,4 +1,6 @@
 import React, { Suspense } from 'react';
+import { ReactLenis } from 'lenis/react';
+import 'lenis/dist/lenis.css';
 import { createRoot } from 'react-dom/client';
 import './global.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -18,6 +20,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound.jsx'));
 
 createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
+    <ReactLenis root>
     <BrowserRouter>
       <AuthProvider>
         <OnboardingTour />
@@ -34,6 +37,7 @@ createRoot(document.getElementById('root')).render(
         </Suspense>
       </AuthProvider>
     </BrowserRouter>
+    </ReactLenis>
   </ErrorBoundary>
 );
 
