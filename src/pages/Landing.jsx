@@ -59,18 +59,23 @@ export default function Landing() {
   const containerRef = React.useRef();
   
   useGSAP(() => {
-      const tl = gsap.timeline({ delay: 1.8 }); // Start just before loading screen starts fading (at 2s)
+      // Start timeline slightly before the loading screen starts its 700ms fade out (which happens at 2.0s)
+      const tl = gsap.timeline({ delay: 1.8 });
       
-      tl.fromTo('.nav-anim', 
-          { y: -20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
-      )
-      .fromTo('.hero-anim', 
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, 
-          "-=0.4"
-      );
-  }, { scope: containerRef });
+      tl.to('.nav-anim', {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out"
+      })
+      .to('.hero-anim', {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out"
+      }, "-=0.4");
+  }, { scope: containerRef }); // Run once on mount
 
   // Typewriter State
   const [text, setText] = React.useState('');
@@ -169,7 +174,7 @@ export default function Landing() {
       {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5 nav-anim">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex items-center justify-between bg-black border-b border-white/5 nav-anim opacity-0 -translate-y-5">
         
         {/* LEFT: Logo */}
         <div className="flex min-w-0 items-center gap-5 w-auto md:w-1/4">
@@ -253,11 +258,11 @@ export default function Landing() {
           </div>
 
           {/* Athena Dither Statue - Desktop */}
-          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim" />
+          <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim opacity-0 translate-y-8" />
           
           {/* Text content wrapped in container */}
           <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24 md:pb-24">
-            <div className="max-w-xl flex flex-col items-start text-left hero-anim">
+            <div className="max-w-xl flex flex-col items-start text-left hero-anim opacity-0 translate-y-8">
               <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase flex gap-4 mb-6 font-mono">
                 <span>Athena / System</span>
                 <span className="hidden sm:inline">01 — Research</span>
