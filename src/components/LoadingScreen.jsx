@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { AccordionLoader } from './ui/accordion-loader.jsx';
 
 const QUOTES = [
@@ -15,7 +17,29 @@ const QUOTES = [
 ];
 
 export default function LoadingScreen({ onComplete }) {
-  const [quote, setQuote] = useState("");
+
+  const containerRef = useRef();
+  
+  useGSAP(() => {
+    gsap.set('.loading-logo, .loading-loader, .loading-quote', { opacity: 0 });
+    
+    gsap.fromTo('.loading-logo',
+      { y: 30, opacity: 0, scale: 0.9 },
+      { y: 0, opacity: 0.9, scale: 1, duration: 1, ease: 'power3.out' }
+    );
+    
+    gsap.fromTo('.loading-loader',
+      { opacity: 0 },
+      { opacity: 1, duration: 1.5, ease: 'power2.out', delay: 0.3 }
+    );
+    
+    gsap.fromTo('.loading-quote',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.5 }
+    );
+  }, { scope: containerRef });
+
+  const [quote, setQuote] = useState('');
   const [isExiting, setIsExiting] = useState(false);
   
   // Random quote selection
@@ -40,7 +64,7 @@ export default function LoadingScreen({ onComplete }) {
   }, [onComplete]);
 
   return (
-    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+    <div ref={containerRef} className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-neutral-950 text-white font-sans cursor-wait transition-opacity duration-700 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
       
       {/* Animated Light Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none animate-grid opacity-20" style={{
@@ -52,17 +76,17 @@ export default function LoadingScreen({ onComplete }) {
       {/* Subtle Glow Center */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-white opacity-[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-6 animate-in fade-in zoom-in-95 duration-1000">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-6">
         
-        <img src="/logo.png" alt="Athena Logo" className="w-16 h-16 opacity-90" />
+        <img src="/logo.png" alt="Athena Logo" className="loading-logo w-16 h-16 opacity-90" />
         
         {/* Accordion Loader */}
-        <div className="text-4xl text-neutral-300 drop-shadow-2xl">
+        <div className="loading-loader text-4xl text-neutral-300 drop-shadow-2xl">
           <AccordionLoader />
         </div>
         
         {/* Dynamic Subtitle / Quote */}
-        <p className="text-sm md:text-base font-light italic text-neutral-400 max-w-sm text-center line-clamp-2 px-6 drop-shadow-md mt-4">
+        <p className="loading-quote text-sm md:text-base font-light italic text-neutral-400 max-w-sm text-center line-clamp-2 px-6 drop-shadow-md mt-4">
             "{quote}"
         </p>
       </div>

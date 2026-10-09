@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { ChevronLeft, ChevronRight, Download, RotateCw } from 'lucide-react';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -8,6 +10,21 @@ import 'react-pdf/dist/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PdfViewer({ fileUrl, className='' }) {
+
+  const containerRef = useRef();
+
+  useGSAP(() => {
+      gsap.fromTo('.pdf-controls',
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
+      );
+      
+      gsap.fromTo('.pdf-document',
+          { y: 20, opacity: 0, scale: 0.98 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+      );
+  }, { scope: containerRef });
+
   const [numPages, setNumPages] = React.useState(null);
   const [pageNumber, setPageNumber] = React.useState(1);
   const [pageWidth, setPageWidth] = React.useState(600);
@@ -32,8 +49,8 @@ export default function PdfViewer({ fileUrl, className='' }) {
   }
 
   return (
-      <div className={`flex flex-col items-center w-full h-full ${className}`}>
-      <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-2 px-4 flex items-center justify-between w-full max-w-[800px] mb-4 shrink-0">
+      <div ref={containerRef} className={`flex flex-col items-center w-full h-full ${className}`}>
+      <div className="pdf-controls bg-neutral-900 border border-neutral-800 rounded-lg shadow-sm p-2 px-4 flex items-center justify-between w-full max-w-[800px] mb-4 shrink-0">
         
         <div className="flex items-center gap-4">
             <button
@@ -79,7 +96,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </div>
       </div>
 
-      <div className="relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar">
+      <div className="pdf-document relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar">
         <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}

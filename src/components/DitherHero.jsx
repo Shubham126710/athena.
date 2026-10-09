@@ -1,4 +1,5 @@
-import React, { useRef, Suspense } from 'react';
+import React, { useRef, Suspense, useEffect } from 'react';
+import gsap from 'gsap';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { shaderMaterial, useTexture } from '@react-three/drei';
@@ -11,6 +12,7 @@ const DitherMaterial = shaderMaterial(
     uBgColor: new THREE.Color('#0a0a0a'), // Black background
     uMap: null, // Texture
     uTime: 0,
+    uReveal: 0.0,
   },
   // Vertex Shader
   `
@@ -26,6 +28,7 @@ const DitherMaterial = shaderMaterial(
     uniform vec3 uColor;
     uniform vec3 uBgColor;
     uniform float uTime;
+    uniform float uReveal;
     varying vec2 vUv;
 
     float bayer4x4(vec2 uv) {
@@ -60,6 +63,10 @@ const DitherMaterial = shaderMaterial(
       // Increase contrast so edges dissolve cleanly into black
       luminance = smoothstep(0.05, 0.8, luminance);
       
+      // Reveal animation wipe from bottom to top with some noise
+      float wipe = smoothstep(uReveal - 0.2, uReveal + 0.2, vUv.y + (bayer4x4(gl_FragCoord.xy / 2.0) * 0.1));
+      luminance *= (1.0 - wipe);
+      
       // Ensure transparent areas in the texture do not produce dots
       luminance *= texColor.a;
 
@@ -85,6 +92,20 @@ function AthenaBust({ color, bgColor }) {
   const materialRef = useRef();
 
   const meshRef = useRef();
+
+
+  useEffect(() => {
+    if (materialRef.current) {
+        // Start fully hidden (uReveal = 1.2 to cover the +0.2 smoothstep)
+        materialRef.current.uReveal = -0.2;
+        gsap.to(materialRef.current, {
+            uReveal: 1.2,
+            duration: 2.5,
+            ease: "power2.inOut",
+            delay: 0.2
+        });
+    }
+  }, []);
 
   useFrame((state) => {
     if (materialRef.current) {
