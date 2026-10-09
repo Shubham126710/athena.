@@ -70,7 +70,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
                 href={fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm"
+                className="p-1.5 hover:bg-neutral-800 text-white rounded transition-colors flex items-center gap-2 text-sm pdf-download-btn"
                 title="Download PDF"
             >
                 <Download size={16} />

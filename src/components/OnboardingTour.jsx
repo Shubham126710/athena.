@@ -39,9 +39,10 @@ const steps = [
         title: 'Notes Repository',
         description: 'Access the vault of academic notes. Let\'s head there now!',
         align: 'bottom',
-        action: (navigate) => {
+        action: (navigate, setCurrentStepIndex) => {
             safeSetStorage('athena_tour_in_progress', 'true');
             navigate('/notes?tour=true');
+            setCurrentStepIndex(5);
         }
     },
     {
@@ -52,10 +53,17 @@ const steps = [
         align: 'top'
     },
     {
-        id: 'pdf-btn',
+        id: 'pdf-rotate',
         target: '.pdf-rotate-btn',
         title: 'Sleek PDF Viewer',
-        description: 'Check out the PDF controls, including rotation for awkwardly scanned pages.',
+        description: 'Read and easily rotate scanned pages or PDFs that are sideways.',
+        align: 'bottom'
+    },
+    {
+        id: 'pdf-download',
+        target: '.pdf-download-btn',
+        title: 'Download & Save',
+        description: 'Need notes offline? Download any PDF directly to your device with one click.',
         align: 'bottom'
     },
     {
@@ -64,10 +72,11 @@ const steps = [
         title: 'Tour Complete',
         description: 'You\'re all set to conquer your curriculum. Enjoy exploring Athena!',
         align: 'center',
-        action: (navigate) => {
+        action: (navigate, setCurrentStepIndex) => {
             safeSetStorage('athena_tour_completed', 'true');
             safeRemoveStorage('athena_tour_in_progress');
             navigate('/notes', { replace: true });
+            setCurrentStepIndex(-1);
         }
     }
 ];
@@ -88,25 +97,28 @@ export default function OnboardingTour() {
                 setCurrentStepIndex(0);
             }
             if (location.pathname === '/notes' && location.search.includes('tour=true') && currentStepIndex === -1) {
-                setCurrentStepIndex(5);
+                setCurrentStepIndex(5); // Start at notes grid if they somehow landed here fresh
             }
         }
-    }, [profile, hasSeenTour, location.pathname, currentStepIndex]);
+    }, [profile, hasSeenTour, location.pathname, currentStepIndex, location.search]);
 
     // Position tracking
     useEffect(() => {
         if (currentStepIndex === -1) return;
         
         const step = steps[currentStepIndex];
+        let isCancelled = false;
         
         const updatePosition = () => {
+            if (isCancelled) return;
+            
             if (step.target === 'body') {
                 setTargetRect({ top: window.innerHeight / 2, left: window.innerWidth / 2, width: 0, height: 0, isBody: true });
                 return;
             }
 
             const el = document.querySelector(step.target);
-            if (el) {
+            if (el && el.offsetHeight > 0) {
                 const rect = el.getBoundingClientRect();
                 setTargetRect({
                     top: rect.top,
@@ -123,10 +135,11 @@ export default function OnboardingTour() {
 
         updatePosition();
         window.addEventListener('resize', updatePosition);
-        window.addEventListener('scroll', updatePosition);
+        window.addEventListener('scroll', updatePosition, true); // true for capture to catch nested scrolls
         return () => {
+            isCancelled = true;
             window.removeEventListener('resize', updatePosition);
-            window.removeEventListener('scroll', updatePosition);
+            window.removeEventListener('scroll', updatePosition, true);
         };
     }, [currentStepIndex, location.pathname]);
 
@@ -135,14 +148,9 @@ export default function OnboardingTour() {
     const step = steps[currentStepIndex];
     
     const handleNext = () => {
+        setTargetRect(null); // Clear rect to show smooth transition wait
         if (step.action) {
-            step.action(navigate);
-            if (step.id === 'done') {
-                setCurrentStepIndex(-1);
-            } else if (step.id === 'notes-link') {
-                // Router navigation will trigger the second useEffect, wait for it
-                setTargetRect(null);
-            }
+            step.action(navigate, setCurrentStepIndex);
         } else {
             setCurrentStepIndex(prev => prev + 1);
         }
@@ -170,6 +178,9 @@ export default function OnboardingTour() {
     // Bounds check
     if (popoverStyle.left && typeof popoverStyle.left === 'number') {
         popoverStyle.left = Math.max(160, Math.min(window.innerWidth - 160, popoverStyle.left));
+    }
+    if (popoverStyle.top && typeof popoverStyle.top === 'number' && step.align !== 'center') {
+        popoverStyle.top = Math.max(20, Math.min(window.innerHeight - 200, popoverStyle.top));
     }
 
     return (
