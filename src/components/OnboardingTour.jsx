@@ -92,6 +92,76 @@ export default function OnboardingTour() {
     const [currentStepIndex, setCurrentStepIndex] = useState(-1);
     const [targetRect, setTargetRect] = useState(null);
 
+    const spotlightRef = useRef();
+    const popoverRef = useRef();
+
+    useGSAP(() => {
+        if (!targetRect || !step) return;
+
+        // Animate Spotlight
+        if (spotlightRef.current && !targetRect.isBody) {
+            const tTop = targetRect.top - 8;
+            const tLeft = targetRect.left - 8;
+            const tWidth = targetRect.width + 16;
+            const tHeight = targetRect.height + 16;
+            
+            if (!spotlightRef.current.dataset.initialized) {
+                gsap.set(spotlightRef.current, { top: tTop, left: tLeft, width: tWidth, height: tHeight, opacity: 0 });
+                gsap.to(spotlightRef.current, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                spotlightRef.current.dataset.initialized = 'true';
+            } else {
+                gsap.to(spotlightRef.current, {
+                    top: tTop,
+                    left: tLeft,
+                    width: tWidth,
+                    height: tHeight,
+                    duration: 0.8,
+                    ease: "expo.out",
+                    overwrite: "auto"
+                });
+            }
+        }
+
+        // Animate Popover
+        if (popoverRef.current) {
+            let pTop, pLeft, xPercent, yPercent;
+            if (step.align === 'center') {
+                pTop = '50%'; pLeft = '50%'; xPercent = -50; yPercent = -50;
+            } else if (step.align === 'bottom') {
+                pTop = targetRect.top + targetRect.height + 20; 
+                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
+                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
+                xPercent = -50; yPercent = 0;
+            } else if (step.align === 'top') {
+                pTop = targetRect.top - 20;
+                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
+                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
+                xPercent = -50; yPercent = -100;
+            }
+
+            // If it's the very first render of the popover, just set it, else animate
+            if (currentStepIndex === 0 && !popoverRef.current.dataset.initialized) {
+                gsap.set(popoverRef.current, { top: pTop, left: pLeft, xPercent, yPercent, opacity: 0, scale: 0.9 });
+                gsap.to(popoverRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)", delay: 0.2 });
+                popoverRef.current.dataset.initialized = 'true';
+            } else {
+                gsap.to(popoverRef.current, {
+                    top: pTop,
+                    left: pLeft,
+                    xPercent,
+                    yPercent,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "expo.out",
+                    overwrite: "auto"
+                });
+            }
+        }
+    }, [targetRect, currentStepIndex]);
+
+
+
     // Initial trigger
     useEffect(() => {
         const forceStart = location.search.includes('tour=start');
@@ -213,74 +283,6 @@ export default function OnboardingTour() {
 
 
 
-
-    const spotlightRef = useRef();
-    const popoverRef = useRef();
-
-    useGSAP(() => {
-        if (!targetRect || !step) return;
-
-        // Animate Spotlight
-        if (spotlightRef.current && !targetRect.isBody) {
-            const tTop = targetRect.top - 8;
-            const tLeft = targetRect.left - 8;
-            const tWidth = targetRect.width + 16;
-            const tHeight = targetRect.height + 16;
-            
-            if (!spotlightRef.current.dataset.initialized) {
-                gsap.set(spotlightRef.current, { top: tTop, left: tLeft, width: tWidth, height: tHeight, opacity: 0 });
-                gsap.to(spotlightRef.current, { opacity: 1, duration: 0.5, ease: "power2.out" });
-                spotlightRef.current.dataset.initialized = 'true';
-            } else {
-                gsap.to(spotlightRef.current, {
-                    top: tTop,
-                    left: tLeft,
-                    width: tWidth,
-                    height: tHeight,
-                    duration: 0.8,
-                    ease: "expo.out",
-                    overwrite: "auto"
-                });
-            }
-        }
-
-        // Animate Popover
-        if (popoverRef.current) {
-            let pTop, pLeft, xPercent, yPercent;
-            if (step.align === 'center') {
-                pTop = '50%'; pLeft = '50%'; xPercent = -50; yPercent = -50;
-            } else if (step.align === 'bottom') {
-                pTop = targetRect.top + targetRect.height + 20; 
-                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
-                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
-                xPercent = -50; yPercent = 0;
-            } else if (step.align === 'top') {
-                pTop = targetRect.top - 20;
-                pTop = Math.max(20, Math.min(window.innerHeight - 200, pTop));
-                pLeft = Math.max(160, Math.min(window.innerWidth - 160, targetRect.left + (targetRect.width / 2)));
-                xPercent = -50; yPercent = -100;
-            }
-
-            // If it's the very first render of the popover, just set it, else animate
-            if (currentStepIndex === 0 && !popoverRef.current.dataset.initialized) {
-                gsap.set(popoverRef.current, { top: pTop, left: pLeft, xPercent, yPercent, opacity: 0, scale: 0.9 });
-                gsap.to(popoverRef.current, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)", delay: 0.2 });
-                popoverRef.current.dataset.initialized = 'true';
-            } else {
-                gsap.to(popoverRef.current, {
-                    top: pTop,
-                    left: pLeft,
-                    xPercent,
-                    yPercent,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.8,
-                    ease: "expo.out",
-                    overwrite: "auto"
-                });
-            }
-        }
-    }, [targetRect, currentStepIndex]);
 
 
 
