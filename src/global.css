@@ -48,3 +48,30 @@
     padding-right: 1.5rem;
   }
 }
+/* Driver.js Athena Theme Customization */
+.driver-popover {
+  --driver-popover-bg: rgba(10, 10, 10, 0.95);
+  --driver-popover-text: white;
+  --driver-popover-border-radius: 20px;
+  --driver-popover-btn-text: white;
+  --driver-popover-btn-bg: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+}
+
+.driver-popover-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 8px !important;
+  color: white !important;
+}
+
+.driver-popover-description {
+  color: #a3a3a3 !important; /* neutral-400 */
+}
+
+.driver-popover-footer button:hover {
+  background-color: white !important;
+  color: black !important;
+}
