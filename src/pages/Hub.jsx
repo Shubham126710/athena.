@@ -1,3 +1,4 @@
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, BookOpen, X, Bell } from 'lucide-react';
@@ -138,7 +139,7 @@ export default function HubPage() {
         type: 'alert'
       };
       
-      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      const dismissedAnnouncements = JSON.parse(safeGetStorage('dismissed_announcements') || '[]');
       if (!dismissedAnnouncements.includes(cvNotesNotif.id)) {
         setAnnouncement(cvNotesNotif);
       }
@@ -151,9 +152,9 @@ export default function HubPage() {
 
   const handleDismissAnnouncement = () => {
     if (announcement) {
-      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      const dismissedAnnouncements = JSON.parse(safeGetStorage('dismissed_announcements') || '[]');
       dismissedAnnouncements.push(announcement.id);
-      localStorage.setItem('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
+      safeSetStorage('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
       setAnnouncement(null);
     }
   };

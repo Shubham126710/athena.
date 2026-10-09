@@ -1,3 +1,4 @@
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Upload, FileText, X, Trash2, Plus, ChevronDown, ChevronRight, Eye } from 'lucide-react';
@@ -76,7 +77,7 @@ export default function NotesPage() {
     } catch (e) {
       console.error('Error loading notes:', e);
       // Fallback to local storage if Supabase fails (optional, but good for transition)
-      const localNotes = JSON.parse(localStorage.getItem('pt_notes') || '[]');
+      const localNotes = JSON.parse(safeGetStorage('pt_notes') || '[]');
       if (localNotes.length > 0) setNotes(localNotes);
     } finally {
       setLoading(false);
@@ -210,7 +211,7 @@ export default function NotesPage() {
       message: 'By mistake, the Unit 1 notes for Computer Vision included some notes from Unit 2. Please don\'t be confused if you see common pages across both PDFs. I apologize for the inconvenience!',
       type: 'alert'
     };
-    const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+    const dismissedAnnouncements = JSON.parse(safeGetStorage('dismissed_announcements') || '[]');
     if (!dismissedAnnouncements.includes(cvNotesNotif.id)) {
       setAnnouncement(cvNotesNotif);
     }
@@ -218,9 +219,9 @@ export default function NotesPage() {
 
   const handleDismissAnnouncement = () => {
     if (announcement) {
-      const dismissedAnnouncements = JSON.parse(localStorage.getItem('dismissed_announcements') || '[]');
+      const dismissedAnnouncements = JSON.parse(safeGetStorage('dismissed_announcements') || '[]');
       dismissedAnnouncements.push(announcement.id);
-      localStorage.setItem('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
+      safeSetStorage('dismissed_announcements', JSON.stringify(dismissedAnnouncements));
       setAnnouncement(null);
     }
   };

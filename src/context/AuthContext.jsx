@@ -1,3 +1,4 @@
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from '../lib/firebase';
 import { signInWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
@@ -16,7 +17,7 @@ export function AuthProvider({ children }) {
         setUser(currentUser);
         await fetchProfile(currentUser.uid);
       } else {
-        const guestData = localStorage.getItem('guest_user');
+        const guestData = safeGetStorage('guest_user');
         if (guestData) {
           const guestProfile = JSON.parse(guestData);
           setUser({ uid: 'guest', id: 'guest' });
@@ -64,7 +65,7 @@ export function AuthProvider({ children }) {
       role: 'guest',
       avatar_seed: avatarSeed || firstName
     };
-    localStorage.setItem('guest_user', JSON.stringify(guestProfile));
+    safeSetStorage('guest_user', JSON.stringify(guestProfile));
     setUser({ uid: 'guest', id: 'guest' });
     setProfile(guestProfile);
   }
@@ -75,7 +76,7 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
-    localStorage.removeItem('guest_user');
+    safeRemoveStorage('guest_user');
     if (user && user.uid !== 'guest') {
       await firebaseSignOut(auth);
     }
@@ -92,7 +93,7 @@ export function AuthProvider({ children }) {
     setProfile(newProfile);
 
     if (user.uid === 'guest' || user.id === 'guest') {
-      localStorage.setItem('guest_user', JSON.stringify(newProfile));
+      safeSetStorage('guest_user', JSON.stringify(newProfile));
       return;
     }
 

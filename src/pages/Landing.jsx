@@ -1,3 +1,4 @@
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import DitherHero from '../components/DitherHero.jsx';
@@ -75,7 +76,7 @@ export default function Landing() {
   React.useEffect(() => { 
     const updateViews = async () => {
       try {
-        let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
+        let localHits = parseInt(safeGetStorage('athena_view_count'), 10);
         if (isNaN(localHits)) localHits = 1161;
         
         const viewsRef = doc(db, 'notes', 'site_views_counter');
@@ -97,14 +98,14 @@ export default function Landing() {
         }
         
         setViews(newCount);
-        localStorage.setItem('athena_view_count', newCount.toString());
+        safeSetStorage('athena_view_count', newCount.toString());
       } catch (err) {
         console.error("Analytics sync failed", err);
-        let localHits = parseInt(localStorage.getItem('athena_view_count'), 10);
+        let localHits = parseInt(safeGetStorage('athena_view_count'), 10);
         if (isNaN(localHits)) localHits = 1161;
         const fallbackCount = localHits + 1;
         setViews(fallbackCount);
-        localStorage.setItem('athena_view_count', fallbackCount.toString());
+        safeSetStorage('athena_view_count', fallbackCount.toString());
       }
     };
     

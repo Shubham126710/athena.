@@ -1,3 +1,4 @@
+import { safeGetStorage, safeSetStorage, safeRemoveStorage } from '../utils/storage.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Bell, LogOut, Menu, X, Plus, Send } from 'lucide-react';
@@ -44,7 +45,7 @@ export default function HubNavbar() {
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         
         if (data.length >= 0) {
-            const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
+            const clearedIds = JSON.parse(safeGetStorage('cleared_notifications_v5') || '[]');
         // Format time relative to now
         const formattedData = data
             .filter(n => !clearedIds.includes(n.id))
@@ -94,9 +95,9 @@ export default function HubNavbar() {
   };
 
   const handleClearNotifications = () => {
-    const clearedIds = JSON.parse(localStorage.getItem('cleared_notifications_v5') || '[]');
+    const clearedIds = JSON.parse(safeGetStorage('cleared_notifications_v5') || '[]');
     const newClearedIds = [...new Set([...clearedIds, ...notifications.map(n => n.id)])];
-    localStorage.setItem('cleared_notifications_v5', JSON.stringify(newClearedIds));
+    safeSetStorage('cleared_notifications_v5', JSON.stringify(newClearedIds));
     setNotifications([]);
   };
 
