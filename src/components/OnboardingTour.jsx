@@ -88,7 +88,6 @@ export default function OnboardingTour() {
     const location = useLocation();
     const navigate = useNavigate();
     
-    const [hasSeenTour] = useState(() => safeGetStorage('athena_tour_completed'));
     const [currentStepIndex, setCurrentStepIndex] = useState(-1);
     const [targetRect, setTargetRect] = useState(null);
 
@@ -167,7 +166,7 @@ export default function OnboardingTour() {
         const forceStart = location.search.includes('tour=start');
         const canShowTour = (profile?.role === 'guest' || profile?.role === 'student' || forceStart);
         
-        if (canShowTour && (!hasSeenTour || forceStart)) {
+        if (canShowTour && (!safeGetStorage('athena_tour_completed') || forceStart)) {
             if (location.pathname === '/hub' && currentStepIndex === -1 && (!safeGetStorage('athena_tour_in_progress') || forceStart)) {
                 setCurrentStepIndex(0);
             }
@@ -175,7 +174,7 @@ export default function OnboardingTour() {
                 setCurrentStepIndex(5);
             }
         }
-    }, [profile, hasSeenTour, location.pathname, currentStepIndex, location.search]);
+    }, [profile, location.pathname, currentStepIndex, location.search]);
 
     // Position tracking
     useEffect(() => {

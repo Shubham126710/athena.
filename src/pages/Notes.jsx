@@ -420,7 +420,7 @@ export default function NotesPage() {
                         <X size={20} />
                     </button>
                 </div>
-                <div className="flex-1 overflow-auto bg-black p-2 sm:p-4 flex justify-center">
+                <div className="flex-1 overflow-auto bg-black p-2 sm:p-4 flex justify-center" data-lenis-prevent="true">
                      <PdfViewer fileUrl={selectedNote.file_url || selectedNote.fileUrl} />
                 </div>
             </div>

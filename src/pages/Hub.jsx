@@ -184,9 +184,9 @@ export default function HubPage() {
       {/* Navigation */}
       <HubNavbar />
 
-      <main ref={containerRef} className="pt-24 pb-8 px-6 md:px-12 max-w-7xl mx-auto relative z-10">
+      <main ref={containerRef} className="pt-[5.5rem] pb-4 px-6 md:px-8 lg:px-12 max-w-7xl mx-auto relative z-10 min-h-screen flex flex-col">
         {announcement && (
-          <div className="mb-6 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 p-5 rounded-2xl shadow-sm relative overflow-hidden flex items-start gap-5 animate-in fade-in slide-in-from-top-4">
+          <div className="mb-4 bg-neutral-900/80 backdrop-blur-md border border-neutral-800 p-4 rounded-xl shadow-sm relative overflow-hidden flex items-start gap-4 animate-in fade-in slide-in-from-top-4 shrink-0">
             <div className="bg-neutral-900 border border-red-900/30 text-red-400 p-2.5 rounded-xl shrink-0 mt-0.5">
               <Bell size={18} strokeWidth={1.5} />
             </div>
@@ -203,26 +203,26 @@ export default function HubPage() {
           </div>
         )}
 
-        <div className="mb-8">
-            <h1 className="dashboard-greeting text-4xl md:text-5xl font-bold tracking-tight leading-[1] text-white mb-2">
+        <div className="mb-4 shrink-0">
+            <h1 className="dashboard-greeting text-3xl md:text-4xl font-bold tracking-tight leading-[1] text-white mb-2">
                 {greeting}, <br className="hidden" />
                 <span className="font-serif italic font-normal tracking-tight text-neutral-300">{profile?.first_name || 'Student'}.</span>
             </h1>
             <p className="text-neutral-400 font-light">Here's what's happening today.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 flex-grow">
             {/* Upcoming Exam Card */}
-            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden group hover:border-neutral-700 transition-colors duration-300 col-span-1 md:col-span-2">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-5 rounded-xl relative overflow-hidden group hover:border-neutral-700 transition-colors duration-300 col-span-1 md:col-span-2">
                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <Calendar size={100} strokeWidth={0.5} />
                 </div>
                 <div className="relative z-10 flex flex-col h-full justify-between">
                     <div className="mb-4">
-                        <h3 className="font-serif italic text-2xl text-neutral-400">Upcoming Exam</h3>
+                        <h3 className="font-serif italic text-xl text-neutral-400">Upcoming Exam</h3>
                     </div>
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white tracking-tight">{upcomingExam.subject}</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-3 text-white tracking-tight">{upcomingExam.subject}</h2>
                         <div className="flex items-center gap-4 text-sm font-medium">
                             <span className="bg-neutral-900 border border-neutral-700 text-neutral-200 px-3 py-1 rounded-full">{upcomingExam.date}</span>
                             <span className="text-neutral-500">{upcomingExam.daysLeft} days left</span>
@@ -232,15 +232,15 @@ export default function HubPage() {
             </div>
 
             {/* Quick Stats / Quote */}
-            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-5 rounded-xl flex flex-col justify-center items-center text-center col-span-1 md:col-span-2 group hover:border-neutral-700 transition-colors duration-300">
                 <p className="font-serif italic font-normal tracking-tight text-xl text-neutral-300 mb-4 leading-relaxed max-w-sm group-hover:text-white transition-colors duration-300">"{quote.text}"</p>
                 <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">— {quote.author}</span>
             </div>
             
             {/* Course Credits Widget */}
-            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-5 rounded-xl relative overflow-hidden col-span-1 md:col-span-2 lg:col-span-2 hover:border-neutral-700 transition-colors duration-300">
                  <div className="mb-4">
-                    <h3 className="font-serif italic text-2xl text-neutral-400">Course Credits</h3>
+                    <h3 className="font-serif italic text-xl text-neutral-400">Course Credits</h3>
                 </div>
                 <div className="space-y-3">
                     {subjects.map((sub, idx) => (
@@ -256,9 +256,9 @@ export default function HubPage() {
             </div>
 
             {/* Quick Actions / Important Links */}
-            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-6 rounded-2xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:border-neutral-700 transition-colors duration-300">
+            <div className="dashboard-card bg-[#0a0a0a]/80 backdrop-blur-xl border border-neutral-800 p-5 rounded-xl col-span-1 md:col-span-2 lg:col-span-2 flex flex-col hover:border-neutral-700 transition-colors duration-300">
                  <div className="mb-4">
-                    <h3 className="font-serif italic text-2xl text-neutral-400">Quick Actions</h3>
+                    <h3 className="font-serif italic text-xl text-neutral-400">Quick Actions</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-4 flex-1">
                     <button onClick={() => nav('/notes')} className="flex flex-col items-start justify-between bg-neutral-900/50 border border-neutral-800 hover:border-neutral-600 hover:bg-neutral-800 transition-all duration-300 p-5 rounded-xl group">

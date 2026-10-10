@@ -96,7 +96,7 @@ export default function PdfViewer({ fileUrl, className='' }) {
         </div>
       </div>
 
-      <div className="pdf-document relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar">
+      <div className="pdf-document relative bg-neutral-900/50 w-full flex-1 rounded-xl overflow-hidden overflow-y-auto flex items-start justify-center border border-neutral-800 max-w-[800px] custom-scrollbar" data-lenis-prevent="true">
         <Document
             file={fileUrl}
             onLoadSuccess={onDocumentLoadSuccess}

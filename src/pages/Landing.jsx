@@ -240,7 +240,7 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section id="hero" className="relative w-full min-h-[calc(100svh-5rem)] md:h-[calc(100svh-5rem)] flex flex-col justify-center overflow-hidden">
+        <section id="hero" className="relative w-full min-h-[calc(100svh-5rem)] flex flex-col overflow-hidden">
           
           {/* Subtle Background Surface (Radial Glow + Grain + Grid) */}
           <div className="absolute inset-0 z-0 pointer-events-none">
@@ -263,7 +263,7 @@ export default function Landing() {
           <DitherHero className="hidden md:flex absolute bottom-0 w-[55%] h-[100%] right-[-5%] z-0 hero-anim" />
           
           {/* Text content wrapped in container */}
-          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center h-full pt-12 pb-24 md:pb-24">
+          <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-center flex-grow pt-12 pb-24 md:pb-24">
             <div className="max-w-xl flex flex-col items-start text-left hero-anim">
               <div className="text-[10px] tracking-[0.2em] text-neutral-500 uppercase flex gap-4 mb-6 font-mono">
                 <span>Athena / System</span>
@@ -294,7 +294,7 @@ export default function Landing() {
           </div>
           
           {/* Subject Marquee - Placed at the bottom of the hero above the fold on desktop, inline flow on mobile */}
-          <div className="relative md:absolute bottom-0 left-0 w-full z-30 border-t border-neutral-900 bg-neutral-950/50 backdrop-blur-sm mt-12 md:mt-0">
+          <div className="relative w-full z-30 border-t border-neutral-900 bg-neutral-950/50 backdrop-blur-sm mt-auto">
               <MarqueeStrip />
           </div>
         </section>
