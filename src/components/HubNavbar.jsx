@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, HelpCircle, LogOut, Menu, X, Plus, Send } from 'lucide-react';
+import { Bell, HelpCircle, LogOut, Menu, X, Plus, Send, MessageSquare } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, getDocs, addDoc, query, orderBy } from 'firebase/firestore';
 import SGPACalculator from './SGPACalculator';
 import Avatar from './Avatar';
+import FeedbackModal from './FeedbackModal';
 import { RandomLetterSwap } from './ui/random-letter-swap.jsx';
 
 export default function HubNavbar() {
@@ -20,6 +21,7 @@ export default function HubNavbar() {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
   const [showCompose, setShowCompose] = useState(false);
   const [newNotification, setNewNotification] = useState({ title: '', message: '', type: 'info' });
   const [isPosting, setIsPosting] = useState(false);
@@ -237,6 +239,13 @@ export default function HubNavbar() {
             >
                 <HelpCircle size={20} />
             </button>
+            <button 
+                onClick={() => setShowFeedback(true)}
+                className="relative p-2 hover:bg-neutral-900 rounded-full transition-colors text-neutral-400 hover:text-white"
+                title="Send Feedback"
+            >
+                <MessageSquare size={20} />
+            </button>
 
           <div className="relative">
             <button 
@@ -422,6 +431,7 @@ export default function HubNavbar() {
         </div>
       </nav>
       <SGPACalculator isOpen={isCalculatorOpen} onClose={() => setIsCalculatorOpen(false)} />
+      <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} />
     </>
   );
 }
